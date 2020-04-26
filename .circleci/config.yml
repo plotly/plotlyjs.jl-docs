@@ -1,0 +1,12 @@
+# .circleci/config.yml
+version: 2
+jobs:
+  build:
+    working_directory: ~/project
+    docker:
+      - image: julia:0.7                # image comes from Docker hub
+    steps:
+      - checkout
+      - run:
+          name: Hellow world 
+          command: julia -e 'using Pkg; Pkg.update(); println("hello world");'
