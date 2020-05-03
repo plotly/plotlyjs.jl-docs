@@ -9,4 +9,4 @@ jobs:
       - checkout
       - run:
           name: Hellow world 
-          command: julia -e 'using Pkg; Pkg.update(); println("hello world");'
+          command: julia -e 'using Pkg; Pkg.update(); Pkg.add("PlotlyJS"); include("docs/build_example_docs.jl");'
