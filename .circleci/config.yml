@@ -7,6 +7,16 @@ jobs:
       - image: julia:0.7                # image comes from Docker hub
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - source #one time, not every time!
       - run:
-          name: Hellow world 
-          command: julia -e 'using Pkg; Pkg.update(); Pkg.add("PlotlyJS"); include("docs/build_example_docs.jl");'
+          name: install deps 
+          command: julia -e 'using Pkg; Pkg.update(); Pkg.add("PlotlyJS");'
+      - save_cache:
+          key: source 
+          paths:
+            - ".git"
+      - run:
+          name: transform jl to md
+          command: julia -e 'include("docs/build_example_docs.jl");'    
