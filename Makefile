@@ -28,14 +28,13 @@ all: $(HTML_FILES)
 
 $(IPYNB_DIR)/%.ipynb: $(MD_DIR)/%.md
 	@mkdir -p $(IPYNB_DIR)
-	@echo "[jupytext]   $<"
+	@echo "[jupytext]   $< => $@"
 	@jupytext  $< --to notebook --quiet --output $@
 
 $(TEMP_HTML_DIR)/%.html: $(IPYNB_DIR)/%.ipynb
-	@mkdir -p $(HTML_DIR)
 	@mkdir -p $(TEMP_HTML_DIR)
 	@mkdir -p $(FAIL_DIR)
-	@echo "[nbconvert]  $<"
+	@echo "[nbconvert]  $< => $@"
 	@jupyter nbconvert $< --to html --template nb.tpl \
 			--ExecutePreprocessor.timeout=600\
 	  	--output-dir $(TEMP_HTML_DIR) --output $*.html \
@@ -43,9 +42,11 @@ $(TEMP_HTML_DIR)/%.html: $(IPYNB_DIR)/%.ipynb
 
 
 $(HTML_DIR)/%.html: $(TEMP_HTML_DIR)/%.html
-	@echo "[purge webio]  $<"
-	@python purge_webio.py $(TEMP_HTML_DIR)/$*.html $(HTML_DIR)/$*.html
+	@mkdir -p $(HTML_DIR)
+	@echo "[purge webio]  $< => $@"
+	@python purge_webio.py $< $@
 
 clean:
 	@rm -rf $(IPYNB_DIR)
 	@rm -rf $(HTML_DIR)
+	@rm -rf $(TEMP_HTML_DIR)
