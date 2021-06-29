@@ -1,5 +1,6 @@
 
 export PLOTLY_RENDERER_JULIA=docs
+export JULIA_PROJECT=@.
 
 MD_DIR ?= julia
 IPYNB_DIR ?= build/ipynb
