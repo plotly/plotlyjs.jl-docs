@@ -270,7 +270,6 @@ plot(
 using PlotlyJS, CSV, DataFrames, HTTP
 
 read_remote_csv(url) = DataFrame(CSV.File(HTTP.get(url).body))
-
 df = read_remote_csv("https://raw.githubusercontent.com/plotly/datasets/master/finance-charts-apple.csv")
 
 plot(
