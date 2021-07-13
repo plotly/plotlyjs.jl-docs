@@ -28,7 +28,7 @@ jupyter:
 
 In statistics, a [histogram](https://en.wikipedia.org/wiki/Histogram) is representation of the distribution of numerical data, where the data are binned and the count for each bin is represented. More generally, in plotly a histogram is an aggregated bar chart, with several possible aggregation functions (e.g. sum, average, count...).
 
-If you're looking instead for bar charts, i.e. representing _raw, unaggregated_ data with rectangular
+If you"re looking instead for bar charts, i.e. representing _raw, unaggregated_ data with rectangular
 bar, go to the [Bar Chart tutorial](/julia/bar-charts/).
 
 ## Histograms with DataFrames
@@ -46,8 +46,8 @@ By default, the number of bins is chosen so that this number is comparable to th
 
 ```julia
 using PlotlyJS, CSV, DataFrames
-df = dataset(DateFrame, "tips")
-plot(df, x=:"total_bill", kind="histogram", nbinsx=20)
+df = dataset(DataFrame, "tips")
+plot(df, x=:total_bill, kind="histogram", nbinsx=20)
 ```
 
 ### Histograms on Date Data
@@ -61,7 +61,7 @@ df = dataset(DataFrame, "stocks")
 plot(df, x=:date, kind="histogram")
 ```
 
-<!-- fig.update_layout(bargap=0.2) NOTE can't figure out how to use bargap -->
+<!-- fig.update_layout(bargap=0.2) NOTE can"t figure out how to use bargap -->
 
 ### Histograms on Categorical Data
 
@@ -83,14 +83,14 @@ Get started with [the official Dash docs](https://dash.plotly.com/installation) 
 
 ```python hide_code=true
 from IPython.display import IFrame
-snippet_url = 'https://dash-gallery.plotly.host/python-docs-dash-snippets/'
-IFrame(snippet_url + 'histograms', width='100%', height=630)
+snippet_url = "https://dash-gallery.plotly.host/python-docs-dash-snippets/"
+IFrame(snippet_url + "histograms", width="100%", height=630)
 ``` -->
 
 <!-- NOTE: Not sure because this is numpy -->
 <!-- #### Accessing the counts (y-axis) values
 
-JavaScript calculates the y-axis (count) values on the fly in the browser, so it's not accessible in the `fig`. You can manually calculate it using `np.histogram`.
+JavaScript calculates the y-axis (count) values on the fly in the browser, so it"s not accessible in the `fig`. You can manually calculate it using `np.histogram`.
 
 ```python
 import plotly.express as px
@@ -101,21 +101,21 @@ df = px.data.tips()
 counts, bins = np.histogram(df.total_bill, bins=range(0, 60, 5))
 bins = 0.5 * (bins[:-1] + bins[1:])
 
-fig = px.bar(x=bins, y=counts, labels={'x':'total_bill', 'y':'count'})
+fig = px.bar(x=bins, y=counts, labels={"x":"total_bill", "y":"count"})
 fig.show()
 ``` -->
 
 #### Type of normalization
 
-The default mode is to represent the count of samples in each bin. With the `histnorm` argument, it is also possible to represent the percentage or fraction of samples in each bin (`histnorm='percent'` or `probability`), or a density histogram (the sum of all bar areas equals the total number of sample points, `density`), or a probability density histogram (the sum of all bar areas equals 1, `probability density`).
+The default mode is to represent the count of samples in each bin. With the `histnorm` argument, it is also possible to represent the percentage or fraction of samples in each bin (`histnorm="percent"` or `probability`), or a density histogram (the sum of all bar areas equals the total number of sample points, `density`), or a probability density histogram (the sum of all bar areas equals 1, `probability density`).
 
 ```julia
-using PlotlyJS, CSV, DataFrame
-df = dataset(DateFrame, "tips")
-plot(df, x:="total_bill", kind="histogram", histnorm='probability density')
+using PlotlyJS, CSV, DataFrames
+df = dataset(DataFrame, "tips")
+plot(df, x=:total_bill, kind="histogram", histnorm="probability density")
 ```
 
-<!-- NOTE: couldn't get log_y, color_discrete_sequence, or labels
+<!-- NOTE: couldn"t get log_y, color_discrete_sequence, or labels
 title is in Layout
 opacity is arg on plot -->
 <!-- #### Aspect of the histogram plot
@@ -124,11 +124,11 @@ opacity is arg on plot -->
 import plotly.express as px
 df = px.data.tips()
 fig = px.histogram(df, x="total_bill",
-                   title='Histogram of bills',
-                   labels={'total_bill':'total bill'}, # can specify one label per df column
+                   title="Histogram of bills",
+                   labels={"total_bill":"total bill"}, # can specify one label per df column
                    opacity=0.8,
                    log_y=True, # represent bars with log scale
-                   color_discrete_sequence=['indianred'] # color of histogram bars
+                   color_discrete_sequence=["indianred"] # color of histogram bars
                    )
 fig.show()
 ``` -->
@@ -136,7 +136,7 @@ fig.show()
 #### Several histograms for the different values of one column
 
 ```julia
-using PlotlyJS, CSV, DataFrame
+using PlotlyJS, CSV, DataFrames
 df = dataset(DataFrame, "tips")
 plot(df, x=:total_bill, kind="histogram", group=:sex)
 ```
@@ -146,9 +146,9 @@ plot(df, x=:total_bill, kind="histogram", group=:sex)
 For each bin of `x`, one can compute a function of data using `histfunc`. The argument of `histfunc` is the dataframe column given as the `y` argument. Below the plot shows that the average tip increases with the total bill.
 
 ```julia
-using PlotlyJS, CSV, DataFrame
+using PlotlyJS, CSV, DataFrames
 df = dataset(DataFrame, "tips")
-plot(df, x=:total_bill, y=:tip, kind="histogram", histfunc='avg')
+plot(df, x=:total_bill, y=:tip, kind="histogram", histfunc="avg")
 ```
 
 <!-- NOTE: There is no default in julia -->
@@ -161,7 +161,7 @@ fig = px.histogram(df, x="day", y="total_bill", category_orders=dict(day=["Thur"
 fig.show()
 ``` -->
 
-<!-- NOTE: This feature doesn't exist for julia yet (/julia/pattern-hatching-texture/ is 404)-->
+<!-- NOTE: This feature doesn"t exist for julia yet (/julia/pattern-hatching-texture/ is 404)-->
 <!-- _New in v5.0_
 
 Histograms afford the use of [patterns (also known as hatching or texture)](/python/pattern-hatching-texture/) in addition to color:
@@ -174,7 +174,7 @@ fig = px.histogram(df, x="sex", y="total_bill", color="sex", pattern_shape="smok
 fig.show()
 ``` -->
 
-<!-- NOTE: feature doesn't exist in julia lib -->
+<!-- NOTE: feature doesn"t exist in julia lib -->
 <!--
 #### Visualizing the distribution
 
@@ -191,7 +191,7 @@ fig.show()
 ### Horizontal Histogram
 
 ```julia
-using PlotlyJS, CSV, DataFrame
+using PlotlyJS, CSV, DataFrames
 
 df = dataset(DataFrame, "tips")
 # Use `y` argument instead of `x` for horizontal histogram
@@ -201,7 +201,7 @@ plot(df, y=:"total_bill", kind="histogram")
 ### Overlaid Histogram
 
 ```julia
-using PlotlyJS, CSV, DataFrame
+using PlotlyJS, CSV, DataFrames
 
 
 x0 = randn(500)
@@ -214,14 +214,10 @@ layout = Layout(barmode="overlay")
 plot([trace1, trace2], layout)
 ```
 
-```julia
-using PlotlyJS, CSV, DataFrame
-```
-
 ### Stacked Histograms
 
 ```julia
-using PlotlyJS, CSV, DataFrame
+using PlotlyJS, CSV, DataFrames
 
 
 x0 = randn(500)
@@ -286,24 +282,24 @@ plot(histogram(x=x, kind="histogram", cumulative_enabled=true))
 x = ["Apples","Apples","Apples","Oranges", "Bananas"]
 y = ["5","10","3","10","5"]
 
-trace1 = histogram(histfunc="count", y=y, x=x, name="count"))
-trace2 = histogram(histfunc="sum", y=y, x=x, name="sum"))
+trace1 = histogram(histfunc="count", y=y, x=x, name="count")
+trace2 = histogram(histfunc="sum", y=y, x=x, name="sum")
 
 plot([trace1, trace2])
 ```
 
-<!-- NOTE: can't get `nbinsx` arg to work with a histogram() trace -->
+<!-- NOTE: can"t get `nbinsx` arg to work with a histogram() trace -->
 <!--
 ### Custom Binning
 
-For custom binning along x-axis, use the attribute [`nbinsx`](https://plotly.com/python/reference/histogram/#histogram-nbinsx). Please note that the autobin algorithm will choose a 'nice' round bin size that may result in somewhat fewer than `nbinsx` total bins. Alternatively, you can set the exact values for [`xbins`](https://plotly.com/python/reference/histogram/#histogram-xbins) along with `autobinx = False`.
+For custom binning along x-axis, use the attribute [`nbinsx`](https://plotly.com/python/reference/histogram/#histogram-nbinsx). Please note that the autobin algorithm will choose a "nice" round bin size that may result in somewhat fewer than `nbinsx` total bins. Alternatively, you can set the exact values for [`xbins`](https://plotly.com/python/reference/histogram/#histogram-xbins) along with `autobinx = False`.
 
 ```python
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
-x = ['1970-01-01', '1970-01-01', '1970-02-01', '1970-04-01', '1970-01-02',
-     '1972-01-31', '1970-02-13', '1971-04-19']
+x = ["1970-01-01", "1970-01-01", "1970-02-01", "1970-04-01", "1970-01-02",
+     "1972-01-31", "1970-02-13", "1971-04-19"]
 
 fig = make_subplots(rows=3, cols=2)
 
@@ -312,23 +308,23 @@ trace1 = go.Histogram(x=x, nbinsx = 8)
 trace2 = go.Histogram(x=x, nbinsx=10)
 trace3 = go.Histogram(x=x,
                       xbins=dict(
-                      start='1969-11-15',
-                      end='1972-03-31',
-                      size='M18'), # M18 stands for 18 months
+                      start="1969-11-15",
+                      end="1972-03-31",
+                      size="M18"), # M18 stands for 18 months
                       autobinx=False
                      )
 trace4 = go.Histogram(x=x,
                       xbins=dict(
-                      start='1969-11-15',
-                      end='1972-03-31',
-                      size='M4'), # 4 months bin size
+                      start="1969-11-15",
+                      end="1972-03-31",
+                      size="M4"), # 4 months bin size
                       autobinx=False
                       )
 trace5 = go.Histogram(x=x,
                       xbins=dict(
-                      start='1969-11-15',
-                      end='1972-03-31',
-                      size= 'M2'), # 2 months
+                      start="1969-11-15",
+                      end="1972-03-31",
+                      size= "M2"), # 2 months
                       autobinx = False
                       )
 
@@ -354,7 +350,7 @@ plot(df, x=:day, y=:tip, height=300, kind="bar", Layout(title="Stacked Bar Chart
 plot(df, x=:day, y=:tip, height=300, kind="histogram", histfunc="sum", Layout(title="Histogram Chart"))
 ```
 
-<!-- NOTE: I don't see anydifference with using bingroup. Maybe the wrong arg? Or not implemented? -->
+<!-- NOTE: I don"t see anydifference with using bingroup. Maybe the wrong arg? Or not implemented? -->
 
 <!-- ### Share bins between histograms
 

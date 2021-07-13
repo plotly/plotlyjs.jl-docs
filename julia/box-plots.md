@@ -65,7 +65,7 @@ With the `boxpoints` argument, display underlying data points with either all po
 ```julia
 using PlotlyJS, CSV, DataFrames
 df = dataset(DataFrame, "tips")
-plot(df, x=:time, y=:total_bill, boxpoints="all" kind="box")
+plot(df, x=:time, y=:total_bill, boxpoints="all", kind="box")
 ```
 
 ### Choosing The Algorithm For Computing Quartiles
@@ -144,7 +144,11 @@ This could be useful if you have already pre-computed those values or if you nee
 
 ```julia
 using PlotlyJS
-
+y = [
+    [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
+    [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
+    [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
+]
 
 trace1 = box(y=y,
     name="Precompiled Quartiles", q1=[ 1, 2, 3 ],
@@ -166,9 +170,9 @@ using PlotlyJS
 y0 = rand(50)
 y1 = rand(50)
 
-trace1 = box(y=y1, marker_color="indianred", name="Sample A")
-trace2 = box(y=y2, marker_color="lightseagreen", name="Sample B")
-plot([trace, trace2])
+trace1 = box(y=y0, marker_color="indianred", name="Sample A")
+trace2 = box(y=y1, marker_color="lightseagreen", name="Sample B")
+plot([trace1, trace2])
 ```
 
 ### Box Plot Styling Mean & Standard Deviation
@@ -368,7 +372,6 @@ y_data = [y0, y1, y2, y3, y4, y5]
 colors = ["rgba(93, 164, 214, 0.5)", "rgba(255, 144, 14, 0.5)", "rgba(44, 160, 101, 0.5)",
           "rgba(255, 65, 54, 0.5)", "rgba(207, 114, 255, 0.5)", "rgba(127, 96, 0, 0.5)"]
 
-fig = go.Figure()
 
 traces = [
     box(
