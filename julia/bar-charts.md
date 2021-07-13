@@ -36,7 +36,6 @@ df_canada = df[df.country .== "Canada", :]
 plot(df_canada, x=:year, y=:pop, kind="bar")
 ```
 
-
 #### Bar chart with Long Format Data
 
 Long-form data has one row per observation, and one column per variable. This is suitable for storing and displaying multivariate data i.e. with dimension greater than 2. This format is sometimes called "tidy".
@@ -53,7 +52,6 @@ plot(long_df, kind="bar", x=:nation, y=:count, group=:medal, Layout(title="Long-
 ```julia
 long_df
 ```
-
 
 #### Bar chart with Wide Format Data
 
@@ -77,7 +75,6 @@ df
 ```
 
 <!-- ### Bar chart in Dash -->
-
 
 ### Customize bar chart
 
