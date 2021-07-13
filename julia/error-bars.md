@@ -45,7 +45,7 @@ trace = scatter(
 plot(trace)
 ```
 
-#### Asymmetric Error Bars with Plotly Express
+#### Asymmetric Error Bars
 
 ```julia
 using PlotlyJS, CSV, DataFrames
@@ -76,10 +76,10 @@ trace = scatter(
         y=[6, 10, 2],
         mode="markers",
         error_y=attr(
-            type='percent', # value of error bar given as percentage of y value
+            type="percent", # value of error bar given as percentage of y value
             value=50,
             visible=true)
-    ))
+    )
 
 plot(trace)
 ```
@@ -98,7 +98,7 @@ trace = scatter(
             symmetric=false,
             value=15,
             valueminus=25)
-    ))
+    )
 plot(trace)
 ```
 
@@ -115,7 +115,7 @@ trace = scatter(
             type="percent",
             value=15
         )
-    ))
+    )
 plot(trace)
 ```
 
@@ -128,12 +128,12 @@ trace1 = bar(
     name="Control",
     x=["Trial 1", "Trial 2", "Trial 3"], y=[3, 6, 4],
     error_y=attr(type="data", array=[1, 0.5, 1.5])
-))
+)
 trace2 = bar(
     name="Experimental",
     x=["Trial 1", "Trial 2", "Trial 3"], y=[4, 7, 3],
     error_y=attr(type="data", array=[0.5, 1, 2])
-))
+)
 
 plot([trace1, trace2])
 ```
