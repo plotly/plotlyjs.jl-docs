@@ -174,28 +174,25 @@ You can use the `surfacecolor` attribute to define the color of the surface of y
 ```julia
 using PlotlyJS
 
-# Equation of ring cyclide
-# see https://en.wikipedia.org/wiki/Dupin_cyclide
-a = 1.32
-b = 1.0
-d = 0.8
+a, b, d = 1.32, 1., 0.8
 c = a^2 - b^2
+dom = range(0, stop=2π, length=100)
+u = dom' .* ones(100)
+v = ones(100)' .* dom
 
-u, v = np.mgrid[0:2*pi:100j, 0:2*pi:100j]
+x = @. (d * (c - a * cos(u) * cos(v)) + b^2 * cos(u)) / (a - c * cos(u) * cos(v))
+y = @. b * sin(u) * (a - d*cos(v)) / (a - c * cos(u) * cos(v))
+z = @. b * sin(v) * (c*cos(u) - d) / (a - c * cos(u) * cos(v))
 
-x = (d .* (c .- a .* cos.(u) .* cos.(v)) .+ b^2 .* cos.(u)) ./ (a .- c .* cos.(u) .* cos.(v))
-y = b .* sin.(u) .* (a .- d*cos.(v)) ./ (a .- c .* cos.(u) .* cos.(v))
-z = b .* sin.(v) .* (c.*cos.(u) .- d) ./ (a .- c .* cos.(u) .* cos.(v))
-
-fig = make_subplots(rows=1, cols=2,
-                    specs=[[{'is_3d': True}, {'is_3d': True}]],
-                    subplot_titles=['Color corresponds to z', 'Color corresponds to distance to origin'],
-                    )
-
-fig.add_trace(go.Surface(x=x, y=y, z=z, colorbar_x=-0.07), 1, 1)
-fig.add_trace(go.Surface(x=x, y=y, z=z, surfacecolor=x**2 + y**2 + z**2), 1, 2)
-fig.update_layout(title_text="Ring cyclide")
-fig.show()
+p = make_subplots(
+    rows=1, cols=2,
+    specs=[Spec(kind="scene") Spec(kind="scene")],
+    subplot_titles=["Color corresponds to z"  "Color corresponds to distance to origin"]
+)
+add_trace!(p, surface(x=x, y=y, z=z, colorbar_x=-0.07), row=1, col=1)
+add_trace!(p, surface(x=x, y=y, z=z, surfacecolor=@. x^2 + y^2 + z^2), row=1, col=2)
+relayout!(p, title_text="Ring cyclide")
+p
 ```
 
 #### Reference
