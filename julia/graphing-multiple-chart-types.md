@@ -28,7 +28,7 @@ jupyter:
 Plotly figures support defining [subplots](/julia/subplots/) of various types (e.g. cartesian, [polar](/julia/polar-chart/), [3-dimensional](/julia/3d-charts/), [maps](/julia/maps/) etc) with attached traces of various compatible types (e.g. scatter, bar, choropleth, surface etc). This means that **Plotly figures are not constrained to representing a fixed set of "chart types"** such as scatter plots only or bar charts only or line charts only: any subplot can contain multiple traces of different types.
 
 
-### Multiple Trace Types with Plotly Express
+### Multiple Trace Types
 
 The first argument to the `plot` function accepts and array of traces. Each of these traces can be of a different (but compatible) type. For example, below we have a line and bar chart in the same figure:
 

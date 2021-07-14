@@ -46,18 +46,6 @@ df = dataset(DataFrame, "tips")
 plot(df, x=:time, y=:total_bill, kind="box")
 ```
 
-<!-- ### Box Plots in Dash
-
-[Dash](https://plotly.com/dash/) is the best way to build analytical apps in Python using Plotly figures. To run the app below, run `pip install dash`, click "Download" to get the code and run `python app.py`.
-
-Get started with [the official Dash docs](https://dash.plotly.com/installation) and **learn how to effortlessly [style](https://plotly.com/dash/design-kit/) & [deploy](https://plotly.com/dash/app-manager/) apps like this with <a class="plotly-red" href="https://plotly.com/dash/">Dash Enterprise</a>.**
-
-```python hide_code=true
-from IPython.display import IFrame
-snippet_url = 'https://dash-gallery.plotly.host/python-docs-dash-snippets/'
-IFrame(snippet_url + 'box-plots', width='100%', height=630)
-``` -->
-
 ### Display the underlying data
 
 With the `boxpoints` argument, display underlying data points with either all points (`"all"`), outliers only (`"outliers"`, default), or none of them (`false`).
@@ -82,7 +70,11 @@ The _inclusive_ algorithm also uses the median to divide the ordered dataset int
 using PlotlyJS, CSV, DataFrames
 df = dataset(DataFrame, "tips")
 
-plot(df, x=:time, y=:total_bill, color=:smoker, quartilemethod="exclusive")
+plot(
+    df,
+    x=:day, y=:total_bill, group=:smoker, quartilemethod="exclusive", kind="box",
+    Layout(boxmode="group")
+)
 ```
 
 #### Difference Between Quartile Algorithms
@@ -93,9 +85,9 @@ It can sometimes be difficult to see the difference between the linear, inclusiv
 using PlotlyJS
 
 data = [1,2,3,4,5,6,7,8,9]
-trace1 = box(y=data, quartilemethod="linear", name="linear")
-trace2 = box(y=data, quartilemethod="inclusive", name="inclusive")
-trace3 = box(y=data, quartilemethod="exclusive", name="exclusive")
+trace1 = box(y=data, boxpoints="all", quartilemethod="linear", name="linear")
+trace2 = box(y=data, boxpoints="all", quartilemethod="inclusive", name="inclusive")
+trace3 = box(y=data, boxpoints="all", quartilemethod="exclusive", name="exclusive")
 
 plot([trace1, trace2, trace3])
 
@@ -111,13 +103,9 @@ For the interpretation of the notches, see https://en.wikipedia.org/wiki/Box_plo
 using PlotlyJS, CSV, DataFrames
 df = dataset(DataFrame, "tips")
 plot(
-    df,
-    x=:time,
-    y=:total_bill,
-    group=:smoker,
-    notched=true,
-    kind="box",
-    Layout(title="Box plot of total bill")
+    df, kind="box",
+    x=:time, y=:total_bill, group=:smoker, notched=true,
+    Layout(title="Box plot of total bill", boxmode="group")
 )
 
 ```
@@ -127,13 +115,8 @@ plot(
 ```julia
 using PlotlyJS
 
-x0 = rand(50)
-x1 = rand(50)
-
 # Use x instead of y argument for horizontal plot
-trace1 = box(x=x0)
-trace2 = box(x=x1)
-plot([trace1, trace2])
+plot([box(x=rand(50)), box(x=rand(50).+ 1)])
 ```
 
 ### Box Plot With Precomputed Quartiles
@@ -144,34 +127,27 @@ This could be useful if you have already pre-computed those values or if you nee
 
 ```julia
 using PlotlyJS
-y = [
-    [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
-    [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
-    [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
-]
 
-trace1 = box(y=y,
-    name="Precompiled Quartiles", q1=[ 1, 2, 3 ],
-    median=[ 4, 5, 6 ],
-    q3=[ 7, 8, 9 ],
+plot(box(
+    y=[0:9 0:9 0:9],
+    name="Precompiled Quartiles",
+    q1=[1, 2, 3],
+    median=[4, 5, 6],
+    q3=[7, 8, 9],
     lowerfence=[-1, 0, 1],
     upperfence=[5, 6, 7],
-    mean=[ 2.2, 2.8, 3.2 ],
-    sd=[ 0.2, 0.4, 0.6 ],
-    notchspan=[ 0.2, 0.4, 0.6 ]
-)
-plot(trace1)
+    mean=[2.2, 2.8, 3.2],
+    sd=[0.2, 0.4, 0.6],
+    notchspan=[0.2, 0.4, 0.6]
+))
 ```
 
 ### Colored Box Plot
 
 ```julia
 using PlotlyJS
-y0 = rand(50)
-y1 = rand(50)
-
-trace1 = box(y=y0, marker_color="indianred", name="Sample A")
-trace2 = box(y=y1, marker_color="lightseagreen", name="Sample B")
+trace1 = box(y=rand(50), marker_color="indianred", name="Sample A")
+trace2 = box(y=rand(50), marker_color="lightseagreen", name="Sample B")
 plot([trace1, trace2])
 ```
 
@@ -181,13 +157,13 @@ plot([trace1, trace2])
 using PlotlyJS
 
 trace1 = box(
-    y=[2.37, 2.16, 4.82, 1.73, 1.04, 0.23, 1.32, 2.91, 0.11, 4.51, 0.51, 3.75, 1.35, 2.98, 4.50, 0.18, 4.66, 1.30, 2.06, 1.19],
+    y=randn(20),
     name="Only Mean",
     marker_color="darkblue",
     boxmean=true # represent mean
 )
 trace2 = box(
-    y=[2.37, 2.16, 4.82, 1.73, 1.04, 0.23, 1.32, 2.91, 0.11, 4.51, 0.51, 3.75, 1.35, 2.98, 4.50, 0.18, 4.66, 1.30, 2.06, 1.19],
+    y=randn(20),
     name="Mean & SD",
     marker_color="royalblue",
     boxmean="sd" # represent mean and standard deviation
@@ -323,7 +299,7 @@ N = 30     # Number of boxes
 # generate an array of rainbow colors by fixing the saturation and lightness of the HSL
 # representation of colour and marching around the hue.
 # Plotly accepts any CSS color format, see e.g. http://www.w3schools.com/cssref/css_colors_legal.asp.
-c = [string("hsl(", h, ",50%",",50%)") for h in range(0, stop=360, length=N)]
+c = ["hsl($(h), 50%, 50%)" for h in range(0, stop=360, length=N)]
 
 # Each box is represented by a dict that contains the data, the type, and the colour.
 # Use list comprehension to describe N boxes, each with a different colour and with different randomly generated data:
@@ -345,9 +321,6 @@ layout = Layout(
 )
 plot(traces, layout)
 ```
-
-<!-- NOTE: the Layout method stopped working for me?? I know the syntax is correct,
-but I don't know why it isn't working -->
 
 ### Fully Styled Box Plots
 
@@ -412,6 +385,6 @@ layout = Layout(
 plot(traces, layout)
 ```
 
-<!-- #### Reference
+#### Reference
 
-See [function reference for `px.box()`](https://plotly.com/python-api-reference/generated/plotly.express.box) or https://plotly.com/python/reference/box/ for more information and chart attribute options! -->
+See https://plotly.com/julia/reference/box/ for more information and chart attribute options!

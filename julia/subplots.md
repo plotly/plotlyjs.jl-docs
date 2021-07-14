@@ -21,7 +21,6 @@ jupyter:
     order: 17
     page_type: u-guide
     permalink: julia/subplots/
-    redirect_from: ipython-notebooks/subplots/
     thumbnail: thumbnail/subplots.jpg
 ---
 

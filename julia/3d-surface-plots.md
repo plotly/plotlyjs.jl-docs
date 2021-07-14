@@ -43,8 +43,6 @@ layout = Layout(
 plot(surface(z=z_data), layout)
 ```
 
-<!-- NOTE: This isn't matching the python output... -->
-
 ### Passing x and y data to 3D Surface Plot
 
 If you do not specify `x` and `y` coordinates, integer indices are used for the `x` and `y` axis. You can also pass `x` and `y` values to `surface`.
@@ -56,14 +54,16 @@ df = CSV.File(
     HTTP.get("https://raw.githubusercontent.com/plotly/datasets/master/api_docs/mt_bruno_elevation.csv").body
 ) |> DataFrame
 
-z_data = Matrix{Float64}(df)
+z_data = Matrix{Float64}(df)'
 (sh_0, sh_1) = size(z_data)
 
-x = 0:1:sh_0
-y = 0:1:sh_1
-layout = Layout(title="Mt Bruno Elevation", autosize=false,
-                  width=500, height=500,
-                  margin=attr(l=65, r=50, b=65, t=90))
+x = range(0, stop=1, length=sh_0)
+y = range(0, stop=1, length=sh_1)
+layout = Layout(
+    title="Mt Bruno Elevation", autosize=false,
+    width=500, height=500,
+    margin=attr(l=65, r=50, b=65, t=90)
+)
 
 plot(surface(z=z_data, x=x, y=y), layout)
 
@@ -79,7 +79,7 @@ using PlotlyJS, CSV, HTTP, DataFrames
 df = CSV.File(
     HTTP.get("https://raw.githubusercontent.com/plotly/datasets/master/api_docs/mt_bruno_elevation.csv").body
 ) |> DataFrame
-z_data = Matrix{Float64}(df)
+z_data = Matrix{Float64}(df)'
 
 layout = Layout(
     title="Mt Bruno Elevation",
@@ -88,12 +88,15 @@ layout = Layout(
     width=500, height=500,
     margin=attr(l=65, r=50, b=65, t=90)
 )
-plot(surface(z=z_data, contours_z=attr(
-    show=true,
-    usecolormap=true,
-    highlightcolor="limegreen",
-    project_z=true
-)), layout)
+plot(surface(
+    z=z_data,
+    contours_z=attr(
+        show=true,
+        usecolormap=true,
+        highlightcolor="limegreen",
+        project_z=true
+    )
+), layout)
 ```
 
 #### Configure Surface Contour Levels
@@ -111,8 +114,7 @@ plot(
             z=attr(show=true, start= 0.5, size= 0.05),
             z_end=0.8
         ),
-        x = [1,2,3,4,5],
-        y = [1,2,3,4,5],
+        x=1:5, y=1:5,
         z = [
             [0, 1, 0, 1, 0],
             [1, 0, 1, 0, 1],
@@ -120,16 +122,16 @@ plot(
             [1, 0, 1, 0, 1],
             [0, 1, 0, 1, 0]
         ]
+    ),
+    Layout(
+        scene=attr(
+            xaxis_nticks=20,
+            zaxis_nticks=4,
+            camera_eye=attr(x=0, y=-1, z=0.5),
+            aspectratio=attr(x=1, y=1, z=0.2)
+        )
     )
 )
-fig.update_layout(
-        scene = {
-            "xaxis": {"nticks": 20},
-            "zaxis": {"nticks": 4},
-            'camera_eye': {"x": 0, "y": -1, "z": 0.5},
-            "aspectratio": {"x": 1, "y": 1, "z": 0.2}
-        })
-fig.show()
 ```
 
 #### Multiple 3D Surface Plots
@@ -155,17 +157,13 @@ z1 = [
     [8.93,8.97,8.97,9.18,9.2,9.18]
 ]
 
-z2 = [z .+ 1 for z in z1]
-z3 = [z .- 1 for z in z1]
-
 trace1 = surface(z=z1)
-trace2 = surface(z=z2, showscale=false, opacity=0.9)
-trace3 = surface(z=z3, showscale=false, opacity=0.9)
+trace2 = surface(z=map(z -> z .- 1, z1), showscale=false, opacity=0.9)
+trace3 = surface(z=map(z -> z .+ 1, z1), showscale=false, opacity=0.9)
 
 plot([trace1, trace2, trace3])
 ```
 
-<!-- NOTE: Didn't finish translating this... -->
 
 ### Setting the Surface Color
 

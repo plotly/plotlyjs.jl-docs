@@ -30,9 +30,9 @@ using PlotlyJS, CSV, DataFrames
 
 df = dataset(DataFrame, "iris")
 
-df[!, "e"] = df[!, "sepal_width"]/100
+df[!, "e"] = df[!, "sepal_width"] ./ 100
 
-trace = scatter(
+plot(
     df,
     x=:sepal_width,
     y=:sepal_length,
@@ -41,8 +41,6 @@ trace = scatter(
     error_x=attr(type="data", array=:e, visible=true),
     error_y=attr(type="data", array=:e, visible=true),
 )
-
-plot(trace)
 ```
 
 #### Asymmetric Error Bars
@@ -52,9 +50,9 @@ using PlotlyJS, CSV, DataFrames
 
 df = dataset(DataFrame, "iris")
 
-df[!, "e_plus"] = df[!, "sepal_width"]/100
-df[!, "e_minus"] = df[!, "sepal_width"]/40
-trace = scatter(
+df[!, "e_plus"] = df[!, "sepal_width"] ./ 100
+df[!, "e_minus"] = df[!, "sepal_width"] ./ 40
+plot(
     df,
     x=:sepal_width,
     y=:sepal_length,
@@ -62,80 +60,74 @@ trace = scatter(
     mode="markers",
     error_y=attr(type="data", array=:e_plus, arrayminus=:e_minus, visible=true),
 )
-
-plot(trace)
 ```
 
 #### Error Bars as a Percentage of the y Value
 
 ```julia
-using PlotlyJS, CSV, DataFrames
+using PlotlyJS
 
-trace = scatter(
-        x=[0, 1, 2],
-        y=[6, 10, 2],
-        mode="markers",
-        error_y=attr(
-            type="percent", # value of error bar given as percentage of y value
-            value=50,
-            visible=true)
+plot(scatter(
+    x=[0, 1, 2], y=[6, 10, 2], mode="markers+lines",
+    error_y=attr(
+        type="percent", # value of error bar given as percentage of y value
+        value=50,
+        visible=true
     )
-
-plot(trace)
+))
 ```
 
 #### Asymmetric Error Bars with a Constant Offset
 
 ```julia
-using PlotlyJS, CSV, DataFrames
+using PlotlyJS
 
-trace = scatter(
-        x=[1, 2, 3, 4],
-        y=[2, 1, 3, 4],
-        mode="markers",
-        error_y=attr(
-            type="percent",
-            symmetric=false,
-            value=15,
-            valueminus=25)
+plot(scatter(
+    x=[1, 2, 3, 4],
+    y=[2, 1, 3, 4],
+    mode="markers+lines",
+    error_y=attr(
+        type="percent",
+        symmetric=false,
+        value=15,
+        valueminus=25
     )
-plot(trace)
+))
 ```
 
 #### Horizontal Error Bars
 
 ```julia
-using PlotlyJS, CSV, DataFrames
+using PlotlyJS
 
-trace = scatter(
-        x=[1, 2, 3, 4],
-        y=[2, 1, 3, 4],
-        mode="markers",
-        error_x=attr(
-            type="percent",
-            value=15
-        )
+plot(scatter(
+    x=[1, 2, 3, 4],
+    y=[2, 1, 3, 4],
+    mode="markers+lines",
+    error_x=attr(
+        type="percent",
+        value=15
     )
-plot(trace)
+))
 ```
 
 #### Bar Chart with Error Bars
 
 ```julia
-using PlotlyJS, CSV, DataFrames
+using PlotlyJS
 
-trace1 = bar(
-    name="Control",
-    x=["Trial 1", "Trial 2", "Trial 3"], y=[3, 6, 4],
-    error_y=attr(type="data", array=[1, 0.5, 1.5])
-)
-trace2 = bar(
-    name="Experimental",
-    x=["Trial 1", "Trial 2", "Trial 3"], y=[4, 7, 3],
-    error_y=attr(type="data", array=[0.5, 1, 2])
-)
-
-plot([trace1, trace2])
+plot([
+    bar(
+        name="Control",
+        x=["Trial 1", "Trial 2", "Trial 3"], y=[3, 6, 4],
+        error_y=attr(type="data", array=[1, 0.5, 1.5])
+    ),
+    bar(
+        name="Experimental",
+        x=["Trial 1", "Trial 2", "Trial 3"], y=[4, 7, 3],
+        error_y=attr(type="data", array=[0.5, 1, 2])
+    )
+])
 ```
 
 #### Colored and Styled Error Bars

@@ -14,16 +14,16 @@ jupyter:
   plotly:
     description: How to make 3D Line Plots
     display_as: 3d_charts
-    language: python
+    language: julia
     layout: base
     name: 3D Line Plots
     order: 7
     page_type: u-guide
-    permalink: python/3d-line-plots/
+    permalink: julia/3d-line-plots/
     thumbnail: thumbnail/3d-line.jpg
 ---
 
-### 3D Line plot with Plotly Express
+### 3D Line plots
 
 ```julia
 using PlotlyJS, CSV, DataFrames
@@ -50,14 +50,12 @@ Here we represent a trajectory in 3D.
 using PlotlyJS, Distributions, Dates
 
 function brownian_motion(T=1, N=100; sigma=0.01, S0=20, mu=0.1)
-    d = Normal()
-    dt = float(T)/N
-    t = range(0, stop=T, length=N)
-    W = rand(d, N)
+    dt = float(T)/(N-1)
+    t = 0:dt:T
+    W = randn(N)
     W = cumsum(W) .* sqrt(dt) # standard brownian motion
-    X = (mu-0.5*sigma^2) .* t .+ sigma .* W
-    S = S0.*MathConstants.e.^X # geometric brownian motion
-    return S
+    X = @. (mu-0.5*sigma^2) * t + sigma * W
+    S0.*exp.(X) # geometric brownian motion
 end
 
 dates = Date(2012,1,1):Day(1):Date(2013,2,22)
@@ -74,36 +72,24 @@ layout = Layout(
     autosize=false,
     scene=attr(
         camera=attr(
-            up=attr(
-                x=0,
-                y=0,
-                z=1
-            ),
-            eye=attr(
-                x=0,
-                y=1.0707,
-                z=1,
-            )
+            up=attr(x=0, y=0, z=1),
+            eye=attr(x=0, y=1.0707, z=1)
         ),
-        aspectratio = attr( x=1, y=1, z=0.7 ),
-        aspectmode = "manual"
+        aspectratio=attr(x=1, y=1, z=0.7),
+        aspectmode="manual",
     )
 )
 plot(scatter(
     x=dates,
     y=y,
     z=z,
-    marker=attr(
-        size=4,
-        color=z,
-        colorscale="Viridis",
-    ),
-    line=attr(
-        color="darkblue",
-        width=2
-    ),
+    marker=attr(size=4, color=z, colorscale="Viridis"),
+    line=attr(color="darkblue", width=2),
     type="scatter3d",
     mode="lines+markers"
 ), layout)
-
 ```
+
+#### Reference
+
+See https://plotly.com/julia/reference/scatter3d/#scatter3d-marker-line for more information and chart attribute options!

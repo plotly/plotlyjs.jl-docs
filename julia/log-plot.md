@@ -25,51 +25,31 @@ jupyter:
 ### Logarithmic Axes
 
 ```julia
-using PlotlyJS, CSV, DataFrames, Query
+using PlotlyJS, CSV, DataFrames
 
-df = @from i in dataset(DataFrame, "gapminder") begin
-     @where i.year == 2007
-     @select i
-     @collect DataFrame
-    end
+df = dataset(DataFrame, "gapminder")
+df07 = df[df.year .== 2007, :]
 
-layout = Layout(xaxis_type="log")
-
-plot(df,
-    x=:gdpPercap,
-    y=:lifeExp,
-    hover_name=:county,
-    kind="scatter",
-    mode="markers",
-    layout
+plot(
+    df07,
+    x=:gdpPercap, y=:lifeExp, hover_name=:county, mode="markers",
+    Layout(xaxis_type="log")
 )
 ```
 
-<!-- NOTE: This doesn't seem correct...It produces a chart where the xaxis range is 10^100000 -->
-
 Setting the range of a logarithmic axis works the same was as with linear axes: using the `xaxis_range` and `yaxis_range` keywords on the `Layout`. Note that you cannot set the range to include 0 or less.
 
+In the example below, the range of the x-axis is [0, 5] in log units, which is the same as [0, 10000] in linear units.
+
 ```julia
-using PlotlyJS, CSV, DataFrames, Query
+using PlotlyJS, CSV, DataFrames
 
-df = @from i in dataset(DataFrame, "gapminder") begin
-     @where i.year == 2007
-     @select i
-     @collect DataFrame
-    end
+df = dataset(DataFrame, "gapminder")
+df07 = df[df.year .== 2007, :]
 
-layout = Layout(
-    xaxis_type="log",
-    xaxis_range=[1,100000],
-    yaxis_range=[0,100]
-)
-
-plot(df,
-    x=:gdpPercap,
-    y=:lifeExp,
-    hover_name=:county,
-    kind="scatter",
-    mode="markers",
-    layout
+plot(
+    df07,
+    x=:gdpPercap, y=:lifeExp, hover_name=:county, mode="markers",
+    Layout(xaxis=attr(type="log", range=[0, 5]), yaxis_range=[0, 100])
 )
 ```
