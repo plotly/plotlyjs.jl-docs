@@ -197,4 +197,4 @@ p
 
 #### Reference
 
-See https://plotly.com/python/reference/surface/ for more information!
+See https://plotly.com/julia/reference/surface/ for more information!
