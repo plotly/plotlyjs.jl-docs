@@ -1,0 +1,203 @@
+---
+jupyter:
+  jupytext:
+    notebook_metadata_filter: all
+    text_representation:
+      extension: .md
+      format_name: markdown
+      format_version: "1.2"
+      jupytext_version: 1.6.0
+  kernelspec:
+    display_name: Julia 1.6.0
+    language: julia
+    name: julia-1.6
+  plotly:
+    description: How to make 3D-surface plots in Julia
+    display_as: 3d_charts
+    language: julia
+    layout: base
+    name: 3D Surface Plots
+    order: 3
+    page_type: example_index
+    permalink: julia/3d-surface-plots/
+    redirect_from: julia/3d-surface-coloring/
+    thumbnail: thumbnail/3d-surface.jpg
+---
+
+#### Topographical 3D Surface Plot
+
+```julia
+using PlotlyJS, CSV, HTTP, DataFrames
+# Read data from a csv
+df = CSV.File(
+    HTTP.get("https://raw.githubusercontent.com/plotly/datasets/master/api_docs/mt_bruno_elevation.csv").body
+) |> DataFrame
+z_data = Matrix{Float64}(df)
+layout = Layout(
+    title="Mt Bruno Elevation",
+    autosize=false,
+    width=500,
+    height=500,
+    margin=attr(l=65, r=50, b=65, t=90)
+)
+plot(surface(z=z_data), layout)
+```
+
+<!-- NOTE: This isn't matching the python output... -->
+
+### Passing x and y data to 3D Surface Plot
+
+If you do not specify `x` and `y` coordinates, integer indices are used for the `x` and `y` axis. You can also pass `x` and `y` values to `surface`.
+
+```julia
+using PlotlyJS, CSV, HTTP, DataFrames
+# Read data from a csv
+df = CSV.File(
+    HTTP.get("https://raw.githubusercontent.com/plotly/datasets/master/api_docs/mt_bruno_elevation.csv").body
+) |> DataFrame
+
+z_data = Matrix{Float64}(df)
+(sh_0, sh_1) = size(z_data)
+
+x = 0:1:sh_0
+y = 0:1:sh_1
+layout = Layout(title="Mt Bruno Elevation", autosize=false,
+                  width=500, height=500,
+                  margin=attr(l=65, r=50, b=65, t=90))
+
+plot(surface(z=z, x=x, y=y), layout)
+
+```
+
+#### Surface Plot With Contours
+
+Display and customize contour data for each axis using the `contours` attribute ([reference](plotly.com/julia/reference/surface/#surface-contours)).
+
+```julia
+using PlotlyJS, CSV, HTTP, DataFrames
+# Read data from a csv
+df = CSV.File(
+    HTTP.get("https://raw.githubusercontent.com/plotly/datasets/master/api_docs/mt_bruno_elevation.csv").body
+) |> DataFrame
+z_data = Matrix{Float64}(df)
+
+layout = Layout(
+    title="Mt Bruno Elevation",
+    autosize=false,
+    scene_camera_eye=attr(x=1.87, y=0.88, z=-0.64),
+    width=500, height=500,
+    margin=attr(l=65, r=50, b=65, t=90)
+)
+plot(surface(z=z_data, contours_z=attr(
+    show=true,
+    usecolormap=true,
+    highlightcolor="limegreen",
+    project_z=true
+)), layout)
+```
+
+#### Configure Surface Contour Levels
+
+This example shows how to slice the surface graph on the desired position for each of x, y and z axis. [contours.x.start](https://plotly.com/julia/reference/surface/#surface-contours-x-start) sets the starting contour level value, `end` sets the end of it, and `size` sets the step between each contour level.
+
+```julia
+import plotly.graph_objects as go
+
+plot(
+    surface(
+        contours = attr(
+            x=attr(show=true, start= 1.5, size=0.04, color="white"),
+            x_end=2
+            z=attr(show=true, start= 0.5, size= 0.05),
+            z_end=0.8
+        ),
+        x = [1,2,3,4,5],
+        y = [1,2,3,4,5],
+        z = [
+            [0, 1, 0, 1, 0],
+            [1, 0, 1, 0, 1],
+            [0, 1, 0, 1, 0],
+            [1, 0, 1, 0, 1],
+            [0, 1, 0, 1, 0]
+        ]
+    )
+)
+fig.update_layout(
+        scene = {
+            "xaxis": {"nticks": 20},
+            "zaxis": {"nticks": 4},
+            'camera_eye': {"x": 0, "y": -1, "z": 0.5},
+            "aspectratio": {"x": 1, "y": 1, "z": 0.2}
+        })
+fig.show()
+```
+
+#### Multiple 3D Surface Plots
+
+```julia
+using PlotlyJS
+
+z1 = [
+    [8.83,8.89,8.81,8.87,8.9,8.87],
+    [8.89,8.94,8.85,8.94,8.96,8.92],
+    [8.84,8.9,8.82,8.92,8.93,8.91],
+    [8.79,8.85,8.79,8.9,8.94,8.92],
+    [8.79,8.88,8.81,8.9,8.95,8.92],
+    [8.8,8.82,8.78,8.91,8.94,8.92],
+    [8.75,8.78,8.77,8.91,8.95,8.92],
+    [8.8,8.8,8.77,8.91,8.95,8.94],
+    [8.74,8.81,8.76,8.93,8.98,8.99],
+    [8.89,8.99,8.92,9.1,9.13,9.11],
+    [8.97,8.97,8.91,9.09,9.11,9.11],
+    [9.04,9.08,9.05,9.25,9.28,9.27],
+    [9,9.01,9,9.2,9.23,9.2],
+    [8.99,8.99,8.98,9.18,9.2,9.19],
+    [8.93,8.97,8.97,9.18,9.2,9.18]
+]
+
+z2 = [z .+ 1 for z in z1]
+z3 = [z .- 1 for z in z1]
+
+trace1 = surface(z=z1)
+trace2 = surface(z=z2, showscale=false, opacity=0.9)
+trace3 = surface(z=z3, showscale=false, opacity=0.9)
+
+plot([trace1, trace2, trace3])
+```
+
+<!-- NOTE: Didn't finish translating this... -->
+
+### Setting the Surface Color
+
+You can use the `surfacecolor` attribute to define the color of the surface of your figure. In this example, the surface color represents the distance from the origin, rather than the default, which is the `z` value.
+
+```julia
+using PlotlyJS
+
+# Equation of ring cyclide
+# see https://en.wikipedia.org/wiki/Dupin_cyclide
+a = 1.32
+b = 1.0
+d = 0.8
+c = a^2 - b^2
+
+u, v = np.mgrid[0:2*pi:100j, 0:2*pi:100j]
+
+x = (d .* (c .- a .* cos.(u) .* cos.(v)) .+ b^2 .* cos.(u)) ./ (a .- c .* cos.(u) .* cos.(v))
+y = b .* sin.(u) .* (a .- d*cos.(v)) ./ (a .- c .* cos.(u) .* cos.(v))
+z = b .* sin.(v) .* (c.*cos.(u) .- d) ./ (a .- c .* cos.(u) .* cos.(v))
+
+fig = make_subplots(rows=1, cols=2,
+                    specs=[[{'is_3d': True}, {'is_3d': True}]],
+                    subplot_titles=['Color corresponds to z', 'Color corresponds to distance to origin'],
+                    )
+
+fig.add_trace(go.Surface(x=x, y=y, z=z, colorbar_x=-0.07), 1, 1)
+fig.add_trace(go.Surface(x=x, y=y, z=z, surfacecolor=x**2 + y**2 + z**2), 1, 2)
+fig.update_layout(title_text="Ring cyclide")
+fig.show()
+```
+
+#### Reference
+
+See https://plotly.com/python/reference/surface/ for more information!
