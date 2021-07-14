@@ -65,7 +65,7 @@ layout = Layout(title="Mt Bruno Elevation", autosize=false,
                   width=500, height=500,
                   margin=attr(l=65, r=50, b=65, t=90))
 
-plot(surface(z=z, x=x, y=y), layout)
+plot(surface(z=z_data, x=x, y=y), layout)
 
 ```
 
@@ -101,13 +101,13 @@ plot(surface(z=z_data, contours_z=attr(
 This example shows how to slice the surface graph on the desired position for each of x, y and z axis. [contours.x.start](https://plotly.com/julia/reference/surface/#surface-contours-x-start) sets the starting contour level value, `end` sets the end of it, and `size` sets the step between each contour level.
 
 ```julia
-import plotly.graph_objects as go
+using PlotlyJS
 
 plot(
     surface(
         contours = attr(
             x=attr(show=true, start= 1.5, size=0.04, color="white"),
-            x_end=2
+            x_end=2,
             z=attr(show=true, start= 0.5, size= 0.05),
             z_end=0.8
         ),

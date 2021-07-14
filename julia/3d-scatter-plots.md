@@ -30,7 +30,7 @@ Like the [2D scatter plot](https://plotly.com/julia/line-and-scatter/) `scatter`
 ```julia
 using PlotlyJS, CSV, DataFrames
 df = dataset(DataFrame, "iris")
-plot(df, x=:sepal_length, y=:sepal_width, z=:petal_width, group=:species, type="scatter3d" mode="markers")
+plot(df, x=:sepal_length, y=:sepal_width, z=:petal_width, group=:species, type="scatter3d", mode="markers")
 ```
 
 A 4th dimension of the data can be represented thanks to the color of the markers. Also, values from the `species` column are used below to assign symbols to markers.
