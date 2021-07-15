@@ -396,15 +396,15 @@ uuid = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
 
 [[PlotlyBase]]
 deps = ["Base64", "Dates", "DelimitedFiles", "DocStringExtensions", "JSON", "Kaleido_jll", "LaTeXStrings", "Logging", "Parameters", "Pkg", "REPL", "Requires", "Statistics", "UUIDs"]
-git-tree-sha1 = "b29c63ad0b1fb313bf42f6bb1260959cbaf57b8b"
+git-tree-sha1 = "fd1b34c4306de3f324adb012253099efb6125922"
 uuid = "a03496cd-edff-5a9b-9e67-9cda94a718b5"
-version = "0.6.4"
+version = "0.6.7"
 
 [[PlotlyJS]]
 deps = ["Blink", "DelimitedFiles", "JSExpr", "JSON", "Markdown", "Pkg", "PlotlyBase", "REPL", "Reexport", "Requires", "WebIO"]
-git-tree-sha1 = "af6f29b7c9eb02f5b2786e87b544036ad08f4479"
+git-tree-sha1 = "e668d85a1d5fd677172c18d8ac4a53e274b0c9b0"
 uuid = "f0f68f2c-4968-5e81-91da-67840de0976a"
-version = "0.16.3"
+version = "0.16.4"
 
 [[Polynomials]]
 deps = ["Intervals", "LinearAlgebra", "MutableArithmetics", "RecipesBase"]
