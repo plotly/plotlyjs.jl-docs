@@ -24,7 +24,7 @@ jupyter:
     thumbnail: thumbnail/axes.png
 ---
 
-<!-- NOTE: Not sure if links work -->
+<!-- TODO: Not sure if links work -->
 
 This tutorial explain how to set the properties of [2-dimensional Cartesian axes](/julia/figure-structure/#2d-cartesian-trace-types-and-subplots), namely [`layout.xaxis`](/julia/reference/layout/xaxis/) and [`layout.yaxis`](julia/reference/layout/xaxis/).
 
@@ -103,7 +103,7 @@ df = dataset(DataFrame, "tips")
 layout = Layout(
     xaxis_title="Total Bill(\$)",
     yaxis_title="Tip (\$)",
-    # NOTE: no way to set legend title?
+    legend_title_text="Legend"
 )
 trace = scatter(
     df,
@@ -191,7 +191,7 @@ layout = Layout(
         title_font=attr(size=18, family="Courier", color="crimson")
     )
 )
-# NOTE: The xaxis title is not repeated for each of the facets like it is in Python
+# TODO: The xaxis title is not repeated for each of the facets like it is in Python
 plot(df, x=:sepal_width, y=:sepal_length, facet_col=:species, mode="markers", kind="scatter", layout)
 ```
 
@@ -229,7 +229,6 @@ using PlotlyJS, CSV, DataFrames
 
 df = dataset(DataFrame, "iris")
 
-# NOTE: yaxis_nticks doesn't seem to work. xaxis_nticks only sets on first facet
 plot(
     df,
     x=:sepal_width,
@@ -237,6 +236,7 @@ plot(
     facet_col=:species,
     Layout(
         yaxis = attr(
+            tickmode="auto",
             nticks=20
         )
     ),
@@ -385,10 +385,10 @@ apple_df_2016 = apple_df[year.(apple_df.Date) .== 2016, :]
 
 layout = Layout(
     # Set custom x-axis labels
-    # NOTE: Custom ticks not working
     xaxis=attr(
-         ticktext=["End of Q1", "End of Q2", "End of Q3", "End of Q4"],
-         tickvals=["2016-04-01", "2016-07-01", "2016-10-01", maximum(apple_df_2016.Date)],
+        tickmode="array",
+        ticktext=["End of Q1", "End of Q2", "End of Q3", "End of Q4"],
+        tickvals=[Date("2016-04-01"), Date("2016-07-01"), Date("2016-10-01"), maximum(apple_df_2016.Date)],
     ),
     # Prefix y-axis tick labels with dollar sign
     yaxis_tickprefix="\$",
@@ -397,7 +397,7 @@ layout = Layout(
 )
 # Create figure and add line
 plot(
-    df,
+    apple_df_2016,
     x=:Date,
     y=apple_df_2016[!, "AAPL.High"],
     kind="scatter",
@@ -501,7 +501,7 @@ Here is an example of customizing the grid line width and color for a faceted sc
 using PlotlyJS, CSV, DataFrames
 df = dataset(DataFrame, "iris")
 
-# NOTE: yaxis_nticks doesn't seem to work. xaxis_nticks only sets on first facet
+# TODO: xaxis_nticks only sets on first facet
 plot(
     df,
     x=:sepal_width,
@@ -564,14 +564,14 @@ Pan/Zoom can be disabled for a given axis by setting `fixedrange` to `True`.
 using PlotlyJS, CSV, DataFrames
 df = dataset(DataFrame, "iris")
 
-# NOTE: fixed_range doesn't work
+# TODO: fixed_range doesn't work
 plot(
     df,
     x=:sepal_width,
     y=:sepal_length,
     facet_col=:species,
     Layout(
-        xaxis_fixedrange=true,
+        xaxis=attr(fixedrange=true),
     ),
     kind="scatter",
     mode="markers"
@@ -785,13 +785,11 @@ plot(
 )
 ```
 
-<!-- NOTE: Not working -->
-<!-- #### Setting the domain of the axis
+#### Setting the domain of the axis
 
-<!-- ```julia
-import plotly.graph_objects as go
+```julia
+using PlotlyJS
 
-fig = go.Figure()
 
 plot(scatter(
     x = [0,1,1,0,0,1,1,2,2,3,3,2,2,3],
@@ -801,7 +799,7 @@ plot(scatter(
     xaxis_domain=(0.25,0.75)
 ))
 
-``` -->
+```
 
 #### Synchronizing axes in subplots with `matches`
 
@@ -814,6 +812,8 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import numpy as np
 
+using PlotlyJS
+
 N = 20
 x = range(0, stop=1, length=N)
 
@@ -824,7 +824,7 @@ end
 
 fig
 
-# NOTE: Not sure how to do this part
+# TODO: Not sure how to update layout on a subplots fig
 # fig.update_xaxes(matches='x')
 ```
 

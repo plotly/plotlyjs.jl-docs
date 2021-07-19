@@ -93,8 +93,6 @@ plot([trace1, trace2, trace3])
 
 ```
 
-<!-- NOTE: couln't find the `hover_data` arg for julia box plot -->
-
 #### Styled box plot
 
 For the interpretation of the notches, see https://en.wikipedia.org/wiki/Box_plot#Variations.
@@ -105,6 +103,7 @@ df = dataset(DataFrame, "tips")
 plot(
     df, kind="box",
     x=:time, y=:total_bill, group=:smoker, notched=true,
+    hovertext=:day,
     Layout(title="Box plot of total bill", boxmode="group")
 )
 

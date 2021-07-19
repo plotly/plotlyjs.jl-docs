@@ -140,17 +140,6 @@ trace = bar(
 plot(trace, layout)
 ```
 
-<!--
-```python
-import plotly.express as px
-
-df = px.data.gapminder().query("continent == 'Asia' and year == 2007")
-fig = px.pie(df, values='pop', names='country')
-fig.update_traces(textposition='inside')
-fig.update_layout(uniformtext_minsize=12, uniformtext_mode='hide')
-fig.show()
-``` -->
-
 ```julia
 using PlotlyJS, CSV, DataFrames
 
@@ -159,11 +148,10 @@ df = df[(df.year .== 2007) .& (df.continent .== "Asia"), :]
 
 layout = Layout(uniformtext_minsize=12, uniformtext_mode="hide")
 
-# NOTE: The legend values are numbers, not country names
 trace = pie(
     df,
     values=:pop,
-    names=:country,
+    labels=:country,
     textposition="inside"
 )
 
@@ -203,7 +191,7 @@ trace2 = scatter(
     y=[0, 4, 5, 1, 2, 2, 3, 4, 2]
 )
 
-# NOTE: There is no `add_annotation` method in julia, putting it in layout for now
+# TODO: There is no `add_annotation` method in julia, putting it in layout for now
 layout = Layout(
     showlegend=false,
     annotations=[
@@ -334,7 +322,7 @@ trace2 = scatter(
     y=[0, 4, 5, 1, 2, 2, 3, 4, 2]
 )
 
-# NOTE: No `add_annotation` method putting in layout for now
+# TODO: No `add_annotation` method putting in layout for now
 layout = Layout(
     showlegend=false,
     annotations=[
@@ -424,7 +412,7 @@ plot(trace, layout)
 
 By default, text annotations have `xref` and `yref` set to `"x"` and `"y"`, respectively, meaning that their x/y coordinates are with respect to the axes of the plot. This means that panning the plot will cause the annotations to move. Setting `xref` and/or `yref` to `"paper"` will cause the `x` and `y` attributes to be interpreted in [paper coordinates](/julia/figure-structure/#positioning-with-paper-container-coordinates-or-axis-domain-coordinates).
 
-<!-- NOTE: not sure if this link will work -->
+<!-- TODO: not sure if this link will work -->
 
 Try panning or zooming in the following figure:
 

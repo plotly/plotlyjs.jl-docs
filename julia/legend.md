@@ -35,7 +35,7 @@ Traces which support [continuous color](/julia/colorscales/) can also be associa
 
 PlotlyJS functions will create one [trace](/julia/figure-structure) per animation frame for each unique combination of data values mapped to discrete color, symbol, line-dash, facet-row and/or facet-column. Traces' `legendgroup` and `showlegend` attributed are set such that only one legend item appears per unique combination of discrete color, symbol and/or line-dash. The legend title is automatically set, and can be overrided within the `Layout`:
 
-<!-- NOTE: Can't get marker symbol to bind to data -->
+<!-- TODO: Can't get marker symbol to bind to data -->
 
 ```julia
 using PlotlyJS, CSV, DataFrames
@@ -71,7 +71,7 @@ fig = px.bar(df, x="day", y="total_bill", color="smoker", barmode="group", facet
 fig.show()
 ``` -->
 
-<!-- NOTE: This doesn't make the exact same graph as python...colors are different and can't set category_order -->
+<!-- TODO: This doesn't make the exact same graph as python...colors are different and can't set category_order -->
 
 ```julia
 using PlotlyJS, CSV, DataFrames
@@ -108,7 +108,7 @@ fig.update_layout(legend_traceorder="reversed")
 fig.show()
 ``` -->
 
-<!-- NOTE: Can't set bar mode stack and use color. `color` doesn't actually change it -->
+<!-- TODO: Can't set bar mode stack and use color. `color` doesn't actually change it -->
 <!--
 ```julia
 using PlotlyJS, CSV, DataFrames
@@ -174,7 +174,6 @@ fig = px.histogram(df, x="sex", y="total_bill", color="time",
 fig.update_layout(showlegend=False)
 fig.show()
 ``` -->
-<!-- NOTE: not same graph as python. Python's graph is stacked. can't reproduce because `color` can't be set -->
 
 ```julia
 using PlotlyJS, CSV, DataFrames
@@ -189,7 +188,8 @@ plot(
     kind="histogram",
     Layout(
         title="Total Bill by Sex, Colored by Time",
-        showlegend=false
+        showlegend=false,
+        barmode="stack"
     )
 )
 ```
@@ -638,7 +638,7 @@ x = [r,r,r]
 y = [r,r,r]
 z = [r,r,r]
 
-# NOTE: Can't get julia to call `sin` on a 2d matrix
+# TODO: Can't get julia to call `sin` on a 2d matrix
 u = @. (sin(pi * x) * cos(pi * z))
 v = @. -2*sin(pi*y) * cos(2*pi*z)
 w = @. cos(pi*x)*sin(pi*z) + cos(pi*y)*sin(2*pi*z)
