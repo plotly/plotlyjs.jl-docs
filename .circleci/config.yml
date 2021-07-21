@@ -34,6 +34,7 @@ jobs:
             wget -d https://julialang-s3.julialang.org/bin/linux/x64/1.6/julia-1.6.2-linux-x86_64.tar.gz
             tar -xzf julia-1.6.2-linux-x86_64.tar.gz
             echo 'export PATH="/home/circleci/project/julia-1.6.2/bin:$PATH"' >> $BASH_ENV
+            /home/circleci/project/julia-1.6.2/bin/julia --project=@. 'using Pkg; Pkg.instantiate()'
 
       - save_cache:
           paths:
