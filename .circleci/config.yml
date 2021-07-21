@@ -47,6 +47,7 @@ jobs:
           command: |
             . venv/bin/activate
             echo ${mapbox_token} > julia/.mapbox_token
+            julia --project=@. -e 'using Pkg; Pkg.build(); Pkg.precompile()'
             make -kj8 || make -kj8
             if [ "${CIRCLE_BRANCH}" == "doc-prod" ]; then
               cd build/html
