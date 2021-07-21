@@ -23,3 +23,4 @@ Documentation for the Plotly Julia graphing library.
 ## Building docs
 
 After completing installation steps above, you should be able to build the docs by running `make` or `make all`
+
