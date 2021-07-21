@@ -45,7 +45,7 @@ jobs:
           name: make html
           command: |
             . venv/bin/activate
-            echo ${mapbox_token} > python/.mapbox_token
+            echo ${mapbox_token} > julia/.mapbox_token
             make -kj8 || make -kj8
             if [ "${CIRCLE_BRANCH}" == "doc-prod" ]; then
               cd build/html
