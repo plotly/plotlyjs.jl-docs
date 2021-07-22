@@ -91,7 +91,7 @@ Axis titles are automatically set to the column names when using `plot` and [usi
 using PlotlyJS, CSV, DataFrames
 
 df = dataset(DataFrame, "tips")
-plot(df, x=:total_bill, y=:tip, marker_color=:sex, mode="markers", type="scatter")
+plot(df, x=:total_bill, y=:tip, group=:sex, mode="markers", type="scatter")
 ```
 
 Axis titles can also be overridden using the `[axis]_title` argument of Layout:
@@ -135,7 +135,7 @@ plot(trace, layout)
 Axis titles are set using the nested `title` property of the x or y axis. Here is an example of creating a new figure and using `Layout`, with magic underscore notation, to set the axis titles.
 
 ```julia
-import plotly.express as px
+using PlotlyJS
 
 trace = scatter(y=[1, 0], x=[0,1])
 
@@ -215,7 +215,6 @@ layout = Layout(
 )
 plot(df, x=:sepal_width, y=:sepal_length, facet_col=:species, kind="scatter", mode="markers",layout)
 
-fig.show()
 ```
 
 ##### Set number of tick marks (and grid lines)
@@ -799,33 +798,6 @@ plot(scatter(
     xaxis_domain=(0.25,0.75)
 ))
 
-```
-
-#### Synchronizing axes in subplots with `matches`
-
-Using `facet_col` from `plotly.express` let [zoom](https://help.plotly.com/zoom-pan-hover-controls/#step-3-zoom-in-and-zoom-out-autoscale-the-plot) and [pan](https://help.plotly.com/zoom-pan-hover-controls/#step-6-pan-along-axes) each facet to the same range implicitly. However, if the subplots are created with `make_subplots`, the axis needs to be updated with `matches` parameter to update all the subplots accordingly.
-
-Zoom in one trace below, to see the other subplots zoomed to the same x-axis range. To pan all the subplots, click and drag from the center of x-axis to the side:
-
-```julia
-import plotly.graph_objects as go
-from plotly.subplots import make_subplots
-import numpy as np
-
-using PlotlyJS
-
-N = 20
-x = range(0, stop=1, length=N)
-
-fig = make_subplots(rows=1, cols=3)
-for i in 1:1:3
-    add_trace!(fig, scatter(x=x, y=rand(N)), row=1, col=i)
-end
-
-fig
-
-# TODO: Not sure how to update layout on a subplots fig
-# fig.update_xaxes(matches='x')
 ```
 
 #### Reference

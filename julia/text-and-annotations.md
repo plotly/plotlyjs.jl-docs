@@ -12,13 +12,13 @@ jupyter:
     language: julia
     name: julia-1.6
   plotly:
-    description: How to add text labels and annotations to plots in python.
+    description: How to add text labels and annotations to plots in julia.
     display_as: file_settings
-    language: python
+    language: julia
     layout: base
     name: Text and Annotations
     order: 22
-    permalink: python/text-and-annotations/
+    permalink: julia/text-and-annotations/
     thumbnail: thumbnail/text-and-annotations.png
 ---
 
@@ -39,23 +39,6 @@ The differences between these two approaches are that:
 ### Text on scatter plots
 
 Here is an example that creates a scatter plot with text labels.
-
-<!-- ```python
-import plotly.express as px
-
-df = px.data.gapminder().query("year==2007 and continent=='Americas'")
-
-fig = px.scatter(df, x="gdpPercap", y="lifeExp", text="country", log_x=True, size_max=60)
-
-fig.update_traces(textposition='top center')
-
-fig.update_layout(
-    height=800,
-    title_text='GDP and Life Expectancy (Americas, 2007)'
-)
-
-fig.show()
-``` -->
 
 ```julia
 using PlotlyJS, CSV, DataFrames
@@ -473,7 +456,7 @@ example:
 ```julia
 using PlotlyJS, CSV, DataFrames
 
-df = dataset(DataFrame, "wind:")
+df = dataset(DataFrame, "wind")
 trace = scatter(df, y=:frequency, mode="markers")
 
 layout = Layout(
@@ -522,7 +505,7 @@ plot(trace)
 
 ### Customize Text Template
 
-The following example uses [textfont](https://plotly.com/python/reference/scatterternary/#scatterternary-textfont) to customize the added text.
+The following example uses [textfont](https://plotly.com/julia/reference/scatterternary/#scatterternary-textfont) to customize the added text.
 
 ```julia
 using PlotlyJS
@@ -543,8 +526,8 @@ plot(trace)
 
 ### Set Date in Text Template
 
-The following example shows how to show date by setting [axis.type](https://plotly.com/python/reference/layout/yaxis/#layout-yaxis-type) in [funnel charts](https://plotly.com/python/funnel-charts/).
-As you can see [textinfo](https://plotly.com/python/reference/funnel/#funnel-textinfo) and [texttemplate](https://plotly.com/python/reference/funnel/#funnel-texttemplate) have the same functionality when you want to determine 'just' the trace information on the graph.
+The following example shows how to show date by setting [axis.type](https://plotly.com/julia/reference/layout/yaxis/#layout-yaxis-type) in [funnel charts](https://plotly.com/julia/funnel-charts/).
+As you can see [textinfo](https://plotly.com/julia/reference/funnel/#funnel-textinfo) and [texttemplate](https://plotly.com/julia/reference/funnel/#funnel-texttemplate) have the same functionality when you want to determine 'just' the trace information on the graph.
 
 ```julia
 using PlotlyJS
