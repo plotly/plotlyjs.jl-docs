@@ -6,7 +6,7 @@ jupyter:
       extension: .md
       format_name: markdown
       format_version: "1.2"
-      jupytext_version: 1.4.2
+      jupytext_version: 1.6.0
   kernelspec:
     display_name: Julia 1.6.0
     language: julia
@@ -61,16 +61,6 @@ plot(
 
 By default, Plotly lays out legend items in the order in which values appear in the underlying data. Every function also includes a `category_orders` keyword argument which can be used to control [the order in which categorical axes are drawn](/julia/categorical-axes/), but beyond that can also control the order in which legend items appear, and [the order in which facets are laid out](/julia/facet-plots/).
 
-<!-- ```python
-import plotly.express as px
-df = px.data.tips()
-fig = px.bar(df, x="day", y="total_bill", color="smoker", barmode="group", facet_col="sex",
-             category_orders={"day": ["Thur", "Fri", "Sat", "Sun"],
-                              "smoker": ["Yes", "No"],
-                              "sex": ["Male", "Female"]})
-fig.show()
-``` -->
-
 <!-- TODO: This doesn't make the exact same graph as python...colors are different and can't set category_order -->
 
 ```julia
@@ -96,20 +86,8 @@ plot(
 
 When using stacked bars, the bars are stacked from the bottom in the same order as they appear in the legend, so it can make sense to set `layout.legend.traceorder` to `"reversed"` to get the legend and stacks to match:
 
-<!--
-```python
-import plotly.express as px
-df = px.data.tips()
-fig = px.bar(df, x="day", y="total_bill", color="smoker", barmode="stack", facet_col="sex",
-             category_orders={"day": ["Thur", "Fri", "Sat", "Sun"],
-                              "smoker": ["Yes", "No"],
-                              "sex": ["Male", "Female"]})
-fig.update_layout(legend_traceorder="reversed")
-fig.show()
-``` -->
-
 <!-- TODO: Can't set bar mode stack and use color. `color` doesn't actually change it -->
-<!--
+
 ```julia
 using PlotlyJS, CSV, DataFrames
 
@@ -130,7 +108,6 @@ plot(
     )
 )
 ```
- -->
 
 When using specific trace methods rather than `plot`, legend items will appear in the order that traces appear in the `data`:
 
@@ -165,16 +142,6 @@ plot([trace1, trace2, trace3, trace4])
 
 By default the legend is displayed on Plotly charts with multiple traces, and this can be explicitly set with the `layout.showlegend` attribute:
 
-<!-- ```python
-import plotly.express as px
-
-df = px.data.tips()
-fig = px.histogram(df, x="sex", y="total_bill", color="time",
-                  title="Total Bill by Sex, Colored by Time")
-fig.update_layout(showlegend=False)
-fig.show()
-``` -->
-
 ```julia
 using PlotlyJS, CSV, DataFrames
 
@@ -196,24 +163,7 @@ plot(
 
 ### Legend Positioning
 
-Legends have an anchor point, which can be set to a point within the legend using `layout.legend.xanchor` and `layout.legend.yanchor`. The coordinate of the anchor can be positioned with `layout.legend.x` and `layout.legend.y` in [paper coordinates](/python/figure-structure/). Note that the plot margins will grow so as to accommodate the legend. The legend may also be placed within the plotting area.
-
-```python
-import plotly.express as px
-
-df = px.data.gapminder().query("year==2007")
-fig = px.scatter(df, x="gdpPercap", y="lifeExp", color="continent",
-    size="pop", size_max=45, log_x=True)
-
-fig.update_layout(legend=dict(
-    yanchor="top",
-    y=0.99,
-    xanchor="left",
-    x=0.01
-))
-
-fig.show()
-```
+Legends have an anchor point, which can be set to a point within the legend using `layout.legend.xanchor` and `layout.legend.yanchor`. The coordinate of the anchor can be positioned with `layout.legend.x` and `layout.legend.y` in [paper coordinates](/julia/figure-structure/). Note that the plot margins will grow so as to accommodate the legend. The legend may also be placed within the plotting area.
 
 ```julia
 using PlotlyJS, DataFrames, CSV
@@ -251,26 +201,8 @@ plot(df_2007,
 
 The `layout.legend.orientation` attribute can be set to `"h"` for a horizontal legend. Here we also position it above the plotting area.
 
-```python
-import plotly.express as px
-
-df = px.data.gapminder().query("year==2007")
-fig = px.scatter(df, x="gdpPercap", y="lifeExp", color="continent",
-    size="pop", size_max=45, log_x=True)
-
-fig.update_layout(legend=dict(
-    orientation="h",
-    yanchor="bottom",
-    y=1.02,
-    xanchor="right",
-    x=1
-))
-
-fig.show()
-```
-
 ```julia
-using PlotlyJS, CSV, DataFrame
+using PlotlyJS, CSV, DataFrames
 df = dataset(DataFrame, "gapminder")
 df_2007 = df[df.year .== 2007,: ]
 
@@ -306,36 +238,8 @@ plot(df_2007,
 
 Legends support many styling options.
 
-```python
-import plotly.express as px
-
-df = px.data.gapminder().query("year==2007")
-fig = px.scatter(df, x="gdpPercap", y="lifeExp", color="continent",
-    size="pop", size_max=45, log_x=True)
-
-
-fig.update_layout(
-    legend=dict(
-        x=0,
-        y=1,
-        traceorder="reversed",
-        title_font_family="Times New Roman",
-        font=dict(
-            family="Courier",
-            size=12,
-            color="black"
-        ),
-        bgcolor="LightSteelBlue",
-        bordercolor="Black",
-        borderwidth=2
-    )
-)
-
-fig.show()
-```
-
 ```julia
-using PlotlyJS, CSV, DataFrame
+using PlotlyJS, CSV, DataFrames
 df = dataset(DataFrame, "gapminder")
 df_2007 = df[df.year .== 2007,: ]
 
@@ -384,8 +288,6 @@ Legend items appear per trace, and the legend item name is taken from the trace'
 
 ```julia
 using PlotlyJS
-
-fig = go.Figure()
 
 trace1 = scatter(
     x=[1, 2, 3, 4, 5],
@@ -466,7 +368,7 @@ plot([trace1, trace2])
 
 #### Size of Legend Items
 
-In this example [itemsizing](https://plotly.com/python/reference/layout/#layout-legend-itemsizing) attribute determines the legend items symbols remain constant, regardless of how tiny/huge the bubbles would be in the graph.
+In this example [itemsizing](https://plotly.com/julia/reference/layout/#layout-legend-itemsizing) attribute determines the legend items symbols remain constant, regardless of how tiny/huge the bubbles would be in the graph.
 
 ```julia
 using PlotlyJS
@@ -591,44 +493,6 @@ Traces corresponding to 2D fields (e.g. `go.Heatmap`, `go.Histogram2d`) or 3D fi
 
 The example below explores a vector field using several traces. Note that you can click on legend items to hide or to select (with a double click) a specific trace. This will make the exploration of your data easier!
 
-```python
-import numpy as np
-import plotly.graph_objects as go
-
-# Define vector and scalar fields
-x, y, z = np.mgrid[0:1:8j, 0:1:8j, 0:1:8j]
-u = np.sin(np.pi*x) * np.cos(np.pi*z)
-v = -2*np.sin(np.pi*y) * np.cos(2*np.pi*z)
-w = np.cos(np.pi*x)*np.sin(np.pi*z) + np.cos(np.pi*y)*np.sin(2*np.pi*z)
-magnitude = np.sqrt(u**2 + v**2 + w**2)
-mask1 = np.logical_and(y>=.4, y<=.6)
-mask2 = y>.6
-
-fig = go.Figure(go.Isosurface(
-                      x=x.ravel(), y=y.ravel(), z=z.ravel(),
-                      value=magnitude.ravel(),
-                      isomin=1.9, isomax=1.9,
-                      colorscale="BuGn",
-                      name='isosurface'))
-
-
-fig.add_trace(go.Cone(x=x[mask1], y=y[mask1], z=z[mask1],
-                      u=u[mask1], v=v[mask1], w=w[mask1],
-                      colorscale="Blues",
-                      name='cones'
-))
-fig.add_trace(go.Streamtube(
-                      x=x[mask2], y=y[mask2], z=z[mask2],
-                      u=u[mask2], v=v[mask2], w=w[mask2],
-                      colorscale="Reds",
-                      name='streamtubes'
-))
-# Update all traces together
-fig.update_traces(showlegend=True, showscale=False)
-fig.update_layout(width=600, title_text='Exploration of a vector field using several traces')
-fig.show()
-```
-
 ```julia
 using PlotlyJS
 
@@ -639,12 +503,12 @@ y = [r,r,r]
 z = [r,r,r]
 
 # TODO: Can't get julia to call `sin` on a 2d matrix
-u = @. (sin(pi * x) * cos(pi * z))
-v = @. -2*sin(pi*y) * cos(2*pi*z)
-w = @. cos(pi*x)*sin(pi*z) + cos(pi*y)*sin(2*pi*z)
-magnitude = @. sqrt(u^2 + v^2 + w^2)
-mask1 = @. logical_and(y>=.4, y<=.6)
-mask2 = y>.6
+# u = @. (sin(pi * x) * cos(pi * z))
+# v = @. -2*sin(pi*y) * cos(2*pi*z)
+# w = @. cos(pi*x)*sin(pi*z) + cos(pi*y)*sin(2*pi*z)
+# magnitude = @. sqrt(u^2 + v^2 + w^2)
+# mask1 = @. logical_and(y>=.4, y<=.6)
+# mask2 = y>.6
 ```
 
 #### Reference

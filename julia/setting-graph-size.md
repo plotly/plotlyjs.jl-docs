@@ -6,7 +6,7 @@ jupyter:
       extension: .md
       format_name: markdown
       format_version: "1.2"
-      jupytext_version: 1.4.2
+      jupytext_version: 1.6.0
   kernelspec:
     display_name: Julia 1.6.0
     language: julia
@@ -14,11 +14,11 @@ jupyter:
   plotly:
     description: How to manipulate the graph size, margins and background color.
     display_as: file_settings
-    language: python
+    language: julia
     layout: base
     name: Setting Graph Size
     order: 11
-    permalink: python/setting-graph-size/
+    permalink: julia/setting-graph-size/
     thumbnail: thumbnail/sizing.png
 ---
 

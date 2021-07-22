@@ -24,7 +24,7 @@ jupyter:
 
 #### Saving An HTML in Julia
 
-Plotly graphs can be embedd in any HTLM page. This includes [iPython notebooks](https://plotly.com/ipython-notebooks/),
+Plotly graphs can be embedd in any HTLM page. This includes
 [Wordpress sites](https://wordpress.org/plugins/wp-plotly), dashboard, blogs and more.
 
 To export a plot as html, use the `PlotlyBase.to_html` method passing in an IO buffer and the `plot` attribute of
@@ -35,7 +35,7 @@ using PlotlyJS
 
 p = plot(scatter(x=[0,1,2], y=[3,6,2]))
 
-open("path/to/file.html", "w") do io
+open("./example.html", "w") do io
     PlotlyBase.to_html(io, p.plot)
 end
 ```
@@ -49,7 +49,7 @@ using PlotlyJS
 
 p = plot(scatter(x=[0,1,2], y=[3,6,2]))
 
-open("path/to/file.html", "w") do io
+open("./example.html", "w") do io
     PlotlyBase.to_html(io, p.plot, default_height="400px", default_width="400px")
 end
 ```
