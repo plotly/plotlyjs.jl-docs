@@ -1,0 +1,80 @@
+version: 2.1
+
+jobs:
+  build-doc:
+    resource_class: xlarge
+    docker:
+      # specify the version you desire here
+      - image: circleci/python:3.9-buster
+
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "dc:5f:39:48:00:b4:72:34:e1:d2:c4:e1:1f:d1:e2:ce" #plotlydocbot
+
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "requirements.txt" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - run:
+          name: install dependencies
+          command: |
+            # python deps (for jupytext, nbconvert)
+            python3 -m venv venv
+            . venv/bin/activate
+            pip install -U pip
+            pip install -r requirements.txt
+
+            # now juila deps
+            wget -d https://julialang-s3.julialang.org/bin/linux/x64/1.6/julia-1.6.2-linux-x86_64.tar.gz
+            tar -xzf julia-1.6.2-linux-x86_64.tar.gz
+            echo 'export PATH="/home/circleci/project/julia-1.6.2/bin:$PATH"' >> $BASH_ENV
+            /home/circleci/project/julia-1.6.2/bin/julia -e 'using Pkg; Pkg.activate("."); Pkg.instantiate()'
+
+      - save_cache:
+          paths:
+            - ./venv
+          key: v1-dependencies-{{ checksum "requirements.txt" }}
+
+      - run:
+          name: make html
+          command: |
+            . venv/bin/activate
+            echo ${mapbox_token} > julia/.mapbox_token
+            make -kj8 || make -kj8
+            if [ "${CIRCLE_BRANCH}" == "doc-prod" ]; then
+              cd build/html
+              git init
+              git config user.name plotlydocbot
+              git config user.email accounts@plot.ly
+              git add *
+              git commit -m "build of https://github.com/plotlyplotlyjs.jl-docs/commit/${CIRCLE_SHA1}"
+              git push --force git@github.com:plotly/plotlyjs.jl-docs.git master:built
+              rm -rf .git
+              cd ../..
+              cd build/ipynb
+              git init
+              git config user.name plotlydocbot
+              git config user.email accounts@plot.ly
+              git add *
+              git commit -m "build of https://github.com/plotly/plotlyjs.jl-docs/commit/${CIRCLE_SHA1}"
+              git push --force git@github.com:plotly/plotlyjs.jl-docs.git master:built_ipynb
+              rm -rf .git
+              cd ../..
+            fi
+            tar -zcf build/html.tgz build/html
+            rm -rf build/html build/ipynb
+
+      - store_artifacts:
+          path: build
+          destination: build
+
+workflows:
+  build:
+    jobs:
+      - build-doc
