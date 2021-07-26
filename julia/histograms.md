@@ -92,7 +92,7 @@ using PlotlyJS, CSV, DataFrames
 df = dataset(DataFrame, "tips")
 plot(
     df, x=:total_bill, marker=attr(opacity=0.8, color="indianred"), kind="histogram",
-    Layout(title_="Histogram of bills", xaxis_title="total bill", yaxis_type="log")
+    Layout(title_text="Histogram of bills", xaxis_title_text="total bill", yaxis_type="log")
 )
 ```
 
