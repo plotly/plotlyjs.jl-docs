@@ -34,7 +34,7 @@ using PlotlyJS, DataFrames, VegaDatasets, Dates
 
 df = DataFrame(VegaDatasets.dataset("stocks"))
 df[!, :date] = Date.(df.date, dateformat"uuu d yyyy")
-plot(df, x=:date, y=:price, group=:symbol)
+plot(df, x=:date, y=:price, color=:symbol)
 ```
 
 <!-- ### Time Series in Dash -->
@@ -72,7 +72,7 @@ using PlotlyJS, DataFrames, VegaDatasets, Dates
 df = DataFrame(VegaDatasets.dataset("stocks"))
 df[!, :date] = Date.(df.date, dateformat"uuu d yyyy")
 plot(
-    df, x=:date, y=:price, group=:symbol,
+    df, x=:date, y=:price, color=:symbol,
     Layout(
         title="custom tick labels",
         xaxis=attr(dtick="M1", tickformat="%b\n%Y", range=["2007-06-01", "2008-07-31"])
@@ -91,7 +91,7 @@ using PlotlyJS, DataFrames, VegaDatasets, Dates
 df = DataFrame(VegaDatasets.dataset("stocks"))
 df[!, :date] = Date.(df.date, dateformat"uuu d yyyy")
 plot(
-    df, x=:date, y=:price, group=:symbol,
+    df, x=:date, y=:price, color=:symbol,
     Layout(
         title="custom tick labels with ticklabelmode='period'",
         xaxis=attr(dtick="M1", tickformat="%b\n%Y", ticklabelmode="period", range=["2007-06-01", "2008-07-31"])

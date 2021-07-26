@@ -37,7 +37,7 @@ $(TEMP_HTML_DIR)/%.html: $(IPYNB_DIR)/%.ipynb
 	@mkdir -p $(FAIL_DIR)
 	@echo "[nbconvert]  $< => $@"
 	@jupyter nbconvert $< --to html --template nb.tpl \
-			--ExecutePreprocessor.timeout=600\
+			--ExecutePreprocessor.timeout=1200\
 	  	--output-dir $(TEMP_HTML_DIR) --output $*.html \
 	  	--execute > $(FAIL_DIR)/$* 2>&1  && rm -f $(FAIL_DIR)/$*
 

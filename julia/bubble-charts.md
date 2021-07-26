@@ -37,7 +37,7 @@ df07 = df[df.year .== 2007, :]
 
 plot(
     df07,
-    x=:gdpPercap, y=:lifeExp, group=:continent , mode="markers",
+    x=:gdpPercap, y=:lifeExp, color=:continent , mode="markers",
     marker=attr(size=:pop, sizeref=maximum(df07.pop) / (60^2), sizemode="area"),
     Layout(xaxis_type="log")
 )
@@ -149,10 +149,10 @@ plot(
         title="Life Expectancy v. Per Capita GDP, 2007",
         xaxis=attr(
             type="log",
-            title="GDP per capita (2000 dollars)",
+            title_text="GDP per capita (2000 dollars)",
             gridcolor="white"
         ),
-        yaxis=attr(title="Life Expectancy (years)", gridcolor="white"),
+        yaxis=attr(title_text="Life Expectancy (years)", gridcolor="white"),
         paper_bgcolor="rgb(243, 243, 243)",
         plot_bgcolor="rgb(243, 243, 243)",
     )
