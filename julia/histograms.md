@@ -101,7 +101,7 @@ plot(
 ```julia
 using PlotlyJS, CSV, DataFrames
 df = dataset(DataFrame, "tips")
-plot(df, x=:total_bill, kind="histogram", group=:sex, Layout(barmode="stack"))
+plot(df, x=:total_bill, kind="histogram", color=:sex, Layout(barmode="stack"))
 ```
 
 #### Using histfunc

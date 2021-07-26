@@ -32,7 +32,7 @@ using PlotlyJS, CSV, DataFrames
 df = dataset(DataFrame, "iris")
 plot(
     df,
-    x=:sepal_length, y=:sepal_width, z=:petal_width, group=:species,
+    x=:sepal_length, y=:sepal_width, z=:petal_width, color=:species,
     type="scatter3d", mode="markers"
 )
 ```
@@ -47,7 +47,7 @@ using PlotlyJS, CSV, DataFrames
 df = dataset(DataFrame, "iris")
 plot(
     df, Layout(margin=attr(l=0, r=0, b=0, t=0)),
-    x=:sepal_length, y=:sepal_width, z=:petal_width, group=:species,
+    x=:sepal_length, y=:sepal_width, z=:petal_width, color=:species,
     type="scatter3d", mode="markers",
     marker_size=:petal_length, marker_sizeref=0.3,
 )

@@ -51,7 +51,7 @@ Note that you can set `marker_size` via column name and generate multiple traces
 using PlotlyJS, CSV, DataFrames
 df = dataset(DataFrame, "iris")
 plot(
-    df, x=:sepal_width, y=:sepal_length, group=:species,
+    df, x=:sepal_width, y=:sepal_length, color=:species,
     marker=attr(size=:petal_length, sizeref=maximum(df.petal_length) / (20^2), sizemode="area"),
     mode="markers"
 )
@@ -84,7 +84,7 @@ using PlotlyJS, CSV, DataFrames
 df = dataset(DataFrame, "gapminder")
 df_ocean = df[df.continent .== "Oceania", :]
 plot(
-    df_ocean, x=:year, y=:lifeExp, group=:country, mode="lines"
+    df_ocean, x=:year, y=:lifeExp, color=:country, mode="lines"
 )
 ```
 
