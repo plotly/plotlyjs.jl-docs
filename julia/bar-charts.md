@@ -90,7 +90,7 @@ plot(
     df_canada, x=:year, y=:pop, kind="bar",
     marker=attr(showscale=true, coloraxis="coloraxis", color=:lifeExp),
     Layout(
-        yaxis_title="population of Canada",
+        yaxis_title_text="population of Canada",
         height=400,
         coloraxis_colorbar_title="life expectancy"
     )
