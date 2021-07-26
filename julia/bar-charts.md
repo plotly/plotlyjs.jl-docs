@@ -46,7 +46,7 @@ using PlotlyJS, CSV, DataFrames
 df = dataset(DataFrame, "medals")
 long_df = stack(df, Not([:nation]), variable_name="medal", value_name="count")
 
-plot(long_df, kind="bar", x=:nation, y=:count, group=:medal, Layout(title="Long-Form Input", barmode="stack"))
+plot(long_df, kind="bar", x=:nation, y=:count, color=:medal, Layout(title="Long-Form Input", barmode="stack"))
 ```
 
 ```julia
@@ -102,7 +102,7 @@ When several rows share the same value of `x` (here Female or Male), the rectang
 ```julia
 using PlotlyJS, CSV, DataFrames
 df = dataset(DataFrame, "tips")
-plot(df, x=:sex, y=:total_bill, group=:time, kind="bar")
+plot(df, x=:sex, y=:total_bill, color=:time, kind="bar")
 ```
 
 Using the `Layout.barmode` property you can switch to stacked mode:
@@ -110,7 +110,7 @@ Using the `Layout.barmode` property you can switch to stacked mode:
 ```julia
 using PlotlyJS, CSV, DataFrames
 df = dataset(DataFrame, "tips")
-plot(df, x=:sex, y=:total_bill, group=:time, kind="bar", Layout(barmode="stack"))
+plot(df, x=:sex, y=:total_bill, color=:time, kind="bar", Layout(barmode="stack"))
 ```
 
 Or you can choose to represent each observation as a small rectangle, stacked to form a larger bar using `Layout.barmode = "relative"`
@@ -118,7 +118,7 @@ Or you can choose to represent each observation as a small rectangle, stacked to
 ```julia
 using PlotlyJS, CSV, DataFrames
 df = dataset(DataFrame, "tips")
-plot(df, x=:sex, y=:total_bill, group=:time, kind="bar", Layout(barmode="relative"))
+plot(df, x=:sex, y=:total_bill, color=:time, kind="bar", Layout(barmode="relative"))
 ```
 
 #### Basic Bar Chart with Julia arrays

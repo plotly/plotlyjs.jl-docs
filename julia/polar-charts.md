@@ -43,7 +43,7 @@ df = dataset(DataFrame, "wind")
 
 plot(scatterpolar(
     df,
-    r=:frequency, theta=:direction, group=:strength,
+    r=:frequency, theta=:direction, color=:strength,
     marker=attr(size=:frequency, sizeref=0.05), mode="markers"
 ))
 
@@ -57,7 +57,7 @@ df = dataset(DataFrame, "wind")
 
 plot(scatterpolar(
     df,
-    r=:frequency, theta=:direction, group=:strength,
+    r=:frequency, theta=:direction, color=:strength,
     marker=attr(size=:frequency, sizeref=0.05), mode="lines"
 ))
 ```

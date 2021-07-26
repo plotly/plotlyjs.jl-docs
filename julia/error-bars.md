@@ -33,10 +33,7 @@ df = dataset(DataFrame, "iris")
 df[!, "e"] = df[!, "sepal_width"] ./ 100
 
 plot(
-    df,
-    x=:sepal_width,
-    y=:sepal_length,
-    group=:species,
+    df, x=:sepal_width, y=:sepal_length, color=:species,
     mode="markers",
     error_x=attr(type="data", array=:e, visible=true),
     error_y=attr(type="data", array=:e, visible=true),
@@ -53,10 +50,7 @@ df = dataset(DataFrame, "iris")
 df[!, "e_plus"] = df[!, "sepal_width"] ./ 100
 df[!, "e_minus"] = df[!, "sepal_width"] ./ 40
 plot(
-    df,
-    x=:sepal_width,
-    y=:sepal_length,
-    group=:species,
+    df, x=:sepal_width, y=:sepal_length, color=:species,
     mode="markers",
     error_y=attr(type="data", array=:e_plus, arrayminus=:e_minus, visible=true),
 )

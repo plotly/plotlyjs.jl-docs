@@ -24,8 +24,6 @@ jupyter:
     thumbnail: thumbnail/axes.png
 ---
 
-<!-- TODO: Not sure if links work -->
-
 This tutorial explain how to set the properties of [2-dimensional Cartesian axes](/julia/figure-structure/#2d-cartesian-trace-types-and-subplots), namely [`layout.xaxis`](/julia/reference/layout/xaxis/) and [`layout.yaxis`](julia/reference/layout/xaxis/).
 
 Other kinds of subplots and axes are described in other tutorials:
@@ -91,7 +89,7 @@ Axis titles are automatically set to the column names when using `plot` and [usi
 using PlotlyJS, CSV, DataFrames
 
 df = dataset(DataFrame, "tips")
-plot(df, x=:total_bill, y=:tip, group=:sex, mode="markers", type="scatter")
+plot(df, x=:total_bill, y=:tip, color=:sex, mode="markers", type="scatter")
 ```
 
 Axis titles can also be overridden using the `[axis]_title` argument of Layout:
@@ -105,13 +103,7 @@ layout = Layout(
     yaxis_title="Tip (\$)",
     legend_title_text="Legend"
 )
-trace = scatter(
-    df,
-    x=:total_bill,
-    y=:tip,
-    group=:sex,
-    mode="markers",
-)
+trace = scatter(df, x=:total_bill, y=:tip, color=:sex, mode="markers",)
 
 plot(trace, layout)
 ```
@@ -153,8 +145,9 @@ using PlotlyJS
 
 trace = scatter(
     mode = "lines+markers",
-    y = [4, 1, 3],
-    x = ["December", "January", "February"])
+    y=[4, 1, 3],
+    x=["December", "January", "February"]
+)
 
 layout = Layout(
     xaxis=attr(
@@ -174,54 +167,35 @@ plot(trace, layout)
 
 ##### Set axis title font
 
-Here is an example that configures the font family, size, and color for the axis titles in a figure created using Plotly Express.
+Here is an example that configures the font family, size, and color for the axis titles in a figure.
 
 ```julia
 using PlotlyJS, CSV, DataFrames
 
 df = dataset(DataFrame, "iris")
 
-layout = Layout(
-    xaxis = attr(
-        title_text="sepal_width",
-        title_font=attr(size=18, family="Courier", color="crimson")
-    ),
-    yaxis = attr(
-        title_text="sepal_length",
-        title_font=attr(size=18, family="Courier", color="crimson")
+
+plot(
+    df, x=:sepal_width, y=:sepal_length, facet_col=:species,
+    mode="markers", kind="scatter",
+    Layout(
+       xaxis=attr(
+            title_text="sepal_width",
+            title_font=attr(size=18, family="Courier", color="crimson")
+        ),
+        yaxis=attr(
+            title_text="sepal_length",
+            title_font=attr(size=18, family="Courier", color="crimson")
+        )
     )
 )
-# TODO: The xaxis title is not repeated for each of the facets like it is in Python
-plot(df, x=:sepal_width, y=:sepal_length, facet_col=:species, mode="markers", kind="scatter", layout)
 ```
 
 #### Tick Placement, Color, and Style
 
-##### Toggling axis tick marks
-
-Axis tick marks are disabled by default for the default `plotly` theme, but they can easily be turned on by setting the `ticks` axis property to `"inside"` (to place ticks inside plotting area) or `"outside"` (to place ticks outside the plotting area).
-
-Here is an example of turning on inside x-axis and y-axis ticks in a faceted figure created using Plotly Express. Note how the `yaxis_col` argument to `Layout` is used to only turn on the y-axis ticks for the left-most subplot.
-
-```julia
-using PlotlyJS, CSV, DataFrames
-
-df = dataset(DataFrame, "iris")
-
-layout = Layout(
-    xaxis_ticks="inside",
-    yaxis_ticks="index",
-    yaxis_col=1
-)
-plot(df, x=:sepal_width, y=:sepal_length, facet_col=:species, kind="scatter", mode="markers",layout)
-
-```
-
 ##### Set number of tick marks (and grid lines)
 
 The approximate number of ticks displayed for an axis can be specified using the `nticks` axis property.
-
-Here is an example of updating the y-axes of a figure created using Plotly Express to display approximately 20 ticks.
 
 ```julia
 using PlotlyJS, CSV, DataFrames
@@ -229,46 +203,25 @@ using PlotlyJS, CSV, DataFrames
 df = dataset(DataFrame, "iris")
 
 plot(
-    df,
-    x=:sepal_width,
-    y=:sepal_length,
-    facet_col=:species,
-    Layout(
-        yaxis = attr(
-            tickmode="auto",
-            nticks=20
-        )
-    ),
-    kind="scatter",
-     mode="markers"
+    df, x=:sepal_width, y=:sepal_length, facet_col=:species,
+    Layout(yaxis=attr(tickmode="auto",nticks=20)),
+    kind="scatter", mode="markers"
 )
-
 ```
 
 ##### Set start position and distance between ticks
 
 The `tick0` and `dtick` axis properties can be used to control to placement of axis ticks as follows: If specified, a tick will fall exactly on the location of `tick0` and additional ticks will be added in both directions at intervals of `dtick`.
 
-Here is an example of updating the y axis of a figure created using Plotly Express to position the ticks at intervals of 0.5, starting at 0.25.
-
 ```julia
 using PlotlyJS, CSV, DataFrames
 
 df = dataset(DataFrame, "iris")
 
 plot(
-    df,
-    x=:sepal_width,
-    y=:sepal_length,
-    facet_col=:species,
-    kind="scatter",
-    mode="markers",
-    Layout(
-        yaxis = attr(
-            dtick=0.5,
-            tick0=0.25
-        )
-    ),
+    df, x=:sepal_width, y=:sepal_length, facet_col=:species,
+    kind="scatter", mode="markers",
+    Layout(yaxis=attr(dtick=0.5, tick0=0.25)),
 )
 ```
 
@@ -276,34 +229,24 @@ plot(
 
 It is possible to configure an axis to display ticks at a set of predefined locations by setting the `tickvals` property to an array of positions.
 
-Here is an example of setting the exact location of ticks on the y axes of a figure created using Plotly Express.
-
 ```julia
 using PlotlyJS, CSV, DataFrames
 
 df = dataset(DataFrame, "iris")
 
 plot(
-    df,
-    x=:sepal_width,
-    y=:sepal_length,
-    facet_col=:species,
-    kind="scatter",
-    mode="markers",
-    Layout(
-        yaxis = attr(tickvals=[5.1, 5.9, 6.3, 7.5])
-    ),
+    df, x=:sepal_width, y=:sepal_length, facet_col=:species,
+    kind="scatter", mode="markers",
+    Layout(yaxis_tickvals=[5.1, 5.9, 6.3, 7.5]),
 )
 
 ```
 
 ##### Style tick marks
 
-As discussed above, tick marks are disabled by default in the default `plotly` theme, but they can be enabled by setting the `ticks` axis property to `"inside"` (to place ticks inside plotting area) or `"outside"` (to place ticks outside the plotting area).
+The `ticks` axis property controls how the tick marks are draw. Set `ticks` to `"inside"` (to place ticks inside plotting area or `"outside"` to place ticks outside the plotting area.
 
 The appearance of these tick marks can be customized by setting their length (`ticklen`), width (`tickwidth`), and color (`tickcolor`).
-
-Here is an example of enabling and styling the tick marks of a faceted figure created using Plotly Express. Note how the `col` argument to `yaxis attr` is used to only turn on and style the y-axis ticks for the left-most subplot.
 
 ```julia
 using PlotlyJS, CSV, DataFrames
@@ -311,14 +254,10 @@ using PlotlyJS, CSV, DataFrames
 df = dataset(DataFrame, "iris")
 
 plot(
-    df,
-    x=:sepal_width,
-    y=:sepal_length,
-    facet_col=:species,
-    kind="scatter",
-    mode="markers",
+    df, x=:sepal_width, y=:sepal_length, facet_col=:species,
+    kind="scatter", mode="markers",
     Layout(
-        yaxis = attr(ticks="outside", tickwidth=2, tickcolor="crimson", ticklen=10, col=1),
+        yaxis=attr(ticks="outside", tickwidth=2, tickcolor="crimson", ticklen=10, col=1),
         xaxis=attr(ticks="outside", tickwidth=2, tickcolor="crimson", ticklen=10)
     ),
 )
@@ -326,9 +265,7 @@ plot(
 
 ##### Toggling axis labels
 
-The axis tick mark labels can be disabled by setting the `showticklabels` axis property to `False`.
-
-Here is an example of disabling tick labels in all subplots for a faceted figure created using Plotly Express.
+The axis tick mark labels can be disabled by setting the `showticklabels` axis property to `false`.
 
 ```julia
 using PlotlyJS, CSV, DataFrames
@@ -336,14 +273,10 @@ using PlotlyJS, CSV, DataFrames
 df = dataset(DataFrame, "iris")
 
 plot(
-    df,
-    x=:sepal_width,
-    y=:sepal_length,
-    facet_col=:species,
-    kind="scatter",
-    mode="markers",
+    df, x=:sepal_width, y=:sepal_length, facet_col=:species,
+    kind="scatter", mode="markers",
     Layout(
-        yaxis = attr(showticklabels=false),
+        yaxis=attr(showticklabels=false),
         xaxis=attr(showticklabels=false)
     ),
 )
@@ -353,17 +286,18 @@ plot(
 
 The orientation of the axis tick mark labels is configured using the `tickangle` axis property. The value of `tickangle` is the angle of rotation, in the clockwise direction, of the labels from vertical in units of degrees. The font family, size, and color for the tick labels are stored under the `tickfont` axis property.
 
-Here is an example of rotating the x-axis tick labels by 45 degrees, and customizing their font properties, in a faceted histogram figure created using Plotly Express.
 
 ```julia
 using PlotlyJS, CSV, DataFrames
 
 df = dataset(DataFrame, "tips")
-layout = Layout(
-    xaxis=attr(tickangle=45, tickfont=attr(family="Rockwell", color="crimson", size=14))
+plot(
+    df, x=:sex, y=:tip,  facet_col=:smoker,
+    type="histogram", histfunc="sum",
+    Layout(
+       xaxis=attr(tickangle=45, tickfont=attr(family="Rockwell", color="crimson", size=14))
+    )
 )
-plot(df, x=:sex, y=:tip, histfunc="sum", facet_col="smoker", type="histogram", layout)
-
 ```
 
 #### Enumerated Ticks with Tickvals and Ticktext
@@ -396,14 +330,10 @@ layout = Layout(
 )
 # Create figure and add line
 plot(
-    apple_df_2016,
-    x=:Date,
-    y=apple_df_2016[!, "AAPL.High"],
-    kind="scatter",
-    mode="lines",
+    apple_df_2016, x=:Date, y=Symbol("AAPL.High"),
+    kind="scatter", mode="lines",
     layout
 )
-
 ```
 
 ### Axis lines: grid and zerolines
@@ -417,15 +347,9 @@ Here is an example of setting `showgrid` to `False` in the graph object figure c
 ```julia
 using PlotlyJS
 
-plot(scatter(
-    mode="lines",
-    y=[1, 0],
-    x=[0,1]
-    ),
-    Layout(
-        xaxis_showgrid=false,
-        yaxis_showgrid=false
-    )
+plot(
+    scatter(mode="lines", y=[1, 0], x=[0,1]),
+    Layout(xaxis_showgrid=false, yaxis_showgrid=false)
 )
 ```
 
@@ -436,11 +360,7 @@ The lines passing through zero can be disabled as well by setting the `zeroline`
 ```julia
 using PlotlyJS
 
-plot(scatter(
-    mode="lines",
-    y=[1, 0],
-    x=[0,1]
-    ),
+plot(scatter(mode="lines", y=[1, 0], x=[0,1]),
     Layout(
         xaxis_showgrid=false,
         xaxis_zeroline=false,
@@ -456,62 +376,56 @@ plot(scatter(
 
 The `showline` axis property controls the visibility of the axis line, and the `linecolor` and `linewidth` axis properties control the color and width of the axis line.
 
-Here is an example of enabling the x and y axis lines, and customizing their width and color, for a faceted histogram created with Plotly Express.
-
 ```julia
 using PlotlyJS, CSV, DataFrames
 
 df = dataset(DataFrame, "tips")
 
-layout = Layout(
-    yaxis =attr(showline=true, linewidth=2, linecolor="black"),
-    xaxis =attr(showline=true, linewidth=2, linecolor="black")
-
+plot(
+    df, x=:sex, y=:tip, facet_col=:smoker,
+    kind="histogram",  histfunc="sum",
+    Layout(
+        yaxis=attr(showline=true, linewidth=2, linecolor="black"),
+        xaxis=attr(showline=true, linewidth=2, linecolor="black")
+    )
 )
-plot(df, x=:sex, y=:tip, histfunc="sum", facet_col=:smoker, kind="histogram", layout)
 ```
 
 ##### Mirroring axis lines
 
-Axis lines can be mirrored to the opposite side of the plotting area by setting the `mirror` axis property to `True`.
+Axis lines can be mirrored to the opposite side of the plotting area by setting the `mirror` axis property to `true`.
 
-Here is an example of mirroring the x and y axis lines in a faceted histogram created using Plotly Express.
 
 ```julia
 using PlotlyJS, CSV, DataFrames
 
 df = dataset(DataFrame, "tips")
 
-layout = Layout(
-    yaxis =attr(showline=true, linewidth=2, linecolor="black", mirror=true),
-    xaxis =attr(showline=true, linewidth=2, linecolor="black", mirror=true)
-
+plot(
+    df, x=:sex, y=:tip, facet_col=:smoker,
+    kind="histogram",  histfunc="sum",
+    Layout(
+        yaxis=attr(showline=true, linewidth=2, linecolor="black", mirror=true),
+        xaxis=attr(showline=true, linewidth=2, linecolor="black", mirror=true)
+    )
 )
-plot(df, x=:sex, y=:tip, histfunc="sum", facet_col=:smoker, kind="histogram", layout)
 ```
 
 ##### Styling grid lines
 
 The width and color of axis grid lines are controlled by the `gridwidth` and `gridcolor` axis properties.
 
-Here is an example of customizing the grid line width and color for a faceted scatter plot created with Plotly Express
-
 ```julia
 using PlotlyJS, CSV, DataFrames
 df = dataset(DataFrame, "iris")
 
-# TODO: xaxis_nticks only sets on first facet
 plot(
-    df,
-    x=:sepal_width,
-    y=:sepal_length,
-    facet_col=:species,
+    df, x=:sepal_width, y=:sepal_length, facet_col=:species,
+    kind="scatter", mode="markers",
     Layout(
-        yaxis = attr(showgrid=true, gridwidth=1, gridcolor="LightPink"),
-        xaxis = attr(showgrid=true, gridwidth=1, gridcolor="LightPink")
+        yaxis=attr(showgrid=true, gridwidth=1, gridcolor="LightPink"),
+        xaxis=attr(showgrid=true, gridwidth=1, gridcolor="LightPink")
     ),
-    kind="scatter",
-    mode="markers"
 )
 ```
 
@@ -535,23 +449,14 @@ plot(scatter(y=[1, 0], x=[0,1]), Layout(
 
 The visible x and y axis range can be configured manually by setting the `range` axis property to a list of two values, the lower and upper boundary.
 
-Here's an example of manually specifying the x and y axis range for a faceted scatter plot created with Plotly Express.
-
 ```julia
 using PlotlyJS, CSV, DataFrames
 df = dataset(DataFrame, "iris")
 
 plot(
-    df,
-    x=:sepal_width,
-    y=:sepal_length,
-    facet_col=:species,
-    Layout(
-        xaxis_range=[1.5, 4.5],
-        yaxis_range=[3, 9]
-    ),
-    kind="scatter",
-    mode="markers"
+    df, x=:sepal_width, y=:sepal_length, facet_col=:species,
+    kind="scatter", mode="markers",
+    Layout(xaxis_range=[1.5, 4.5], yaxis_range=[3, 9]),
 )
 ```
 
@@ -563,17 +468,10 @@ Pan/Zoom can be disabled for a given axis by setting `fixedrange` to `True`.
 using PlotlyJS, CSV, DataFrames
 df = dataset(DataFrame, "iris")
 
-# TODO: fixed_range doesn't work
 plot(
-    df,
-    x=:sepal_width,
-    y=:sepal_length,
-    facet_col=:species,
-    Layout(
-        xaxis=attr(fixedrange=true),
-    ),
-    kind="scatter",
-    mode="markers"
+    df, x=:sepal_width, y=:sepal_length, facet_col=:species,
+    kind="scatter", mode="markers",
+    Layout(xaxis=attr(fixedrange=true),),
 )
 ```
 
@@ -587,17 +485,14 @@ Here is an example of anchoring the scale of the x and y axis with a scale ratio
 using PlotlyJS
 
 layout = Layout(
-    width = 800,
-    height = 500,
-    title = "fixed-ratio axes",
-    yaxis = attr(
-        scaleanchor = "x",
-        scaleratio = 1,
-    )
+    width=800,
+    height=500,
+    title="fixed-ratio axes",
+    yaxis=attr(scaleanchor="x", scaleratio=1)
 )
 trace = scatter(
-    x = [0,1,1,0,0,1,1,2,2,3,3,2,2,3],
-    y = [0,0,1,1,3,3,2,2,3,3,1,1,0,0]
+    x=[0,1,1,0,0,1,1,2,2,3,3,2,2,3],
+    y=[0,0,1,1,3,3,2,2,3,3,1,1,0,0]
 )
 
 plot(trace, layout)
@@ -611,22 +506,15 @@ If an axis needs to be compressed (either due to its own `scaleanchor` and `scal
 using PlotlyJS
 
 layout = Layout(
-    width = 800,
-    height = 500,
-    title =  "fixed-ratio axes with compressed axes",
-    yaxis = attr(
-        scaleanchor = "x",
-        scaleratio = 1,
-    ),
-    xaxis = attr(
-        range=[-1,4],
-        constrain="domain"
-    )
+    width=800, height=500,
+    title="fixed-ratio axes with compressed axes",
+    yaxis=attr( scaleanchor="x", scaleratio=1),
+    xaxis=attr(range=[-1,4], constrain="domain")
 )
 
 trace = scatter(
-    x = [0,1,1,0,0,1,1,2,2,3,3,2,2,3],
-    y = [0,0,1,1,3,3,2,2,3,3,1,1,0,0]
+    x=[0,1,1,0,0,1,1,2,2,3,3,2,2,3],
+    y=[0,0,1,1,3,3,2,2,3,3,1,1,0,0]
 )
 
 plot(trace, layout)
@@ -640,22 +528,14 @@ In the example below, the x and y axis are anchored together, and the range of t
 using PlotlyJS
 
 layout = Layout(
-    width = 800,
-    height = 500,
-    title =  "fixed-ratio axes",
-    yaxis = attr(
-        range=(-0.5, 3.5),
-        constrain="domain"
-    ),
-    xaxis = attr(
-        scaleanchor = "x",
-        scaleratio = 1,
-    )
+    width=800, height=500, title="fixed-ratio axes",
+    yaxis=attr(range=(-0.5, 3.5), constrain="domain"),
+    xaxis=attr(scaleanchor="x", scaleratio=1)
 )
 
 trace = scatter(
-    x = [0,1,1,0,0,1,1,2,2,3,3,2,2,3],
-    y = [0,0,1,1,3,3,2,2,3,3,1,1,0,0]
+    x=[0,1,1,0,0,1,1,2,2,3,3,2,2,3],
+    y=[0,0,1,1,3,3,2,2,3,3,1,1,0,0]
 )
 
 plot(trace, layout)
@@ -669,22 +549,17 @@ If an axis needs to be compressed (either due to its own `scaleanchor` and `scal
 using PlotlyJS
 
 layout = Layout(
-    width = 800,
-    height = 500,
-    title =  "fixed-ratio axes",
-    yaxis = attr(
-        scaleanchor = "x",
-        scaleratio = 1,
-    ),
-    xaxis = attr(
+    width=800, height=500, title="fixed-ratio axes",
+    yaxis=attr(scaleanchor="x",scaleratio=1),
+    xaxis=attr(
         range=[-1,4],  # sets the range of xaxis
         constrain="domain",  # meanwhile compresses the xaxis by decreasing its "domain"
     )
 )
 
 trace = scatter(
-    x = [0,1,1,0,0,1,1,2,2,3,3,2,2,3],
-    y = [0,0,1,1,3,3,2,2,3,3,1,1,0,0]
+    x=[0,1,1,0,0,1,1,2,2,3,3,2,2,3],
+    y=[0,0,1,1,3,3,2,2,3,3,1,1,0,0]
 )
 
 plot(trace, layout)
@@ -694,22 +569,14 @@ plot(trace, layout)
 
 You can tell plotly's automatic axis range calculation logic to reverse the direction of an axis by setting the `autorange` axis property to `"reversed"`.
 
-Here is an example of reversing the direction of the y axes for a faceted scatter plot created using Plotly Express.
-
 ```julia
 using PlotlyJS, CSV, DataFrames
 df = dataset(DataFrame, "iris")
 
 plot(
-    df,
-    x=:sepal_width,
-    y=:sepal_length,
-    facet_col=:species,
-    Layout(
-        yaxis_autorange="reversed"
-    ),
-    kind="scatter",
-    mode="markers"
+    df, x=:sepal_width, y=:sepal_length, facet_col=:species,
+    kind="scatter", mode="markers",
+    Layout(yaxis_autorange="reversed"),
 )
 ```
 
@@ -717,22 +584,14 @@ plot(
 
 The direction of an axis can be reversed when manually setting the range extents by specifying a list containing the upper bound followed by the lower bound (rather that the lower followed by the upper) as the `range` axis property.
 
-Here is an example of manually setting the reversed range of the y axes in a faceted scatter plot figure created using Plotly Express.
-
 ```julia
 using PlotlyJS, CSV, DataFrames
 df = dataset(DataFrame, "iris")
 
 plot(
-    df,
-    x=:sepal_width,
-    y=:sepal_length,
-    facet_col=:species,
-    Layout(
-        yaxis_range=[9,3]
-    ),
-    kind="scatter",
-    mode="markers"
+    df, x=:sepal_width, y=:sepal_length, facet_col=:species,
+    kind="scatter", mode="markers",
+    Layout(yaxis_range=[9, 3]),
 )
 ```
 
@@ -744,12 +603,8 @@ If you are using a `log` type of axis and you want to set the range of the axis,
 using PlotlyJS
 
 x = range(1, stop=200, length=30)
-plot(scatter(
-        x=x,
-        y=x.^3,
-        range_x=[0.8, 250],
-        mode="markers"
-    ),
+plot(
+    scatter(x=x, y=x.^3, range_x=[0.8, 250], mode="markers"),
     Layout(
         yaxis_type="log",
         xaxis_type="log",
@@ -764,23 +619,15 @@ The axis auto-range calculation logic can be configured using the `rangemode` ax
 
 If `rangemode` is `"normal"` (the default), the range is computed based on the min and max values of the input data. If `"tozero"`, the range will always include zero. If `"nonnegative"`, the range will not extend below zero, regardless of the input data.
 
-Here is an example of configuring a faceted scatter plot created using Plotly Express to always include zero for both the x and y axes.
-
 ```julia
 using PlotlyJS
 
 df = dataset(DataFrame, "iris")
 
 plot(
-    df,
-    x=:sepal_width,
-    y=:sepal_length,
-    facet_col=:species,
-    Layout(
-        yaxis_range=[9,3]
-    ),
-    kind="scatter",
-    mode="markers"
+    df, x=:sepal_width, y=:sepal_length, facet_col=:species,
+    kind="scatter", mode="markers",
+    Layout(yaxis_range=[9, 3]),
 )
 ```
 
@@ -790,13 +637,16 @@ plot(
 using PlotlyJS
 
 
-plot(scatter(
-    x = [0,1,1,0,0,1,1,2,2,3,3,2,2,3],
-    y = [0,0,1,1,3,3,2,2,3,3,1,1,0,0]
-), Layout(
-    yaxis_domain=(0.25, 0.75),
-    xaxis_domain=(0.25,0.75)
-))
+plot(
+    scatter(
+        x=[0,1,1,0,0,1,1,2,2,3,3,2,2,3],
+        y=[0,0,1,1,3,3,2,2,3,3,1,1,0,0]
+    ),
+    Layout(
+        yaxis_domain=(0.25, 0.75),
+        xaxis_domain=(0.25,0.75)
+    )
+)
 
 ```
 

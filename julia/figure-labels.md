@@ -27,7 +27,7 @@ jupyter:
 
 ### Automatic Labelling
 
-When using the `plot` method, your axes and legend are automatically labelled, and it's easy to override the automation for a customized figure using the `labels` keyword argument. The title of your figure is up to you though!
+When using the `plot` method with a DataFrame, your axes and legend are automatically labelled, and it's easy to override the automation for a customized figure using the `labels` keyword argument. The title of your figure is up to you though!
 
 Here's a figure with automatic labels and then the same figure with overridden labels.
 
@@ -37,12 +37,8 @@ using PlotlyJS, CSV, DataFrames
 df = dataset(DataFrame, "iris")
 
 plot(
-    df,
-    x=:sepal_length,
-    y=:sepal_width,
-    group=:species,
-    kind="scatter",
-    mode="markers",
+    df, x=:sepal_length, y=:sepal_width, color=:species,
+    kind="scatter", mode="markers",
     Layout(
         title="Automatic Labels Based on Data Frame Column Names"
     )
@@ -55,18 +51,14 @@ using PlotlyJS, CSV, DataFrames
 df = dataset(DataFrame, "iris")
 
 plot(
-    df,
-    x=:sepal_length,
-    y=:sepal_width,
-    group=:species,
-    kind="scatter",
-    mode="markers",
-    Layout(
-        title="Automatic Labels Based on Data Frame Column Names",
-        xaxis_title="Sepal Length (cm)",
-        yaxis_title="Sepal Width (cm)",
-        legend_title_text="Species of Iris"
-    )
+    df, x=:sepal_length, y=:sepal_width, color=:species,
+    kind="scatter", mode="markers",
+    labels=Dict(
+        :sepal_length => "Sepal Length (cm)",
+        :sepal_width => "Sepal Width (cm)",
+        :species => "Species"
+    ),
+    Layout(title="Automatic Labels Based on Data Frame Column Names",)
 )
 
 ```
@@ -81,12 +73,8 @@ using PlotlyJS, CSV, DataFrames
 df = dataset(DataFrame, "iris")
 
 plot(
-    df,
-    x=:sepal_length,
-    y=:sepal_width,
-    group=:species,
-    kind="scatter",
-    mode="markers",
+    df, x=:sepal_length, y=:sepal_width, color=:species,
+    kind="scatter", mode="markers",
     Layout(
         font_family="Courier New",
         font_color="blue",

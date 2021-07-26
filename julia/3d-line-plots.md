@@ -39,7 +39,7 @@ using PlotlyJS, CSV, DataFrames
 df = dataset(DataFrame, "gapminder")
 df_europe = df[df.continent .== "Europe", :]
 
-plot(df_europe, x=:gdpPercap, y=:pop, z=:year, type="scatter3d", mode="lines", group=:country)
+plot(df_europe, x=:gdpPercap, y=:pop, z=:year, type="scatter3d", mode="lines", color=:country)
 ```
 
 #### 3D Line Plot of Brownian Motion

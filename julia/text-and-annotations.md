@@ -27,7 +27,7 @@ jupyter:
 As a general rule, there are two ways to add text labels to figures:
 
 1. Certain trace types, notably in the `scatter` family (e.g. `scatter`, `scatter3d`, `scattergeo` etc), support a `text` attribute, and can be displayed with or without markers.
-2. Standalone text annotations can be added to figures using `fig.add_annotation()`, with or without arrows, and they can be positioned absolutely within the figure, or they can be positioned relative to the axes of 2d or 3d cartesian subplots i.e. in data coordinates.
+2. Standalone text annotations can be added to figures by setting `Layout.annotaitons`, with or without arrows, and they can be positioned absolutely within the figure, or they can be positioned relative to the axes of 2d or 3d cartesian subplots i.e. in data coordinates.
 
 The differences between these two approaches are that:
 
@@ -35,6 +35,15 @@ The differences between these two approaches are that:
 - Text annotations can be positioned absolutely or relative to data coordinates in 2d/3d cartesian subplots only.
 - Traces cannot be positioned absolutely but can be positioned relative to data coordinates in any subplot type.
 - Traces also be used to [draw shapes](/julia/shapes/), although there is a [shape equivalent to text annotations](/julia/shapes/).
+
+### Setting the Title
+
+The simplest form of text on a figure is the title. The `title` attribute of the `Layout` object can be used to set the title text.
+
+```julia
+using PlotlyJS
+plot(rand(10, 4), Layout(title="Random Data"))
+```
 
 ### Text on scatter plots
 
@@ -46,22 +55,17 @@ using PlotlyJS, CSV, DataFrames
 df = dataset(DataFrame, "gapminder")
 df = df[(df.year .== 2007) .& (df.continent .== "Americas"), :]
 
-layout = Layout(
-    height=800,
-    title_text="GDP and Life Expectancy (Americas, 2007)",
-    xaxis_type="log",
+plot(
+    scatter(
+        df, x=:gdpPercap, y=:lifeExp, text=:country,
+        mode="markers+text", size_max=60,
+        textposition="top center",
+    ),
+    Layout(
+        height=800, xaxis_type="log",
+        title_text="GDP and Life Expectancy (Americas, 2007)",
+    )
 )
-trace = scatter(
-    df,
-    x=:gdpPercap,
-    y=:lifeExp,
-    text=:country,
-    textposition="top center",
-    mode="markers+text",
-    size_max=60
-)
-
-plot(trace, layout)
 ```
 
 ### Text positioning on scatter and line plots
@@ -158,7 +162,7 @@ plot(trace)
 
 ### Text Annotations
 
-Annotations can be added to a figure using `fig.add_annotation()`.
+Annotations can be added to a figure using by setting the `annotations` field of the Layout. This field expects an array, regardless of how many annotations you have.
 
 ```julia
 using PlotlyJS
@@ -174,7 +178,6 @@ trace2 = scatter(
     y=[0, 4, 5, 1, 2, 2, 3, 4, 2]
 )
 
-# TODO: There is no `add_annotation` method in julia, putting it in layout for now
 layout = Layout(
     showlegend=false,
     annotations=[
@@ -305,7 +308,6 @@ trace2 = scatter(
     y=[0, 4, 5, 1, 2, 2, 3, 4, 2]
 )
 
-# TODO: No `add_annotation` method putting in layout for now
 layout = Layout(
     showlegend=false,
     annotations=[
@@ -395,7 +397,6 @@ plot(trace, layout)
 
 By default, text annotations have `xref` and `yref` set to `"x"` and `"y"`, respectively, meaning that their x/y coordinates are with respect to the axes of the plot. This means that panning the plot will cause the annotations to move. Setting `xref` and/or `yref` to `"paper"` will cause the `x` and `y` attributes to be interpreted in [paper coordinates](/julia/figure-structure/#positioning-with-paper-container-coordinates-or-axis-domain-coordinates).
 
-<!-- TODO: not sure if this link will work -->
 
 Try panning or zooming in the following figure:
 
