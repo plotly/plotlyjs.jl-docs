@@ -17,7 +17,7 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "requirements.txt" }}
+            - v1-dependencies-{{ checksum "requirements.txt" }}-{{ checksum "Manifest.toml" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
@@ -34,12 +34,13 @@ jobs:
             wget -d https://julialang-s3.julialang.org/bin/linux/x64/1.6/julia-1.6.2-linux-x86_64.tar.gz
             tar -xzf julia-1.6.2-linux-x86_64.tar.gz
             echo 'export PATH="/home/circleci/project/julia-1.6.2/bin:$PATH"' >> $BASH_ENV
+            echo 'export JULIA_PKG_SERVER=""' >> $BASH_ENV
             /home/circleci/project/julia-1.6.2/bin/julia -e 'using Pkg; Pkg.activate("."); Pkg.instantiate()'
 
       - save_cache:
           paths:
             - ./venv
-          key: v1-dependencies-{{ checksum "requirements.txt" }}
+          key: v1-dependencies-{{ checksum "requirements.txt" }}-{{ checksum "Manifest.toml" }}
 
       - run:
           name: make html
