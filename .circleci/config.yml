@@ -23,7 +23,7 @@ jobs:
       - run:
           name: install dependencies
           command: |
-            apt update && apt install -y unzip zip make
+            apt update && apt install -y unzip zip make git
             echo 'export JULIA_PKG_SERVER=""' >> $BASH_ENV
             julia -e 'using Pkg; Pkg.activate("."); Pkg.instantiate()'
 
@@ -58,6 +58,7 @@ jobs:
               cd ../..
             fi
             tar -zcf build/html.tgz build/html
+            rm -rf build/html
 
       - store_artifacts:
           path: build
