@@ -4,8 +4,7 @@ jobs:
   build-doc:
     resource_class: xlarge
     docker:
-      # specify the version you desire here
-      - image: circleci/python:3.9-buster
+      - image: julia:1.6.2-buster
 
     steps:
       - add_ssh_keys:
@@ -17,37 +16,27 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "requirements.txt" }}-{{ checksum "Manifest.toml" }}
+            - v1-dependencies-{{ checksum "Manifest.toml" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
       - run:
           name: install dependencies
           command: |
-            # python deps (for jupytext, nbconvert)
-            python3 -m venv venv
-            . venv/bin/activate
-            pip install -U pip
-            pip install -r requirements.txt
-
-            # now juila deps
-            wget -d https://julialang-s3.julialang.org/bin/linux/x64/1.6/julia-1.6.2-linux-x86_64.tar.gz
-            tar -xzf julia-1.6.2-linux-x86_64.tar.gz
-            echo 'export PATH="/home/circleci/project/julia-1.6.2/bin:$PATH"' >> $BASH_ENV
+            apt update && apt install -y unzip zip
             echo 'export JULIA_PKG_SERVER=""' >> $BASH_ENV
-            /home/circleci/project/julia-1.6.2/bin/julia -e 'using Pkg; Pkg.activate("."); Pkg.instantiate()'
+            julia -e 'using Pkg; Pkg.activate("."); Pkg.instantiate()'
 
       - save_cache:
           paths:
-            - ./venv
-          key: v1-dependencies-{{ checksum "requirements.txt" }}-{{ checksum "Manifest.toml" }}
+            - /root/.julia
+          key: v1-dependencies-{{ checksum "Manifest.toml" }}
 
       - run:
           name: make html
           command: |
-            . venv/bin/activate
             echo ${mapbox_token} > julia/.mapbox_token
-            make -kj8 || make -kj8
+            make html || make html
             if [ "${CIRCLE_BRANCH}" == "doc-prod" ]; then
               cd build/html
               git init
@@ -69,7 +58,6 @@ jobs:
               cd ../..
             fi
             tar -zcf build/html.tgz build/html
-            rm -rf build/html build/ipynb
 
       - store_artifacts:
           path: build
