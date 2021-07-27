@@ -23,7 +23,7 @@ jobs:
       - run:
           name: install dependencies
           command: |
-            apt update && apt install -y unzip zip
+            apt update && apt install -y unzip zip make
             echo 'export JULIA_PKG_SERVER=""' >> $BASH_ENV
             julia -e 'using Pkg; Pkg.activate("."); Pkg.instantiate()'
 
