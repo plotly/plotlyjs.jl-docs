@@ -76,7 +76,7 @@ if (typeof require !== 'undefined') {
 
 function output_path(x::DocPage)
     base_name = rsplit(x.fn, ".", limit=2)[1]
-    joinpath("build", "html", string(base_name, ".html"))
+    joinpath("build", "html", string("2021-08-17-", base_name, ".html"))
 end
 
 # writing output
