@@ -20,7 +20,14 @@ end
 
 Markdown.html(io::IO, p::PlotlyJS.SyncPlot) = Markdown.html(io, p.plot)
 function Markdown.html(io::IO, p::PlotlyBase.Plot)
-    return show(io, MIME"text/html"(), p, full_html=false, include_plotlyjs="require-loaded")
+    return show(
+        io,
+        MIME"text/html"(),
+        p,
+        full_html=false,
+        include_plotlyjs="require-loaded",
+        include_mathjax=missing
+    )
 end
 
 
