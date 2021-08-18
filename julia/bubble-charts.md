@@ -18,7 +18,7 @@ jupyter:
     layout: base
     name: Bubble Charts
     order: 5
-    page_type: u-guide
+    page_type: example_index
     permalink: julia/bubble-charts/
     redirect_from: julia/bubble-charts-tutorial/
     thumbnail: thumbnail/bubble.jpg

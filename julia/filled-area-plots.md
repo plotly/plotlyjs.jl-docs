@@ -18,7 +18,7 @@ jupyter:
     layout: base
     name: Filled Area Plots
     order: 7
-    page_type: u-guide
+    page_type: example_index
     permalink: julia/filled-area-plots/
     thumbnail: thumbnail/area.jpg
 ---

@@ -16,6 +16,7 @@ jupyter:
     display_as: file_settings
     language: julia
     layout: base
+    page_type: example_index
     name: Embedding Plotly Graphs in HTML
     order: 22
     permalink: julia/embedding-plotly-graphs-in-html/

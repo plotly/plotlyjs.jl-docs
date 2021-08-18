@@ -18,7 +18,7 @@ jupyter:
     layout: base
     name: 3D Line Plots
     order: 7
-    page_type: u-guide
+    page_type: example_index
     permalink: julia/3d-line-plots/
     thumbnail: thumbnail/3d-line.jpg
 ---

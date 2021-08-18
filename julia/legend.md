@@ -17,6 +17,7 @@ jupyter:
     language: julia
     layout: base
     name: Legends
+    page_type: example_index
     order: 15
     permalink: julia/legend/
     redirect_from: julia/horizontal-legend/

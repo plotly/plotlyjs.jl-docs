@@ -18,7 +18,7 @@ jupyter:
     layout: base
     name: Multiple Chart Types
     order: 18
-    page_type: u-guide
+    page_type: example_index
     permalink: julia/graphing-multiple-chart-types/
     thumbnail: thumbnail/multiple-chart-type.jpg
 ---
