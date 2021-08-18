@@ -23,6 +23,7 @@ jupyter:
     thumbnail: thumbnail/3d-line.jpg
 ---
 
+
 ### 3D Line plots
 
 ```julia

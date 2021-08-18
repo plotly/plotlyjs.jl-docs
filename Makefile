@@ -7,7 +7,7 @@ HTML_DIR ?= build/html
 FAIL_DIR ?= build/failures
 
 MD_FILES := $(shell ls $(MD_DIR)/*.md)
-HTML_FILES := $(patsubst $(MD_DIR)/%.md,$(HTML_DIR)/%.html,$(MD_FILES))
+HTML_FILES := $(patsubst $(MD_DIR)/%.md,$(HTML_DIR)/2021-08-17-%.html,$(MD_FILES))
 
 all: $(HTML_FILES)
 
