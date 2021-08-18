@@ -19,7 +19,7 @@ jupyter:
     layout: base
     name: Subplots
     order: 17
-    page_type: u-guide
+    page_type: example_index
     permalink: julia/subplots/
     thumbnail: thumbnail/subplots.jpg
 ---

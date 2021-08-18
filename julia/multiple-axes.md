@@ -17,6 +17,7 @@ jupyter:
     display_as: file_settings
     language: julia
     layout: base
+    page_type: example_index
     name: Multiple Axes
     order: 16
     permalink: julia/multiple-axes/

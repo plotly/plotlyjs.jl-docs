@@ -15,6 +15,7 @@ jupyter:
     description: How to manipulate the graph size, margins and background color.
     display_as: file_settings
     language: julia
+    page_type: example_index
     layout: base
     name: Setting Graph Size
     order: 11

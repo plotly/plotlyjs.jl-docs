@@ -18,7 +18,7 @@ jupyter:
     layout: base
     name: Polar Charts
     order: 16
-    page_type: u-guide
+    page_type: example_index
     permalink: julia/polar-chart/
     thumbnail: thumbnail/polar.gif
 ---

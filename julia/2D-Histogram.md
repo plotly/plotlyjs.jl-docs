@@ -18,7 +18,7 @@ jupyter:
     layout: base
     name: 2D Histograms
     order: 5
-    page_type: u-guide
+    page_type: example_index
     permalink: julia/2D-Histogram/
     redirect_from:
     - julia/2d-histogram/

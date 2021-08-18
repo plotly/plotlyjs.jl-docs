@@ -17,6 +17,7 @@ jupyter:
     language: julia
     layout: base
     name: Log Plots
+    page_type: example_index
     order: 5
     permalink: julia/log-plot/
     thumbnail: thumbnail/log.jpg

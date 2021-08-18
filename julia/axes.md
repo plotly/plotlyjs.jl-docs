@@ -20,6 +20,7 @@ jupyter:
     layout: base
     name: Axes
     order: 14
+    page_type: example_index
     permalink: julia/axes/
     thumbnail: thumbnail/axes.png
 ---
