@@ -41,7 +41,7 @@ function prep_file(fn::String)
     frontmatter = YAML.load(meta_block[1])
 
     # parse markdown
-    md_content = content[length(meta_block.match)+1:end]
+    md_content = content[length(meta_block.match) + 1:end]
     parsed = Markdown.parse(md_content)
     # make module to isolate execution environments for each file
     mod = eval(:(module $(gensym()) end))
@@ -58,22 +58,6 @@ function prep_file(fn::String)
     return DocPage(fn, frontmatter, html_content)
 end
 
-extra_js = """
-<script type="text/javascript>
-if (typeof require !== 'undefined') {
-    require.undef("plotly");
-    requirejs.config({
-        paths: {
-            'plotly': ['https://cdn.plot.ly/plotly-2.3.0.min']
-        }
-    });
-    require(['plotly'], function(Plotly) {
-        window._Plotly = Plotly;
-    });
-}
-</script>
-"""
-
 function output_path(x::DocPage)
     base_name = rsplit(x.fn, ".", limit=2)[1]
     joinpath("build", "html", string("2021-08-17-", base_name, ".html"))
@@ -89,7 +73,6 @@ function write_yaml_header(io::IO, x::DocPage)
     end
 end
 
-write_extra_script(io::IO, x::DocPage) = println(io, extra_js)
 write_html_content(io::IO, x::DocPage) = println(io, x.html_content)
 
 function write_output(x::DocPage)
@@ -102,13 +85,9 @@ function write_output(x::DocPage)
         write_yaml_header(f, x)
 
         println(f, "\n\n{% raw %}")
-        println(f, "<html><body>")
-
-        write_extra_script(f, x)
 
         write_html_content(f, x)
 
-        println(f, "</body></html>")
         println(f, "\n\n{% endraw %}")
     end
     @info "Wrote to $(output_fn)"
