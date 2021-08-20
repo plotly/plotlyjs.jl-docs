@@ -92,8 +92,11 @@ function write_output(x::DocPage)
         write_yaml_header(f, x)
 
         println(f, "\n\n{% raw %}")
+        println(f, "<div class=\"rendered rendered_html\">")
 
         write_html_content(f, x)
+
+        println(f, "</div>")
 
         println(f, "\n\n{% endraw %}")
     end
