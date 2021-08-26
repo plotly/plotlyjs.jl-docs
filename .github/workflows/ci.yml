@@ -24,7 +24,7 @@ jobs:
           version: ${{ matrix.julia-version }}
           arch: ${{ matrix.julia-arch }}
       - name: run make process
-        run: julia --project =@. -e '
+        run: julia --project=@. -e '
           import Pkg
           Pkg.activate(".");
           Pkg.instantiate();
