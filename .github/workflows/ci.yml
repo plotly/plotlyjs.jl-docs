@@ -19,6 +19,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      - name: Set up notebook state cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.julia
+          key: ${{ runner.os }}-julia-packages-${{ hashFiles('**/Project.toml', '**/Manifest.toml') }}
       - uses: julia-actions/setup-julia@latest
         with:
           version: ${{ matrix.julia-version }}
