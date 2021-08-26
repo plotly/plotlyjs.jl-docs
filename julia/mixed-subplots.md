@@ -23,7 +23,7 @@ jupyter:
     thumbnail: thumbnail/mixed_subplot.JPG
 ---
 
-#### Mixed Subplot
+#### Mixed Subplots
 
 ```julia
 using PlotlyJS, CSV, DataFrames, HTTP
@@ -32,9 +32,9 @@ df = CSV.File(
     HTTP.get( "https://raw.githubusercontent.com/plotly/datasets/master/volcano_db.csv").body
 ) |> DataFrame
 
-value_counts(df, col) = combine(groupby(df, col), nrow)
+
 # frequency of Country
-freq = value_counts(df, "Country")
+freq = combine(groupby(df, :Country), nrow)
 
 # read in 3d volcano surface data
 df_v = CSV.File(
@@ -47,7 +47,7 @@ fig = make_subplots(
     column_widths=[0.6, 0.4],
     row_heights=[0.4, 0.6],
     specs=[
-        Spec(kind="xy", rowspan=2) Spec(kind="xy")
+        Spec(kind="geo", rowspan=2) Spec(kind="xy")
         missing Spec(kind= "scene")
     ]
 )

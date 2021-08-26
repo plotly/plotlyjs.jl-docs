@@ -32,41 +32,41 @@ set the range, title, ticks, color etc. of the axes.
 For creating 3D charts, see [this page](https://plotly.com/julia/3d-charts/).
 
 ```julia
-    using PlotlyJS
+using PlotlyJS
 
-    N = 70
-    layout = Layout(
-        scene=attr(
-            xaxis=attr(
-                nticks=4,
-                range=[-100,100]
-            ),
-            yaxis=attr(
-                nticks=4,
-                range=[-50,100]
-            ),
-            zaxis=attr(
-                nticks=4,
-                range=[-100,100]
-            ),
+N = 70
+layout = Layout(
+    scene=attr(
+        xaxis=attr(
+            nticks=4,
+            range=[-100,100]
         ),
-        width=700,
-        margin=attr(
-            r=20,
-            l=10,
-            b=10,
-            t=10
+        yaxis=attr(
+            nticks=4,
+            range=[-50,100]
         ),
-    )
+        zaxis=attr(
+            nticks=4,
+            range=[-100,100]
+        ),
+    ),
+    width=700,
+    margin=attr(
+        r=20,
+        l=10,
+        b=10,
+        t=10
+    ),
+)
 
-    plot(mesh3d(
-            x=(70 .* randn(N)),
-            y=(55 .* randn(N)),
-            z=(40 .* randn(N)),
-            color="rgba(244,22,100,0.6)"
-        ),
-        layout,
-    )
+plot(mesh3d(
+        x=(70 .* randn(N)),
+        y=(55 .* randn(N)),
+        z=(40 .* randn(N)),
+        color="rgba(244,22,100,0.6)"
+    ),
+    layout,
+)
 ```
 
 ### Fixed Ratio Axes
@@ -76,63 +76,31 @@ using PlotlyJS
 
 N = 50
 
-fig = make_subplots(rows=2, cols=2,
-                    specs=fill(Spec(kind="scene"), 2, 2),
-                    print_grid=false)
-for i in [1,2]
-    for j in [1,2]
-        append_trace!(
-            mesh3d(
-                x=(60 .* randn(N)),
-                y=(25 .* randn(N)),
-                z=(40 .* randn(N)),
-                opacity=0.5,
-              ),
-            row=i, col=j)
-    end
-end
+fig = make_subplots(rows=2, cols=2, specs=fill(Spec(kind="scene"), 2, 2))
 
 relayout!(
     fig,
-    width=700, margin=dict(r=10, l=10, b=10, t=10),
     # fix the ratio in the top left subplot to be a cube
     scene_aspectmode="cube",
     # manually force the z-axis to appear twice as big as the other two
-    scene2_aspectmode="manual",
-    scene2_aspectratio=dict(x=1, y=1, z=2),
+    scene2=attr(aspectmode="manual", aspectratio=attr(x=1, y=1, z=2)),
     # draw axes in proportion to the proportion of their ranges
-    scene3_aspectmode="data"
+    scene3_aspectmode="data",
     # automatically produce something that is well proportioned using "data" as the default
-    scene4_aspectmode="auto"
+    scene4_aspectmode="auto",
 )
 
-fig
-```
-
-```julia
-using PlotlyJS
-
-N = 50
-
-fig = make_subplots(
-    rows=2,
-    cols=2,
-    specs=fill(Spec(kind="scene"), 2,2),
-)
-
-for i in [1,2]
-    for j in [1,2]
-        add_trace!(p,
-            mesh3d(
-                x=(60 .* randn(N)),
-                y=(25 .* randn(N)),
-                z=(40 .* randn(N)),
-                opacity=0.5,
-            ),
-            row=i, col=j
-        )
-
-    end
+for i in 1:2, j in 1:2
+    add_trace!(
+        fig,
+        mesh3d(
+            x=(60 .* randn(N)),
+            y=(25 .* randn(N)),
+            z=(40 .* randn(N)),
+            opacity=0.5,
+        ),
+        row=i, col=j
+    )
 end
 
 fig

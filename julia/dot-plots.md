@@ -18,7 +18,7 @@ jupyter:
     layout: base
     name: Dot Plots
     order: 6
-    page_type: u-guide
+    page_type: example_index
     permalink: julia/dot-plots/
     thumbnail: thumbnail/dot-plot.jpg
 ---
@@ -30,7 +30,7 @@ Dot plots (also known as [Cleveland dot plots](<https://en.wikipedia.org/wiki/Do
 For the same data, we show below how to create a dot plot using `scatter`.
 
 ```julia
-using PlotlyJS, CSV, DataFrames
+using PlotlyJS, DataFrames
 
 schools = ["Brown", "NYU", "Notre Dame", "Cornell", "Tufts", "Yale",
            "Dartmouth", "Chicago", "Columbia", "Duke", "Georgetown",
@@ -40,11 +40,11 @@ n_schools = size(schools)[1]
 women_salary = [72, 67, 73, 80, 76, 79, 84, 78, 86, 93, 94, 90, 92, 96, 94, 112]
 men_salary = [92, 94, 100, 107, 112, 114, 114, 118, 119, 124, 131, 137, 141, 151, 152, 165]
 
-df = DataFrame([
-    :school => vcat(repeat(schools, 2)),
-    :salary => vcat(men_salary, women_salary),
-    :gender => vcat(repeat(["Men"], n_schools), repeat(["Women"], n_schools))
-])
+df = DataFrame(
+    school=vcat(repeat(schools, 2)),
+    salary=vcat(men_salary, women_salary),
+    gender=vcat(repeat(["Men"], n_schools), repeat(["Women"], n_schools))
+)
 
 # Use column names of df for the different parameters x, y, color, ...
 plot(
@@ -62,7 +62,7 @@ plot(
 ```
 
 ```julia
-using PlotlyJS,=
+using PlotlyJS
 
 schools = ["Brown", "NYU", "Notre Dame", "Cornell", "Tufts", "Yale",
            "Dartmouth", "Chicago", "Columbia", "Duke", "Georgetown",

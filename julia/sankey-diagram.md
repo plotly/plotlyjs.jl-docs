@@ -18,7 +18,7 @@ jupyter:
     layout: base
     name: Sankey Diagram
     order: 12
-    page_type: u-guide
+    page_type: example_index
     permalink: julia/sankey-diagram/
     thumbnail: thumbnail/sankey.jpg
 ---

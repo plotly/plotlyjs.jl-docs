@@ -18,7 +18,7 @@ jupyter:
     layout: base
     name: 3D Isosurface Plots
     order: 10
-    page_type: u-guide
+    page_type: example_index
     permalink: juila/3d-isosurface-plots/
     redirect_from: julia/isosurfaces-with-marching-cubes/
     thumbnail: thumbnail/isosurface.jpg
@@ -51,20 +51,6 @@ For a clearer visualization of internal surfaces, it is possible to remove the c
 ```julia
 using PlotlyJS
 
-function mgrid(arrays...)
-    lengths = collect(length.(arrays))
-    uno = ones(Int, length(arrays))
-    out = []
-    for i in 1:length(arrays)
-       repeats = copy(lengths)
-       repeats[i] = 1
-
-       shape = copy(uno)
-       shape[i] = lengths[i]
-       push!(out, reshape(arrays[i], shape...) .* ones(repeats...))
-    end
-    out
-end
 
 data = range(-5, stop=5, length=40)
 X, Y, Z = mgrid(data, data, data)
@@ -88,20 +74,6 @@ plot(isosurface(
 ```julia
 using PlotlyJS
 
-function mgrid(arrays...)
-    lengths = collect(length.(arrays))
-    uno = ones(Int, length(arrays))
-    out = []
-    for i in 1:length(arrays)
-       repeats = copy(lengths)
-       repeats[i] = 1
-
-       shape = copy(uno)
-       shape[i] = lengths[i]
-       push!(out, reshape(arrays[i], shape...) .* ones(repeats...))
-    end
-    out
-end
 
 data = range(-5, stop=5, length=40)
 X, Y, Z = mgrid(data, data, data)
@@ -126,20 +98,6 @@ plot(isosurface(
 ```julia
 using PlotlyJS
 
-function mgrid(arrays...)
-    lengths = collect(length.(arrays))
-    uno = ones(Int, length(arrays))
-    out = []
-    for i in 1:length(arrays)
-       repeats = copy(lengths)
-       repeats[i] = 1
-
-       shape = copy(uno)
-       shape[i] = lengths[i]
-       push!(out, reshape(arrays[i], shape...) .* ones(repeats...))
-    end
-    out
-end
 
 data = range(-5, stop=5, length=40)
 X, Y, Z = mgrid(data, data, data)
@@ -166,20 +124,6 @@ Here we visualize slices parallel to the axes on top of isosurfaces. For a clear
 ```julia
 using PlotlyJS
 
-function mgrid(arrays...)
-    lengths = collect(length.(arrays))
-    uno = ones(Int, length(arrays))
-    out = []
-    for i in 1:length(arrays)
-       repeats = copy(lengths)
-       repeats[i] = 1
-
-       shape = copy(uno)
-       shape[i] = lengths[i]
-       push!(out, reshape(arrays[i], shape...) .* ones(repeats...))
-    end
-    out
-end
 
 data = range(-5, stop=5, length=40)
 X, Y, Z = mgrid(data, data, data)
@@ -202,24 +146,6 @@ plot(isosurface(
 #### Multiple Isosurfaces with Caps
 
 ```julia
-import plotly.graph_objects as go
-import numpy as np
-
-
-function mgrid(arrays...)
-    lengths = collect(length.(arrays))
-    uno = ones(Int, length(arrays))
-    out = []
-    for i in 1:length(arrays)
-       repeats = copy(lengths)
-       repeats[i] = 1
-
-       shape = copy(uno)
-       shape[i] = lengths[i]
-       push!(out, reshape(arrays[i], shape...) .* ones(repeats...))
-    end
-    out
-end
 
 data = range(-5, stop=5, length=40)
 X, Y, Z = mgrid(data, data, data)
@@ -245,20 +171,6 @@ plot(isosurface(
 ```julia
 using PlotlyJS
 
-function mgrid(arrays...)
-    lengths = collect(length.(arrays))
-    uno = ones(Int, length(arrays))
-    out = []
-    for i in 1:length(arrays)
-       repeats = copy(lengths)
-       repeats[i] = 1
-
-       shape = copy(uno)
-       shape[i] = lengths[i]
-       push!(out, reshape(arrays[i], shape...) .* ones(repeats...))
-    end
-    out
-end
 
 data = range(-5, stop=5, length=40)
 X, Y, Z = mgrid(data, data, data)
@@ -270,7 +182,7 @@ plot(isosurface(
     y=Y[:],
     z=Z[:],
     value=values[:],
-    colorscale="BlueRed",
+    colorscale=colors.RdBu_3,
     isomin=10,
     isomax=50,
     surface_count=3,
@@ -283,20 +195,6 @@ plot(isosurface(
 ```julia
 using PlotlyJS
 
-function mgrid(arrays...)
-    lengths = collect(length.(arrays))
-    uno = ones(Int, length(arrays))
-    out = []
-    for i in 1:length(arrays)
-       repeats = copy(lengths)
-       repeats[i] = 1
-
-       shape = copy(uno)
-       shape[i] = lengths[i]
-       push!(out, reshape(arrays[i], shape...) .* ones(repeats...))
-    end
-    out
-end
 
 data = range(-5, stop=5, length=40)
 X, Y, Z = mgrid(data, data, data)

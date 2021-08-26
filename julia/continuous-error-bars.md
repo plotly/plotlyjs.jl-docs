@@ -18,7 +18,7 @@ jupyter:
     layout: base
     name: Continuous Error Bands
     order: 15
-    page_type: u-guide
+    page_type: example_index
     permalink: julia/continuous-error-bars/
     thumbnail: thumbnail/error-cont.jpg
 ---

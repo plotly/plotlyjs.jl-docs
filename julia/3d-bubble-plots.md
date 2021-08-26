@@ -20,7 +20,7 @@ jupyter:
     layout: base
     name: 3D Bubble Charts
     order: 6
-    page_type: u-guide
+    page_type: example_index
     permalink: julia/3d-bubble-charts/
     thumbnail: thumbnail/3dbubble.jpg
 ---
@@ -142,8 +142,6 @@ plot(trace, layout)
 
 Plot planets' distance from sun, density, and gravity with bubble size based on planet size
 
-<!-- TODO: Color bar isn't showing up... -->
-
 ```julia
 using PlotlyJS
 
@@ -161,7 +159,7 @@ trace = scatter3d(
     z = gravity,
     text = planets,
     mode = "markers",
-    marker = dict(
+    marker = attr(
         sizemode = "diameter",
         sizeref = 750, # info on sizeref: https://plotly.com/julia/reference/scatter/#scatter-marker-sizeref
         size = planet_diameter,

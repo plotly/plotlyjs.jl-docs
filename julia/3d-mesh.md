@@ -18,18 +18,16 @@ jupyter:
     layout: base
     name: 3D Mesh Plots
     order: 9
-    page_type: u-guide
+    page_type: example_index
     permalink: julia/3d-mesh/
     thumbnail: thumbnail/3d-mesh.jpg
 ---
 
-### Simple 3D Mesh example
+### Basic 3D Mesh example
 
-`go.Mesh3d` draws a 3D set of triangles with vertices given by `x`, `y` and `z`. If only coordinates are given, an algorithm such as [Delaunay triangulation](https://en.wikipedia.org/wiki/Delaunay_triangulation) is used to draw the triangles. Otherwise the triangles can be given using the `i`, `j` and `k` parameters (see examples below).
+The `mesh3d` trace type draws a 3D set of triangles with vertices given by `x`, `y` and `z`. If only coordinates are given, an algorithm such as [Delaunay triangulation](https://en.wikipedia.org/wiki/Delaunay_triangulation) is used to draw the triangles. Otherwise the triangles can be given using the `i`, `j` and `k` parameters (see examples below).
 
 ```julia
-import plotly.graph_objects as go
-import numpy as np
 using PlotlyJS, CSV, DataFrames, HTTP
 
 # Download data set from plotly repo

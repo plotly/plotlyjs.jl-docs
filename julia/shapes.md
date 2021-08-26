@@ -31,7 +31,7 @@ As a general rule, there are two ways to add shapes (lines or polygons) to figur
 1. Trace types in the `scatter` family (e.g. `scatter`, `scatter3d`, `scattergeo` etc) can be drawn with `mode="lines"` and optionally support a `fill="self"` attribute, and so can be used to draw open or closed shapes on figures.
 2. Standalone lines, ellipses and rectangles can be added to figures using `fig.add_shape()`, and they can be positioned absolutely within the figure, or they can be positioned relative to the axes of 2d cartesian subplots i.e. in data coordinates.
 
-_Note:_ there are [special methods `add_hline`, `add_vline`, `add_hrect` and `add_vrect` for the common cases of wanting to draw horizontal or vertical lines or rectangles](/julia/horizontal-vertical-shapes/) that are fixed to data coordinates in one axis and absolutely positioned in another.
+_Note:_ there are special functions `add_hline!`, `add_vline!`, `add_hrect!` and `add_vrect!` for the common cases of wanting to draw horizontal or vertical lines or rectangles that are fixed to data coordinates in one axis and absolutely positioned in another.
 
 The differences between these two approaches are that:
 
@@ -42,7 +42,7 @@ The differences between these two approaches are that:
 
 ### Shape-drawing with Scatter traces
 
-There are two ways to draw filled shapes: scatter traces and [layout.shapes](https://plotly.com/julia/reference/layout/shapes/#layout-shapes-items-shape-type) which is mostly useful for the 2d subplots, and defines the shape type to be drawn, and can be rectangle, circle, line, or path (a custom SVG path). You also can use [scatterpolar](https://plotly.com/julia/polar-chart/#categorical-polar-chart), scattergeo, [scattermapbox](https://plotly.com/julia/filled-area-on-mapbox/#filled-scattermapbox-trace) to draw filled shapes on any kind of subplots. To set an area to be filled with a solid color, you need to define [Scatter.fill="toself"](https://plotly.com/julia/reference/scatter/#scatter-fill) that connects the endpoints of the trace into a closed shape. If `mode=line` (default value), then you need to repeat the initial point of a shape at the of the sequence to have a closed shape.
+There are two ways to draw filled shapes: scatter traces and [layout.shapes](https://plotly.com/julia/reference/layout/shapes/#layout-shapes-items-shape-type) which is mostly useful for the 2d subplots, and defines the shape type to be drawn, and can be rectangle, circle, line, or path (a custom SVG path). You also can use [scatterpolar](https://plotly.com/julia/polar-chart/#categorical-polar-chart), scattergeo, scattermapbox to draw filled shapes on any kind of subplots. To set an area to be filled with a solid color, you need to define [scatter.fill="toself"](https://plotly.com/julia/reference/scatter/#scatter-fill) that connects the endpoints of the trace into a closed shape. If `mode=line` (default value), then you need to repeat the initial point of a shape at the of the sequence to have a closed shape.
 
 ```julia
 using PlotlyJS
@@ -50,7 +50,7 @@ using PlotlyJS
 plot(scatter(x=[0,1,2,0], y=[0,2,0,0], fill="toself"))
 ```
 
-You can have more shapes either by adding [more traces](https://plotly.com/julia/filled-area-plots/) or interrupting the series with `nothing`.
+You can have more shapes either by adding more traces or interrupting the series with `nothing`.
 
 ```julia
 using PlotlyJS
@@ -61,55 +61,43 @@ plot(scatter(x=[0,1,2,0,nothing,3,3,5,5,3], y=[0,2,0,0,nothing,0.5,1.5,1.5,0.5,0
 #### Vertical and Horizontal Lines Positioned Relative to the Axis Data
 
 ```julia
-import plotly.graph_objects as go
+using PlotlyJS
 
 # Create scatter trace of text labels
-trace = scatter(
+p = plot(scatter(
     x=[2, 3.5, 6],
     y=[1, 1.5, 1],
     text=["Vertical Line",
           "Horizontal Dashed Line",
           "Diagonal dotted Line"],
     mode="text",
-)
+), Layout(xaxis_range=[0,7], yaxis_range=[0,2.5]))
 
+add_shape!(p, line(
+    x0=1, y0=0,
+    x1=1, y1=2,
+    line=attr(color="RoyalBlue", width=3),
+))
 
-layout = Layout(
-    # Set axes ranges
-    xaxis_range=[0,7],
-    yaxis_range=[0,2.5],
-    # Add shapes
-    shapes = [
-        line(
-            x0=1, y0=0,
-            x1=1, y1=2,
-            line=attr(color="RoyalBlue", width=3),
-            xref='x', yref='y'
-        ),
-        line(
-            x0=2, y0=2, x1=5, y1=2,
-            line=attr(
-                color="LightSeaGreen",
-                width=4,
-                dash="dashdot",
-            ),
-                xref='x', yref='y'
+add_shape!(p, line(
+    x0=2, y0=2, x1=5, y1=2,
+    line=attr(
+        color="LightSeaGreen",
+        width=4,
+        dash="dashdot",
+    )
+))
 
-        ),
-        line(
-            x0=4, y0=0, x1=6, y1=2,
-            line=attr(
-                color="MediumPurple",
-                width=4,
-                dash="dot",
-            ),
-                xref='x', yref='y'
+add_shape!(p, line(
+    x0=4, y0=0, x1=6, y1=2,
+    line=attr(
+        color="MediumPurple",
+        width=4,
+        dash="dot",
+    )
+))
 
-        )
-    ]
-)
-
-plot(trace, layout)
+p
 ```
 
 #### Lines Positioned Relative to the Plot & to the Axis Data
@@ -247,22 +235,20 @@ using PlotlyJS, DataFrames, CSV
 
 df = dataset(DataFrame, "wind")
 
-p = plot(scatter(df, y=:frequency, mode="markers"))
-
-relayout!(
-    p,
-    xaxis_domain=[0, 0.5],
-    yaxis_domain=[0.25, 0.75],
-    # Add a shape whose x and y coordinates refer to the domains of the x and y axes
-    shapes=[
-        rect(
-            xref="x domain", yref="y domain",
-            x0=0.6, x1=0.7, y0=0.8, y1=0.9,
-        )
-    ]
+p = plot(
+    df, y=:frequency, mode="markers",
+    Layout(
+        xaxis_domain=[0, 0.5],
+        yaxis_domain=[0.25, 0.75],
+        # Add a shape whose x and y coordinates refer to the domains of the x and y axes
+        shapes=[
+            rect(
+                xref="x domain", yref="y domain",
+                x0=0.6, x1=0.7, y0=0.8, y1=0.9,
+            )
+        ]
+    )
 )
-
-p
 ```
 
 #### Highlighting Time Series Regions with Rectangle Shapes
@@ -309,20 +295,18 @@ fig
 using PlotlyJS
 
 # Create scatter trace of text labels
-fig = plot(scatter(
+trace = scatter(
     x=[1.5, 3.5],
     y=[0.75, 2.5],
     text=["Unfilled Circle",
           "Filled Circle"],
     mode="text",
-))
+)
 
-# Set axes properties
-update_xaxes!(fig, range=[0, 4.5], zeroline=false)
-update_yaxes!(fig, range=[0, 4.5])
-
-relayout!(fig,
-    # Set figure size
+layout = Layout(
+    xaxis_range=[0, 4.5],
+    xaxis_zeroline=false,
+    yaxis_range=[0, 4.5],
     width=800,
     height=800,
     # Add circles
@@ -339,8 +323,8 @@ relayout!(fig,
         )
     ]
 )
+plot(trace, layout)
 
-fig
 ```
 
 #### Highlighting Clusters of Scatter Points with Circle Shapes
@@ -470,7 +454,6 @@ relayout!(fig,
 fig
 ```
 
-TODO: can't add to all rows/columns
 
 #### Adding the Same Shapes to Multiple Subplots
 
@@ -478,26 +461,17 @@ The same shape can be added to multiple facets by using the `'all'`
 keyword in the `row` and `col` arguments. For example
 
 ```julia
-import plotly.express as px
+using PlotlyJS, CSV, DataFrames
 
-df = px.data.tips()
-fig = px.scatter(df, x="total_bill", y="tip", facet_row="smoker", facet_col="sex")
-# Adds a rectangle to all facets
-fig.add_shape(
-    dict(type="rect", x0=25, x1=35, y0=4, y1=6, line_color="purple"),
-    row="all",
-    col="all",
-)
-# Adds a line to all the rows of the second column
-fig.add_shape(
-    dict(type="line", x0=20, x1=25, y0=5, y1=6, line_color="yellow"), row="all", col=2
-)
+df = dataset(DataFrame, "tips");
+p = plot(df, x=:total_bill, y=:tip, facet_row=:smoker, facet_col=:sex, mode="markers")
 
-# Adds a circle to all the columns of the first row
-fig.add_shape(
-    dict(type="circle", x0=10, y0=2, x1=20, y1=7), row=1, col="all", line_color="green"
-)
-fig.show()
+add_shape!(p, rect(x0=25, x1=35, y0=4, y1=6, line_color="purple"), row="all", col="all")
+
+add_shape!(p, line(x0=20, x1=25, y0=5, y1=6, line_color="yellow"), row="all", col=2)
+
+add_shape!(p, circle(x0=10, y0=2, x1=20, y1=7, line_color="green"), row=2, col="all")
+p
 ```
 
 #### SVG Paths
@@ -565,8 +539,6 @@ fig
 ```
 
 ### Drawing shapes with a Mouse on Cartesian plots
-
-_introduced in plotly 4.7_
 
 You can create layout shapes programmatically, but you can also draw shapes manually by setting the `dragmode` to one of the shape-drawing modes: `'drawline'`,`'drawopenpath'`, `'drawclosedpath'`, `'drawcircle'`, or `'drawrect'`. If you need to switch between different shape-drawing or other dragmodes (panning, selecting, etc.), [modebar buttons can be added](/julia/configuration-options#add-optional-shapedrawing-buttons-to-modebar) in the `config` to select the dragmode. If you switch to a different dragmode such as pan or zoom, you will need to select the drawing tool in the modebar to go back to shape drawing.
 

@@ -18,7 +18,7 @@ jupyter:
     layout: base
     name: Tables
     order: 11
-    page_type: u-guide
+    page_type: example_index
     permalink: julia-/table/
     thumbnail: thumbnail/table.gif
 ---
@@ -92,37 +92,7 @@ plot(
 #### Changing Row and Column Size
 
 ```julia
-using PlotlyJS
 
-values = [["Salaries", "Office", "Merchandise", "Legal", "<b>TOTAL<br>EXPENSES</b>"], #1st col
-  ["Lorem ipsum dolor sit amet, tollit discere inermis pri ut. Eos ea iusto timeam, an prima laboramus vim. Id usu aeterno adversarium, summo mollis timeam vel ad",
-  "Lorem ipsum dolor sit amet, tollit discere inermis pri ut. Eos ea iusto timeam, an prima laboramus vim. Id usu aeterno adversarium, summo mollis timeam vel ad",
-  "Lorem ipsum dolor sit amet, tollit discere inermis pri ut. Eos ea iusto timeam, an prima laboramus vim. Id usu aeterno adversarium, summo mollis timeam vel ad",
-  "Lorem ipsum dolor sit amet, tollit discere inermis pri ut. Eos ea iusto timeam, an prima laboramus vim. Id usu aeterno adversarium, summo mollis timeam vel ad",
-  "Lorem ipsum dolor sit amet, tollit discere inermis pri ut. Eos ea iusto timeam, an prima laboramus vim. Id usu aeterno adversarium, summo mollis timeam vel ad"]]
-
-
-plot(table(
-  columnorder = [1,2],
-  columnwidth = [80,400],
-  header = attr(
-    values = [["<b>EXPENSES</b><br>as of July 2017"],
-                  ["<b>DESCRIPTION</b>"]],
-    line_color="darkslategray",
-    fill_color="royalblue",
-    align=["left","center"],
-    font=attr(color="white", size=12),
-    height=40
-  ),
-  cells=attr(
-    values=values,
-    line_color="darkslategray",
-    fill=attr(color=["paleturquoise", "white"]),
-    align=["left", "center"],
-    font_size=12,
-    height=30)
-    )
-)
 ```
 
 #### Alternating Row Colors
@@ -135,28 +105,27 @@ rowEvenColor = "lightgrey"
 rowOddColor = "white"
 
 plot(table(
-  header=attr(
-    values=["<b>EXPENSES</b>","<b>Q1</b>","<b>Q2</b>","<b>Q3</b>","<b>Q4</b>"],
-    line_color="darkslategray",
-    fill_color=headerColor,
-    align=["left","center"],
-    font=attr(color="white", size=12)
-  ),
-  cells=attr(
-    values=[
-      ["Salaries", "Office", "Merchandise", "Legal", "<b>TOTAL</b>"],
-      [1200000, 20000, 80000, 2000, 12120000],
-      [1300000, 20000, 70000, 2000, 130902000],
-      [1300000, 20000, 120000, 2000, 131222000],
-      [1400000, 20000, 90000, 2000, 14102000]],
-    line_color="darkslategray",
-    # 2-D list of colors for alternating rows
-    fill_color = [[rowOddColor,rowEvenColor,rowOddColor, rowEvenColor,rowOddColor] for _ in  1:5],
-    align = ["left", "center"],
-    font = attr(color = "darkslategray", size = 11)
-    ))
-)
-
+    header=attr(
+        values=["<b>EXPENSES</b>","<b>Q1</b>","<b>Q2</b>","<b>Q3</b>","<b>Q4</b>"],
+        line_color="darkslategray",
+        fill_color=headerColor,
+        align=["left","center"],
+        font=attr(color="white", size=12)
+    ),
+    cells=attr(
+        values=[
+        ["Salaries", "Office", "Merchandise", "Legal", "<b>TOTAL</b>"],
+        [1200000, 20000, 80000, 2000, 12120000],
+        [1300000, 20000, 70000, 2000, 130902000],
+        [1300000, 20000, 120000, 2000, 131222000],
+        [1400000, 20000, 90000, 2000, 14102000]],
+        line_color="darkslategray",
+        # 2-D list of colors for alternating rows
+        fill_color=[[rowOddColor, rowEvenColor, rowOddColor, rowEvenColor, rowOddColor] for _ in  1:5],
+        align=["left", "center"],
+        font=attr(color="darkslategray", size=11)
+    )
+))
 ```
 
 #### Row Color Based on Variable
@@ -164,24 +133,24 @@ plot(table(
 ```julia
 using PlotlyJS, DataFrames
 
-colors = ["rgb(239, 243, 255)", "rgb(189, 215, 231)", "rgb(107, 174, 214)",
+color_vec = ["rgb(239, 243, 255)", "rgb(189, 215, 231)", "rgb(107, 174, 214)",
           "rgb(49, 130, 189)", "rgb(8, 81, 156)"]
-data = Dict(:Year =>  [2010, 2011, 2012, 2013, 2014], :Color=> colors)
+data = Dict(:Year =>  [2010, 2011, 2012, 2013, 2014], :Color=> color_vec)
 
 df = DataFrame(data)
 
 plot(table(
-  header=attr(
-    values=["Color", "<b>YEAR</b>"],
-    line_color="white", fill_color="white",
-    align="center", font=attr(color="black", size=12)
-  ),
-  cells=attr(
-    values=[df.Color, df.Year],
-    line_color=[df.Color], fill_color=[df.Color],
-    align="center", font=attr(color="black", size=11)
-  ))
-)
+    header=attr(
+        values=["Color", "<b>YEAR</b>"],
+        line_color="white", fill_color="white",
+        align="center", font=attr(color="black", size=12)
+    ),
+    cells=attr(
+        values=[df.Color, df.Year],
+        line_color=[df.Color], fill_color=[df.Color],
+        align="center", font=attr(color="black", size=11)
+    )
+))
 
 ```
 
@@ -190,24 +159,24 @@ plot(table(
 ```julia
 using PlotlyJS, Colors
 
-colors = range(colorant"rgb(255, 200, 200)", colorant"rgb(200,0,0)", length=9)
+color_vec = range(colorant"rgb(255, 200, 200)", colorant"rgb(200,0,0)", length=9)
 a = [rand(1:9) for _ in 1:9]
 b = [rand(1:9) for _ in 1:9]
 c = [rand(1:9) for _ in 1:9]
 
 plot(table(
-  header=attr(
-    values=["<b>Column A</b>", "<b>Column B</b>", "<b>Column C</b>"],
-    line_color="white", fill_color="white",
-    align="center",font=attr(color="black", size=12)
-  ),
-  cells=attr(
-    values=[a, b, c],
-    line_color=[colors[a],colors[b], colors[c]],
-    fill_color=[colors[a],colors[b], colors[c]],
-    align="center", font=attr(color="white", size=11)
-    ))
-)
+    header=attr(
+        values=["<b>Column A</b>", "<b>Column B</b>", "<b>Column C</b>"],
+        line_color="white", fill_color="white",
+        align="center",font=attr(color="black", size=12)
+    ),
+    cells=attr(
+        values=[a, b, c],
+        line_color=[color_vec[a], color_vec[b], color_vec[c]],
+        fill_color=[color_vec[a], color_vec[b], color_vec[c]],
+        align="center", font=attr(color="white", size=11)
+    )
+))
 
 ```
 

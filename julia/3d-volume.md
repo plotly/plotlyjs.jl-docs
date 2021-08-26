@@ -18,35 +18,19 @@ jupyter:
     layout: base
     name: 3D Volume Plots
     order: 11
-    page_type: u-guide
+    page_type: example_index
     permalink: julia/3d-volume-plots/
     thumbnail: thumbnail/3d-volume-plots.jpg
 ---
 
 A volume plot with `volume` shows several partially transparent isosurfaces for volume rendering. The API of `volume` is close to the one of `isosurface`. However, whereas [isosurface plots](/julia/3d-isosurface-plots/) show all surfaces with the same opacity, tweaking the `opacityscale` parameter of `volume` results in a depth effect and better volume rendering.
 
-## Simple volume plot
+## Basic volume plot
 
 In the three examples below, note that the default colormap is different whether isomin and isomax have the same sign or not.
 
 ```julia
-using PLotlyJS
-
-
-function mgrid(arrays...)
-    lengths = collect(length.(arrays))
-    uno = ones(Int, length(arrays))
-    out = []
-    for i in 1:length(arrays)
-       repeats = copy(lengths)
-       repeats[i] = 1
-
-       shape = copy(uno)
-       shape[i] = lengths[i]
-       push!(out, reshape(arrays[i], shape...) .* ones(repeats...))
-    end
-    out
-end
+using PlotlyJS
 
 data = range(-8, stop=8, length=40)
 X, Y, Z = mgrid(data, data, data)
@@ -68,20 +52,6 @@ plot(volume(
 ```julia
 using PlotlyJS
 
-function mgrid(arrays...)
-    lengths = collect(length.(arrays))
-    uno = ones(Int, length(arrays))
-    out = []
-    for i in 1:length(arrays)
-       repeats = copy(lengths)
-       repeats[i] = 1
-
-       shape = copy(uno)
-       shape[i] = lengths[i]
-       push!(out, reshape(arrays[i], shape...) .* ones(repeats...))
-    end
-    out
-end
 data = range(-1, stop=1, length=30)
 
 X, Y, Z = mgrid(data, data, data)
@@ -101,21 +71,6 @@ plot(volume(
 
 ```julia
 using PlotlyJS, ImageFiltering
-
-function mgrid(arrays...)
-    lengths = collect(length.(arrays))
-    uno = ones(Int, length(arrays))
-    out = []
-    for i in 1:length(arrays)
-       repeats = copy(lengths)
-       repeats[i] = 1
-
-       shape = copy(uno)
-       shape[i] = lengths[i]
-       push!(out, reshape(arrays[i], shape...) .* ones(repeats...))
-    end
-    out
-end
 
 # Generate nicely looking random 3D-field
 l = 30
@@ -150,78 +105,35 @@ In order to see through the volume, the different isosurfaces need to be partial
 ```julia
 using PlotlyJS
 
-function mgrid(arrays...)
-    lengths = collect(length.(arrays))
-    uno = ones(Int, length(arrays))
-    out = []
-    for i in 1:length(arrays)
-       repeats = copy(lengths)
-       repeats[i] = 1
-
-       shape = copy(uno)
-       shape[i] = lengths[i]
-       push!(out, reshape(arrays[i], shape...) .* ones(repeats...))
-    end
-    out
-end
-
+opacity_scales = ["uniform" "extremes"; "min" "max"]
 fig = make_subplots(
     rows=2, cols=2,
-    specs=fill(Spec(kind="scene"), 2,2)
+    specs=fill(Spec(kind="scene"), 2,2),
+    subplot_titles=opacity_scales
 )
-
 
 data = range(-8, stop=8, length=30)
 X, Y, Z = mgrid(data, data, data)
 
 values = sin.(X .* Y .* Z) ./ (X .* Y .* Z)
 
-
-add_trace!(fig, volume(
-    opacityscale="uniform",
-    x=X[:],
-    y=Y[:],
-    z=Z[:],
-    value=values[:],
-    isomin=0.15,
-    isomax=0.9,
-    opacity=0.1,
-    surface_count=15,
-    ), row=1, col=1)
-add_trace!(fig, volume(
-    opacityscale="extremes",
-    x=X[:],
-    y=Y[:],
-    z=Z[:],
-    value=values[:],
-    isomin=0.15,
-    isomax=0.9,
-    opacity=0.1,
-    surface_count=15,
-    ), row=1, col=2)
-add_trace!(fig, volume(
-    opacityscale="min",
-     x=X[:],
-    y=Y[:],
-    z=Z[:],
-    value=values[:],
-    isomin=0.15,
-    isomax=0.9,
-    opacity=0.1,
-    surface_count=15,
-    ), row=2, col=1)
-add_trace!(fig, volume(
-    opacityscale="max",
-    x=X[:],
-    y=Y[:],
-    z=Z[:],
-    value=values[:],
-    isomin=0.15,
-    isomax=0.9,
-    opacity=0.1,
-    surface_count=15,
-    ), row=2, col=2)
-
+for (rc, opacicty_scale) in zip(CartesianIndices((2, 2)), opacity_scales)
+    row, col = rc.I
+    add_trace!(fig,
+        volume(
+            opacityscale=opacicty_scale,
+            x=X[:],
+            y=Y[:],
+            z=Z[:],
+            value=values[:],
+            isomin=0.15,
+            isomax=0.9,
+            opacity=0.1,
+            surface_count=15,
+        ),
+        row=row, col=col
+    )
+end
 
 fig
 ```
@@ -232,20 +144,6 @@ It is also possible to define a custom opacity scale, mapping scalar values to r
 
 ```julia
 using PlotlyJS
-function mgrid(arrays...)
-    lengths = collect(length.(arrays))
-    uno = ones(Int, length(arrays))
-    out = []
-    for i in 1:length(arrays)
-       repeats = copy(lengths)
-       repeats[i] = 1
-
-       shape = copy(uno)
-       shape[i] = lengths[i]
-       push!(out, reshape(arrays[i], shape...) .* ones(repeats...))
-    end
-    out
-end
 
 data = range(-1, stop=1, length=30)
 X, Y, Z = mgrid(data, data, data)
@@ -262,8 +160,8 @@ plot(volume(
     opacity=0.1, # max opacity
     opacityscale=[[-0.5, 1], [-0.2, 0], [0.2, 0], [0.5, 1]],
     surface_count=21,
-    colorscale="RdBu"
-    ))
+    colorscale=colors.RdBu_3
+))
 ```
 
 ### Adding caps to a volume plot
@@ -272,26 +170,11 @@ For a clearer visualization of internal surfaces, it is possible to remove the c
 
 ```julia
 using PlotlyJS
-function mgrid(arrays...)
-    lengths = collect(length.(arrays))
-    uno = ones(Int, length(arrays))
-    out = []
-    for i in 1:length(arrays)
-       repeats = copy(lengths)
-       repeats[i] = 1
-
-       shape = copy(uno)
-       shape[i] = lengths[i]
-       push!(out, reshape(arrays[i], shape...) .* ones(repeats...))
-    end
-    out
-end
 
 data = range(0, stop=1, length=20)
 X, Y, Z = mgrid(data, data, data)
 
 vol = (X .- 1) .^ 2 .+ (Y .- 1) .^ 2 .+ Z .^ 2
-
 
 trace = volume(
     x=X[:], y=Y[:], z=Z[:],
@@ -304,7 +187,6 @@ trace = volume(
 )
 
 # Change camera view for a better view of the sides, XZ plane
-# (see https://plotly.com/python/v3/3d-camera-controls/)
 layout = Layout(scene_camera = attr(
     up=attr(x=0, y=0, z=1),
     center=attr(x=0, y=0, z=0),
@@ -316,27 +198,11 @@ plot(trace, layout)
 
 ```julia
 using PlotlyJS
-function mgrid(arrays...)
-    lengths = collect(length.(arrays))
-    uno = ones(Int, length(arrays))
-    out = []
-    for i in 1:length(arrays)
-       repeats = copy(lengths)
-       repeats[i] = 1
-
-       shape = copy(uno)
-       shape[i] = lengths[i]
-       push!(out, reshape(arrays[i], shape...) .* ones(repeats...))
-    end
-    out
-end
 
 data = range(0, stop=1, length=20)
 X, Y, Z = mgrid(data, data, data)
 
 vol = (X .- 1) .^ 2 .+ (Y .- 1) .^ 2 .+ Z .^ 2
-
-
 
 trace = volume(
     x=X[:], y=Y[:], z=Z[:],
@@ -363,26 +229,11 @@ Slices through the volume can be added to the volume plot. In this example the i
 
 ```julia
 using PlotlyJS
-function mgrid(arrays...)
-    lengths = collect(length.(arrays))
-    uno = ones(Int, length(arrays))
-    out = []
-    for i in 1:length(arrays)
-       repeats = copy(lengths)
-       repeats[i] = 1
-
-       shape = copy(uno)
-       shape[i] = lengths[i]
-       push!(out, reshape(arrays[i], shape...) .* ones(repeats...))
-    end
-    out
-end
 
 data = range(0, stop=1, length=20)
 X, Y, Z = mgrid(data, data, data)
 
 vol = (X .- 1) .^ 2 .+ (Y .- 1) .^ 2 .+ Z .^ 2
-
 
 plot(volume(
     x=X[:], y=Y[:], z=Z[:],

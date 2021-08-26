@@ -106,7 +106,7 @@ p
 
 **Update Several Data Attributes**<br>
 This example demonstrates how to update several data attributes: colorscale, colorscale direction, and line display with the "restyle" method.
-This example uses the cmocean python package. You can install this package with `pip install cmocean`.
+
 
 ```julia
 using PlotlyJS, CSV, DataFrames, HTTP

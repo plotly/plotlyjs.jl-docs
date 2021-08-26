@@ -18,7 +18,7 @@ jupyter:
     layout: base
     name: 2D Histogram Contour
     order: 11
-    page_type: u-guide
+    page_type: example_index
     permalink: julia/2d-histogram-contour/
     redirect_from: julia/2d-density-plots/
     thumbnail: thumbnail/hist2dcontour.png

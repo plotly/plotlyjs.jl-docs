@@ -18,7 +18,7 @@ jupyter:
     layout: base
     name: Carpet Contour Plot
     order: 14
-    page_type: u-guide
+    page_type: example_index
     permalink: julia/carpet-contour/
     thumbnail: thumbnail/contourcarpet.jpg
 ---
@@ -28,7 +28,7 @@ jupyter:
 Set the `x` and `y` coordinates, using `x` and `y` attributes. If `x` coordinate values are omitted a cheater plot will be created. To save parameter values use `a` and `b` attributes. To make changes to the axes, use `aaxis` or `baxis` attributes. For a more detailed list of axes attributes refer to [julia reference](https://plotly.com/julia/reference/carpet/#carpet-aaxis).
 
 ```julia
-using PLotlyJS
+using PlotlyJS
 
 plot(carpet(
     a=[0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3],
@@ -48,7 +48,6 @@ plot(carpet(
         type="linear"
     )
 ))
-
 ```
 
 // TODO: Can"t use `end` as argument?
@@ -58,8 +57,7 @@ plot(carpet(
 ```julia
 using PlotlyJS
 
-
-trace1=contourcarpet(
+trace1 = contourcarpet(
     a=[0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3],
     b=[4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6],
     z=[1, 1.96, 2.56, 3.0625, 4, 5.0625, 1, 7.5625, 9, 12.25, 15.21, 14.0625],
@@ -79,7 +77,7 @@ trace1=contourcarpet(
     )
 )
 
-trace2=carpet(
+trace2 = carpet(
     a=[0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3],
     b=[4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6],
     x=[2, 3, 4, 5, 2.2, 3.1, 4.1, 5.1, 1.5, 2.5, 3.5, 4.5],
@@ -98,7 +96,6 @@ trace2=carpet(
     )
 )
 
-
 plot([trace1, trace2])
 ```
 
@@ -107,10 +104,10 @@ plot([trace1, trace2])
 ```julia
 using PlotlyJS, HTTP, JSON
 
-response=HTTP.get("https://raw.githubusercontent.com/bcdunbar/datasets/master/airfoil_data.json")
-data=JSON.parse(String(response.body))
+response = HTTP.get("https://raw.githubusercontent.com/bcdunbar/datasets/master/airfoil_data.json")
+data = JSON.parse(String(response.body))
 
-trace1=carpet(
+trace1 = carpet(
     a=data[1]["a"],
     b=data[1]["b"],
     x=data[1]["x"],
@@ -133,7 +130,7 @@ trace1=carpet(
     )
 )
 
-trace2=contourcarpet(
+trace2 = contourcarpet(
     z=data[2]["z"],
     autocolorscale=false,
     zmax=1,
@@ -160,7 +157,7 @@ trace2=contourcarpet(
     zauto=false
 )
 
-trace3=contourcarpet(
+trace3 = contourcarpet(
     z=data[3]["z"],
     opacity=0.300,
     showlegend=true,
@@ -176,7 +173,7 @@ trace3=contourcarpet(
     )
 )
 
-trace4=contourcarpet(
+trace4 = contourcarpet(
     z=data[4]["z"],
     showlegend=true,
     name="Pressure<br>contours",
@@ -194,7 +191,7 @@ trace4=contourcarpet(
     contours_end=1.000,
 )
 
-trace5=scatter(
+trace5 = scatter(
     x=data[5]["x"],
     y=data[5]["y"],
     legendgroup="g1",
@@ -211,7 +208,7 @@ trace5=scatter(
     fillcolor="rgba(255, 0, 0, 0.2)"
 )
 
-trace6=scatter(
+trace6 = scatter(
     x=data[6]["x"],
     y=data[6]["y"],
     showlegend=false,
@@ -224,7 +221,7 @@ trace6=scatter(
     )
 )
 
-trace7=scatter(
+trace7 = scatter(
     x=data[7]["x"],
     y=data[7]["y"],
     showlegend=false,
@@ -239,7 +236,7 @@ trace7=scatter(
     )
 )
 
-layout=Layout(
+layout = Layout(
     yaxis=attr(
       zeroline=false,
       range=[-1.800,1.800],

@@ -18,7 +18,7 @@ jupyter:
     layout: base
     name: Horizontal Bar Charts
     order: 8
-    page_type: u-guide
+    page_type: example_index
     permalink: julia/horizontal-bar-charts/
     thumbnail: thumbnail/horizontal-bar.jpg
 ---

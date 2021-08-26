@@ -13,15 +13,14 @@ jupyter:
     name: julia-1.6
   plotly:
     description:
-      How to set the configuration options of figures using the Plotly
-      Python graphing library.
+      How to set the configuration options of figures using PlotlyJS.jl.
     display_as: file_settings
-    language: python
+    language: julia
     layout: base
     name: Configuration
     order: 10
-    page_type: u-guide
-    permalink: python/configuration-options/
+    page_type: example_index
+    permalink: julia/configuration-options/
     thumbnail: thumbnail/modebar-icons.png
 ---
 
@@ -39,7 +38,6 @@ For the complete list of configuration options and their defaults see: https://g
 
 This option allows users to zoom in and out of figures using the scroll wheel on their mouse and/or a two-finger scroll.
 
-<!-- TODO: Scroll zoom doesn't seem to work?? -->
 
 ```julia
 using PlotlyJS
@@ -52,7 +50,6 @@ plot(
     ),
     config=PlotConfig(scrollZoom=true)
 )
-
 ```
 
 ### Turning Off Responsiveness
@@ -74,7 +71,6 @@ plot(
     ),
     config=PlotConfig(responsive=false)
 )
-
 ```
 
 ### Making A Static Chart
@@ -90,7 +86,6 @@ plot(
     ),
     config=PlotConfig(staticPlot=true)
 )
-
 ```
 
 ### Forcing The Modebar to Always Be Visible
@@ -110,7 +105,6 @@ plot(
     ),
     config=PlotConfig(displayModeBar=true)
 )
-
 ```
 
 ### Preventing the Modebar from Appearing
@@ -130,23 +124,6 @@ plot(
     ),
     config=PlotConfig(displayModeBar=false)
 )
-
-```
-
-### Hiding the Plotly Logo on the Modebar
-
-```julia
-using PlotlyJS
-
-plot(
-    scatter(
-        mode="markers",
-        x=[1, 2, 3],
-        y=[1, 3, 1]
-    ),
-    config=PlotConfig(displayLogo=true)
-)
-
 ```
 
 ### Customizing Modebar "Download Plot" Button
@@ -159,13 +136,13 @@ This behavior can be controlled via the `toImageButtonOptions` configuration key
 using PlotlyJS
 
 config = PlotConfig(
-  toImageButtonOptions= atrr()
-    format= "svg", # one of png, svg, jpeg, webp
-    filename= "custom_image",
-    height= 500,
-    width= 700,
-    scale= 1 # Multiply title/legend/axis/canvas sizes by this factor
-)
+    toImageButtonOptions=attr(
+        format="svg", # one of png, svg, jpeg, webp
+        filename="custom_image",
+        height=500,
+        width=700,
+        scale=1 # Multiply title/legend/axis/canvas sizes by this factor
+    ).fields
 )
 
 trace = bar(x=[1, 2, 3], y=[1, 3, 1])
@@ -178,9 +155,7 @@ Figures can be set to download at the currently-rendered size by setting `height
 ```julia
 using PlotlyJS
 
-config = PlotConfig(
-  toImageButtonOptions= attr( height= nothing, width=nothing)
-)
+config = PlotConfig(toImageButtonOptions=attr(height=nothing, width=nothing).fields)
 
 trace = bar(x=[1, 2, 3], y=[1, 3, 1])
 
@@ -204,55 +179,17 @@ using PlotlyJS
 
 plot(
     scatter(
-        mode="markers"
+        mode="markers",
         x=[1, 2, 3],
-        y=[1, 3, 1]),
-    config=PlotConfig(modeBarButtonsToRemove= ["zoom", "pan"])
-)
-```
-
-_New in v5.0_
-
-The `layout.modebar.remove` attribute can be used instead of the approach used above:
-
-```julia
-using PlotlyJS
-
-plot(
-    scatter(
-        mode="markers"
-        x=[1, 2, 3],
-        y=[1, 3, 1]),
-    config=PlotConfig(modebar_remnove= ["zoom", "pan"])
+        y=[1, 3, 1]
+    ),
+    config=PlotConfig(modeBarButtonsToRemove=["zoom", "pan"])
 )
 ```
 
 ### Add optional shape-drawing buttons to modebar
 
-_New in v4.7_
-
-Some modebar buttons of Cartesian plots are optional and have to be added explicitly, using the `modeBarButtonsToAdd` config attribute. These buttons are used for drawing or erasing shapes. See [the tutorial on shapes and shape drawing](python/shapes#drawing-shapes-on-cartesian-plots) for more details.
-
-```python
-import plotly.graph_objects as go
-import plotly.express as px
-df = px.data.iris()
-fig = px.scatter(df, x='petal_width', y='sepal_length', color='species')
-fig.update_layout(
-    dragmode='drawopenpath',
-    newshape_line_color='cyan',
-    title_text='Draw a path to separate versicolor and virginica'
-)
-fig.show(config={'modeBarButtonsToAdd':['drawline',
-                                        'drawopenpath',
-                                        'drawclosedpath',
-                                        'drawcircle',
-                                        'drawrect',
-                                        'eraseshape'
-                                       ]})
-```
-
-<!-- TODO: color still not working. need to use group -->
+Some modebar buttons of Cartesian plots are optional and have to be added explicitly, using the `modeBarButtonsToAdd` config attribute.
 
 ```julia
 using PlotlyJS, CSV, DataFrames
@@ -275,29 +212,7 @@ config = PlotConfig(modeBarButtonsToAdd=[
 plot(trace, layout, config=config)
 ```
 
-_New in v5.0_
-
 The `layout.modebar.add` attribute can be used instead of the approach used above:
-
-```python
-import plotly.graph_objects as go
-import plotly.express as px
-df = px.data.iris()
-fig = px.scatter(df, x='petal_width', y='sepal_length', marker_color='species')
-fig.update_layout(
-    dragmode='drawopenpath',
-
-    newshape_line_color='cyan',
-    title_text='Draw a path to separate versicolor and virginica',
-    modebar_add=['drawline',
-        'drawopenpath',
-        'drawclosedpath',
-        'drawcircle',
-        'drawrect',
-        'eraseshape'
-       ]
-)
-```
 
 ```julia
 using PlotlyJS, CSV, DataFrames

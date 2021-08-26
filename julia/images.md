@@ -36,13 +36,12 @@ using PlotlyJS
 # Add trace
 trace= scatter(x=[0, 0.5, 1, 2, 2.2], y=[1.23, 2.5, 0.42, 3, 1])
 
-
 # Add images
 layout = Layout(
-    template="plotly_white",
+    template=templates.plotly_white,
     images=[
         attr(
-            source="https://images.plot.ly/language-icons/api-home/python-logo.png",
+            source="https://upload.wikimedia.org/wikipedia/commons/1/1f/Julia_Programming_Language_Logo.svg",
             xref="x",
             yref="y",
             x=0,
@@ -61,40 +60,36 @@ plot(trace, layout)
 
 #### Add a Logo
 
-See more examples of [adding logos to charts](https://plotly.com/julia/logos/)!
-
-<!-- TODO: Missing `marker` method -->
-
 ```julia
 using PlotlyJS
 
 trace = bar(
-        x=["-35.3", "-15.9", "-15.8", "-15.6", "-11.1",
-           "-9.6", "-9.2", "-3.5", "-1.9", "-0.9",
-           "1.0", "1.4", "1.7", "2.0", "2.8", "6.2",
-           "8.1", "8.5", "8.5", "8.6", "11.4", "12.5",
-           "13.3", "13.7", "14.4", "17.5", "17.7",
-           "18.9", "25.1", "28.9", "41.4"],
-        y=["Designers, musicians, artists, etc.",
-           "Secretaries and administrative assistants",
-           "Waiters and servers", "Archivists, curators, and librarians",
-           "Sales and related", "Childcare workers, home car workers, etc.",
-           "Food preparation occupations", "Janitors, maids, etc.",
-           "Healthcare technicians, assistants. and aides",
-           "Counselors, social and religious workers",
-           "Physical, life and social scientists", "Construction",
-           "Factory assembly workers", "Machinists, repairmen, etc.",
-           "Media and communications workers", "Teachers",
-           "Mechanics, repairmen, etc.", "Financial analysts and advisers",
-           "Farming, fishing and forestry workers",
-           "Truck drivers, heavy equipment operator, etc.", "Accountants and auditors",
-           "Human resources, management analysts, etc.", "Managers",
-           "Lawyers and judges", "Engineers, architects and surveyors",
-           "Nurses", "Legal support workers",
-           "Computer programmers and system admin.", "Police officers and firefighters",
-           "Chief executives", "Doctors, dentists and surgeons"],
-        orientation="h"
-    )
+    x=["-35.3", "-15.9", "-15.8", "-15.6", "-11.1",
+        "-9.6", "-9.2", "-3.5", "-1.9", "-0.9",
+        "1.0", "1.4", "1.7", "2.0", "2.8", "6.2",
+        "8.1", "8.5", "8.5", "8.6", "11.4", "12.5",
+        "13.3", "13.7", "14.4", "17.5", "17.7",
+        "18.9", "25.1", "28.9", "41.4"],
+    y=["Designers, musicians, artists, etc.",
+        "Secretaries and administrative assistants",
+        "Waiters and servers", "Archivists, curators, and librarians",
+        "Sales and related", "Childcare workers, home car workers, etc.",
+        "Food preparation occupations", "Janitors, maids, etc.",
+        "Healthcare technicians, assistants. and aides",
+        "Counselors, social and religious workers",
+        "Physical, life and social scientists", "Construction",
+        "Factory assembly workers", "Machinists, repairmen, etc.",
+        "Media and communications workers", "Teachers",
+        "Mechanics, repairmen, etc.", "Financial analysts and advisers",
+        "Farming, fishing and forestry workers",
+        "Truck drivers, heavy equipment operator, etc.", "Accountants and auditors",
+        "Human resources, management analysts, etc.", "Managers",
+        "Lawyers and judges", "Engineers, architects and surveyors",
+        "Nurses", "Legal support workers",
+        "Computer programmers and system admin.", "Police officers and firefighters",
+        "Chief executives", "Doctors, dentists and surgeons"],
+    orientation="h",
+    marker=attr(color="rgb(253, 240, 54)", line_color="rgb(0,0,0)", line_width=2)
 )
 
 
@@ -119,103 +114,7 @@ layout = Layout(
     title="Moving Up, Moving Down<br> <i>Percentile change in income between childhood and adulthood</i>",
 )
 
-```
-
-#### Label Spectroscopy Data by Adding Multiple Images
-
-<!-- TODO: how to do savgol_filter -->
-
-```julia
-using PlotlyJS
-
-np.random.seed(1)
-from scipy.signal import savgol_filter
-
-# Simulate spectroscopy data
-def simulated_absorption(mu, sigma, intensity):
-    data = [np.random.normal(mu[i], sigma[i], intensity[i]) for i in range(len(mu))]
-    hists = [np.histogram(d, 1000, range=(200, 500), density=True) for d in data]
-    ys = [y for y, x in hists]
-    s = savgol_filter(np.max(ys, axis=0), 41, 3)
-    return hists[0][1], s
-
-mus = [[290, 240, 260], [330, 350]]
-sigmas = [[4, 6, 10], [5, 4]]
-intensities = [[100000, 300000, 700000], [40000, 20000]]
-simulated_absorptions = [simulated_absorption(m, s, i) for m, s, i in
-                         zip(mus, sigmas, intensities)]
-
-# Create figure
-fig = go.Figure()
-
-# Create traces from data
-names = ["Benzene", "Naphthalene"]
-for (x, y), n in zip(simulated_absorptions, names):
-    fig.add_trace(go.Scatter(x=x, y=y, name=n))
-
-# Add images
-fig.add_layout_image(
-    dict(
-        source="https://raw.githubusercontent.com/michaelbabyn/plot_data/master/benzene.png",
-        x=0.75,
-        y=0.65,
-    ))
-fig.add_layout_image(dict(
-        source="https://raw.githubusercontent.com/michaelbabyn/plot_data/master/naphthalene.png",
-        x=0.9,
-        y=0.3,
-        )
-)
-fig.update_layout_images(dict(
-        xref="paper",
-        yref="paper",
-        sizex=0.3,
-        sizey=0.3,
-        xanchor="right",
-        yanchor="bottom"
-))
-
-# Add annotations
-fig.update_layout(
-    annotations=[
-        dict(
-            x=93.0 / 300,
-            y=0.07 / 0.1,
-            xref="paper",
-            yref="paper",
-            showarrow=True,
-            arrowhead=0,
-            opacity=0.5,
-            ax=250,
-            ay=-40,
-        ),
-        dict(
-            x=156.0 / 300,
-            y=0.04 / 0.1,
-            xref="paper",
-            yref="paper",
-            showarrow=True,
-            arrowhead=0,
-            opacity=0.5,
-            ax=140,
-            ay=-10,
-        )
-    ]
-)
-
-# Configure axes
-fig.update_xaxes(title_text="Wavelength")
-fig.update_yaxes(title_text="Absorption", hoverformat=".3f")
-
-# Configure other layout properties
-fig.update_layout(
-    title_text="Absorption Frequencies of Benzene and Naphthalene",
-    height=500,
-    width=900,
-    template="plotly_white"
-)
-
-fig.show()
+plot(trace, layout)
 ```
 
 #### Zoom on Static Images
@@ -272,8 +171,6 @@ plot(trace, layout)
 
 ### Annotating layout image with shapes
 
-_introduced in plotly 4.7_
-
 It can be useful to add shapes to a layout image, for highlighting an object, drawing bounding boxes as part of a machine learning training set, or identifying seeds for a segmentation algorithm.
 
 In order to enable shape drawing, you need to
@@ -283,9 +180,8 @@ In order to enable shape drawing, you need to
 
 The style of new shapes is specified by the `newshape` layout attribute. Shapes can be selected and modified after they have been drawn. More details and examples are given in the [tutorial on shapes](/julia/shapes#drawing-shapes-on-cartesian-plots).
 
-Drawing or modifying a shape triggers a `relayout` event, which [can be captured by a callback inside a Dash application](https://dash.plotly.com/interactive-graphing).
+Drawing or modifying a shape triggers a `relayout` event, which [can be captured by a callback inside a Dash application](https://dash-julia.plotly.com/interactive-graphing).
 
-<!-- TODO: set the config to the mode bar..not sure how to do that... -->
 
 ```julia
 using PlotlyJS
@@ -310,24 +206,19 @@ layout = Layout(
             layer="below",
             source="https://raw.githubusercontent.com/michaelbabyn/plot_data/master/bridge.jpg"
         )
-
     ],
     dragmode="drawrect",
     newshape=attr(line_color="cyan"),
     title_text="Drag to add annotations - use modebar to change drawing tool",
-    config=attr(
-        modeBarButtonsToAdd = [
-            "drawline",
-            "drawopenpath",
-            "drawclosedpath",
-            "drawcircle",
-            "drawrect",
-            "eraseshape"
-        ]
-    )
+    modebar_add=[
+        "drawline",
+        "drawopenpath",
+        "drawclosedpath",
+        "drawcircle",
+        "drawrect",
+        "eraseshape"
+    ],
 )
-
-
 
 plot(layout)
 ```
@@ -349,33 +240,34 @@ sources = [
     "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Iris_versicolor_quebec_1.jpg/320px-Iris_versicolor_quebec_1.jpg",
     "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Iris_virginica_2.jpg/480px-Iris_virginica_2.jpg",
 ]
-layout = Layout(
-    images = [
-        attr(
-            row=1,
-            col=col + 1,
-            source=src,
-            xref="x domain",
-            yref="y domain",
-            x=1,
-            y=1,
-            xanchor="right",
-            yanchor="top",
-            sizex=0.2,
-            sizey=0.2,
-        )
-    for (col, src) in enumerate(sources)]
-)
-plot(
+
+function make_iris_image(src)
+    attr(
+        source=src,
+        xref="x domain",
+        yref="y domain",
+        x=1,
+        y=1,
+        xanchor="right",
+        yanchor="top",
+        sizex=0.2,
+        sizey=0.2,
+    )
+end
+
+p = plot(
     df,
     kind="scatter",
     mode="markers",
     x=:sepal_length,
     y=:sepal_width,
     facet_col=:species,
-    layout
 )
 
+for (col, src) in enumerate(sources)
+    add_layout_image!(p, make_iris_image(src), row=1, col=col)
+end
+p
 ```
 
 #### Reference

@@ -18,7 +18,7 @@ jupyter:
     layout: base
     name: Gauge Charts
     order: 7
-    page_type: u-guide
+    page_type: example_index
     permalink: julia/gauge-charts/
     redirect_from:
       - julia/gauge-chart/

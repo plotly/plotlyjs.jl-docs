@@ -32,27 +32,26 @@ time). The boxes represent the spread between the `open` and `close` values and 
 #### Simple Candlestick with Pandas
 
 ```julia
-using PlotlyJS, CSV, DataFrames
+using PlotlyJS, CSV, DataFrames, HTTP
 
 df = CSV.File(
     HTTP.get("https://raw.githubusercontent.com/plotly/datasets/master/finance-charts-apple.csv").body
 ) |> DataFrame
 
 plot(candlestick(
-        x=df[:, "Date"],
-        open=df[:, "AAPL.Open"],
-        high=df[:, "AAPL.High"],
-        low=df[:, "AAPL.Low"],
-        close=df[:, "AAPL.Close"]
+        x=df[!, "Date"],
+        open=df[!, "AAPL.Open"],
+        high=df[!, "AAPL.High"],
+        low=df[!, "AAPL.Low"],
+        close=df[!, "AAPL.Close"]
     )
 )
-
 ```
 
 #### Candlestick without Rangeslider
 
 ```julia
-using PlotlyJS, CSV, DataFrames
+using PlotlyJS, CSV, DataFrames, HTTP
 
 df = CSV.File(
     HTTP.get("https://raw.githubusercontent.com/plotly/datasets/master/finance-charts-apple.csv").body
@@ -72,7 +71,7 @@ plot(candlestick(
 #### Adding Customized Text and Annotations
 
 ```julia
-using PlotlyJS, CSV, DataFrames
+using PlotlyJS, CSV, DataFrames, HTTP
 
 df = CSV.File(
     HTTP.get("https://raw.githubusercontent.com/plotly/datasets/master/finance-charts-apple.csv").body
@@ -88,20 +87,22 @@ plot(candlestick(
     Layout(
         title="The Great Recession",
         yaxis_title="AAPL Stock",
-        shapes = [attr(
+        shapes=[attr(
             x0="2016-12-09", x1="2016-12-09", y0=0, y1=1, xref="x", yref="paper",
-            line_width=2)],
+            line_width=2
+        )],
         annotations=[attr(
             x="2016-12-09", y=0.05, xref="x", yref="paper",
-            showarrow=false, xanchor="left", text="Increase Period Begins")]
+            showarrow=false, xanchor="left", text="Increase Period Begins"
+        )]
     )
 )
 ```
 
 #### Custom Candlestick Colors
 
-```python
-using PlotlyJS, CSV, DataFrames
+```julia
+using PlotlyJS, CSV, DataFrames, HTTP
 
 df = CSV.File(
     HTTP.get("https://raw.githubusercontent.com/plotly/datasets/master/finance-charts-apple.csv").body
@@ -129,11 +130,13 @@ high_data = [33.1, 33.3, 33.6, 33.2, 34.8]
 low_data = [32.7, 32.7, 32.8, 32.6, 32.8]
 close_data = [33.0, 32.9, 33.3, 33.1, 33.1]
 
-dates = [Date(2013, 10, 10),
-         Date(2013, 11, 10),
-         Date(2013, 12, 10),
-         Date(2014, 1, 10),
-         Date(2014, 2, 10)]
+dates = [
+    Date(2013, 10, 10),
+    Date(2013, 11, 10),
+    Date(2013, 12, 10),
+    Date(2014, 1, 10),
+    Date(2014, 2, 10)
+]
 
 plot(candlestick(
     x=dates,

@@ -25,7 +25,7 @@ jupyter:
     thumbnail: thumbnail/line-plot.jpg
 ---
 
-### Line Plots with plotly.express
+### Line Plots with DataFrames
 
 For more examples of line plots, see the [line and scatter notebook](https://plotly.com/julia/line-and-scatter/).
 
@@ -39,7 +39,7 @@ plot(dfCan, kind="scatter", mode="lines", x=:year, y=:lifeExp, Layout(title="Lif
 ### Line Plots with column encoding color
 
 ```julia
-import plotly.express as px
+using PlotlyJS, CSV, DataFrames
 
 df = dataset(DataFrame, "gapminder")
 dfCan = df[df.continent .== "Oceania", :]
@@ -47,36 +47,57 @@ plot(dfCan, kind="scatter", mode="lines", x=:year, y=:lifeExp, group=:country)
 
 ```
 
-<!-- TODO: can't set index, use facet_row as column names -->
+### Data Order in Line Charts
 
-### Sparklines with Plotly Express
+Plotly line charts are implemented as [connected scatterplots](https://www.data-to-viz.com/graph/connectedscatter.html) (see below), meaning that the points are plotted and connected with lines **in the order they are provided, with no automatic reordering**.
 
-Sparklines are scatter plots inside subplots, with gridlines, axis lines, and ticks removed.
+This makes it possible to make charts like the one below, but also means that it may be required to explicitly sort data before passing it to Plotly to avoid lines moving "backwards" across the chart.
+
+```julia
+using PlotlyJS, DataFrames
+
+df = DataFrame(
+    x=[1, 3, 2, 4],
+    y=[1, 2, 3, 4],
+)
+p1 = plot(df, x=:x, y=:y, Layout(title="Unsorted Input"))
+
+p2 = plot(sort(df, :x), x=:x, y=:y, Layout(title="Sorted Input"))
+
+[p1; p2]
+```
+
+### Connected Scatterplots
+
+In a connected scatterplot, two continuous variables are plotted against each other, with a line connecting them in some meaningful order, usually a time variable. In the plot below, we show the "trajectory" of a pair of countries through a space defined by GDP per Capita and Life Expectancy. Botswana's life expectancy
 
 ```julia
 using PlotlyJS, CSV, DataFrames
 
-df = dataset(DataFrame, "stocks")
+df_full = dataset(DataFrame, "gapminder")
+df = df_full[in.(df_full.country, Ref(["Canada", "Botswana"])), :]
 
-df = px.data.stocks(indexed=True)
-fig = px.line(df, facet_row="company", facet_row_spacing=0.01, height=200, width=200)
-
-# hide and lock down axes
-fig.update_xaxes(visible=false, fixedrange=True)
-fig.update_yaxes(visible=false, fixedrange=True)
-
-# remove facet/subplot labels
-fig.update_layout(annotations=[], overwrite=True)
-
-# strip down the rest of the plot
-fig.update_layout(
-    showlegend=false,
-    plot_bgcolor="white",
-    margin=dict(t=10,l=10,b=10,r=10)
+plot(
+    df,
+    x=:lifeExp, y=:gdpPercap, color=:country, text=:year,
+    textposition="bottom right", mode="markers+lines+text"
 )
+```
 
-# disable the modebar for such a small plot
-fig.show(config=dict(displayModeBar=false))
+### Line charts with markers
+
+The `mode` argument can be set to `markers+lines` to show markers on lines.
+
+```julia
+using PlotlyJS, CSV, DataFrames
+
+df_full = dataset(DataFrame, "gapminder")
+df = df_full[df_full.continent .== "Oceania", :]
+
+plot(
+    df, mode="markers+lines",
+    x=:year, y=:lifeExp, color=:country
+)
 ```
 
 #### Line Plot Modes
@@ -200,90 +221,94 @@ plot([trace1, trace2, trace3, trace4, trace5, trace6], layout)
 
 #### Label Lines with Annotations
 
- <!-- TODO: I can't seem to append `attr`s to an array... -->
-
 ```julia
 using PlotlyJS
 
 title = "Main Source for News"
 labels = ["Television", "Newspaper", "Internet", "Radio"]
-colors = ["rgb(67,67,67)", "rgb(115,115,115)", "rgb(49,130,189)", "rgb(189,189,189)"]
+color_vec = ["rgb(67,67,67)", "rgb(115,115,115)", "rgb(49,130,189)", "rgb(189,189,189)"]
 
 mode_size = [8, 8, 12, 8]
 line_size = [2, 2, 4, 2]
 
 x_data = [
-    [2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011,2012, 2013],
-    [2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011,2012, 2013],
-    [2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011,2012, 2013],
-    [2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011,2012, 2013]
+    2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013
+    2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013
+    2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013
+    2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013
 ]
 
 y_data = [
-    [74, 82, 80, 74, 73, 72, 74, 70, 70, 66, 66, 69],
-    [45, 42, 50, 46, 36, 36, 34, 35, 32, 31, 31, 28],
-    [13, 14, 20, 24, 20, 24, 24, 40, 35, 41, 43, 50],
-    [18, 21, 18, 21, 16, 14, 13, 18, 17, 16, 19, 23],
+    74 82 80 74 73 72 74 70 70 66 66 69
+    45 42 50 46 36 36 34 35 32 31 31 28
+    13 14 20 24 20 24 24 40 35 41 43 50
+    18 21 18 21 16 14 13 18 17 16 19 23
 ]
 
-traces = []
-for i in 1:5
-traces = [
-    scatter(x=x_data[i], y=y_data[i], mode="lines",
+function trace_for_row(i)
+    t1 = scatter(x=x_data[i, :], y=y_data[i, :], mode="lines",
         name=labels[i],
-        line=attr(color=colors[i], width=line_size[i]),
+        line=attr(color=color_vec[i], width=line_size[i]),
         connectgaps=true
-    ),
-    scatter(
-        x=[x_data[i][1], last(x_data[i])],
-        y=[y_data[i][1], last(y_data[i])],
-        mode="markers",
-        marker=attr(color=colors[i], size=mode_size[i]))
     )
-for i in 1:5]
-
-
-
-annotations = []
-
-# Adding labels
-for (y_trace, label, color) in zip(y_data, labels, colors)
-    # labeling the left_side of the plot
-    append!(annotations, attr(xref=paper, x=0.05, y=y_trace[0],
-                                  xanchor="right", yanchor="middle",
-                                  text=label + " {}%".format(y_trace[0]),
-                                  font=attr(family="Arial",
-                                            size=16),
-                                  showarrow=false))
-    # labeling the right_side of the plot
-    append!(annotations, attr(xref=paper, x=0.95, y=y_trace[11],
-                                  xanchor="left", yanchor="middle",
-                                  text="{}%".format(y_trace[11]),
-                                  font=attr(family="Arial",
-                                            size=16),
-                                  showarrow=false))
+    t2 = scatter(
+        x=[x_data[i, 1], x_data[i, end]],
+        y=[y_data[i, 1], y_data[i, end]],
+        mode="markers",
+        marker=attr(color=color_vec[i], size=mode_size[i])
+    )
+    [t1, t2]
 end
+traces = vcat(map(trace_for_row, 1:4)...)
+
+function labels_for_row(i)
+    y = y_data[i, :]
+    color = color_vec[i]
+    label = labels[i]
+
+    # labeling the left_side of the plot
+    a_left = attr(
+        xref="paper", x=0.05, y=y[1],
+        xanchor="right", yanchor="middle",
+        text=string(label, " $(y[end])%"),
+        font=attr(family="Arial", size=16),
+        showarrow=false
+    )
+
+    # labeling the right_side of the plot
+    a_right = attr(
+        xref="paper", x=0.95, y=y[end],
+        xanchor="left", yanchor="middle",
+        text="$(y[end])%",
+        font=attr(family="Arial", size=16),
+        showarrow=false
+    )
+    [a_left, a_right]
+end
+annotations = vcat(map(labels_for_row, 1:4)...)
+
 # Title
-append!(annotations, attr(xref=paper, yref="paper", x=0.0, y=1.05,
-                              xanchor="left", yanchor="bottom",
-                              text="Main Source for News",
-                              font=attr(family="Arial",
-                                        size=30,
-                                        color="rgb(37,37,37)"),
-                              showarrow=false))
+a_title = attr(
+    xref="paper", yref="paper", x=0.0, y=1.05,
+    xanchor="left", yanchor="bottom",
+    text="Main Source for News",
+    font=attr(family="Arial", size=30, color="rgb(37,37,37)"),
+    showarrow=false
+)
+
 # Source
-append!(annotations, attr(xref=paper, yref="paper", x=0.5, y=-0.1,
-                              xanchor="center", yanchor="top",
-                              text="Source: PewResearch Center & " +
-                                   "Storytelling with data",
-                              font=attr(family="Arial",
-                                        size=12,
-                                        color="rgb(150,150,150)"),
-                              showarrow=false))
+a_source = attr(
+    xref="paper", yref="paper", x=0.5, y=-0.1,
+    xanchor="center", yanchor="top",
+    text=string("Source: PewResearch Center & ", "Storytelling with data"),
+    font=attr(family="Arial", size=12, color="rgb(150,150,150)"),
+    showarrow=false
+)
 
+append!(annotations, [a_title, a_source])
 
-layout =Layout(
-    annotations=annotations
+layout = Layout(
+    annotations=annotations,
     xaxis=attr(
         showline=true,
         showgrid=false,
@@ -313,90 +338,10 @@ layout =Layout(
     showlegend=false,
     plot_bgcolor="white"
 )
-```
 
-<!-- TODO: Filling lines not working -->
-
-#### Filled Lines
-
-```julia
-using PlotlyJS
-
-x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-x_rev = reverse(x)
-
-# Line 1
-y1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-y1_upper = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-y1_lower = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-y1_lower = reverse(y1_lower)
-
-# Line 2
-y2 = [5, 2.5, 5, 7.5, 5, 2.5, 7.5, 4.5, 5.5, 5]
-y2_upper = [5.5, 3, 5.5, 8, 6, 3, 8, 5, 6, 5.5]
-y2_lower = [4.5, 2, 4.4, 7, 4, 2, 7, 4, 5, 4.75]
-y2_lower = reverse(y2_lower)
-
-# Line 3
-y3 = [10, 8, 6, 4, 2, 0, 2, 4, 2, 0]
-y3_upper = [11, 9, 7, 5, 3, 1, 3, 5, 3, 1]
-y3_lower = [9, 7, 5, 3, 1, -.5, 1, 3, 1, -1]
-y3_lower = reverse(y3_lower)
-
-
-trace1 = scatter(
-    mode="lines",
-    x=x .+ x_rev,
-    y=y1_upper .+ y1_lower,
-    fill="toself",
-    fillcolor="rgba(0,100,80,0.2)",
-    line_color="rgba(255,255,255,0)",
-    showlegend=false,
-    name="Fair",
-)
-trace2 = scatter(
-    mode="lines",
-    x=x .+ x_rev,
-    y=y2_upper .+ y2_lower,
-    fill="toself",
-    fillcolor="rgba(0,176,246,0.2)",
-    line_color="rgba(255,255,255,0)",
-    name="Premium",
-    showlegend=false,
-)
-trace3 = scatter(
-    mode="lines",
-    x=x .+ x_rev,
-    y=y3_upper .+ y3_lower,
-    fill="toself",
-    fillcolor="rgba(231,107,243,0.2)",
-    line_color="rgba(255,255,255,0)",
-    showlegend=false,
-    name="Ideal",
-)
-trace4 = scatter(
-    mode="lines",
-    x=x, y=y1,
-    line_color="rgb(0,100,80)",
-    name="Fair",
-)
-trace5 = scatter(
-    mode="lines",
-    x=x, y=y2,
-    line_color="rgb(0,176,246)",
-    name="Premium",
-)
-trace6 = scatter(
-    mode="lines",
-    x=x, y=y3,
-    line_color="rgb(231,107,243)",
-    name="Ideal",
-)
-
-fig.update_traces()
-fig.show()
+plot(traces, layout)
 ```
 
 #### Reference
 
-See [function reference for `px.line()`](https://plotly.com/python-api-reference/generated/plotly.express.line) or https://plotly.com/python/reference/scatter/ for more information and chart attribute options!
+See https://plotly.com/julia/reference/scatter/ for more information and chart attribute options!
