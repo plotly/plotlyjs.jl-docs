@@ -25,8 +25,8 @@ jobs:
           arch: ${{ matrix.julia-arch }}
       - name: run make process
         run: julia --project=@. -e '
-          import Pkg
+          import Pkg;
           Pkg.activate(".");
           Pkg.instantiate();
-          include("make.jl")
-          main()'
+          include("make.jl");
+          main();'
