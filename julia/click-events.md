@@ -36,7 +36,7 @@ p = plot(
     [scatter(y=y, marker=attr(color=c, symbol=s, size=15), line_color=c[1])
     for (y, c, s) in zip(ys, color_vec, symbols)]
 )
-display(p)  # usually optional
+# display(p)  # usually optional
 
 on(p["click"]) do data
     color_vec = (fill("red", 10), fill("blue", 10))
@@ -47,6 +47,7 @@ on(p["click"]) do data
     end
     restyle!(p, marker_color=color_vec, marker_symbol=symbols)
 end
+p
 ```
 
 Note this example only works when running Julia locally as the logic for updating the point runs in Julia, not in the web browser.
