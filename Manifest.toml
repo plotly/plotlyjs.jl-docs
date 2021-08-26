@@ -431,9 +431,9 @@ uuid = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
 
 [[PlotlyBase]]
 deps = ["ColorSchemes", "Dates", "DelimitedFiles", "DocStringExtensions", "JSON", "LaTeXStrings", "Logging", "Parameters", "Pkg", "REPL", "Requires", "Statistics", "UUIDs"]
-git-tree-sha1 = "d0bee50806cbb7e6fedd60aac28b2ad5e7deea75"
+git-tree-sha1 = "e9b96dd840b3c9d01669f1df28982b530b711165"
 uuid = "a03496cd-edff-5a9b-9e67-9cda94a718b5"
-version = "0.8.12"
+version = "0.8.15"
 
 [[PlotlyJS]]
 deps = ["Base64", "Blink", "DelimitedFiles", "JSExpr", "JSON", "Kaleido_jll", "Markdown", "Pkg", "PlotlyBase", "REPL", "Reexport", "Requires", "WebIO"]
@@ -495,9 +495,9 @@ uuid = "3cdcf5f2-1ef4-517c-9805-6587b60abb01"
 version = "1.1.2"
 
 [[Reexport]]
-git-tree-sha1 = "5f6c21241f0f655da3952fd60aa18477cf96c220"
+git-tree-sha1 = "45e428421666073eab6f2da5c9d310d99bb12f9b"
 uuid = "189a3867-3050-52da-a836-e630ba90ab69"
-version = "1.1.0"
+version = "1.2.2"
 
 [[Requires]]
 deps = ["UUIDs"]
@@ -627,9 +627,9 @@ version = "1.0.2"
 
 [[TimeZones]]
 deps = ["Dates", "Future", "LazyArtifacts", "Mocking", "Pkg", "Printf", "RecipesBase", "Serialization", "Unicode"]
-git-tree-sha1 = "81753f400872e5074768c9a77d4c44e70d409ef0"
+git-tree-sha1 = "6c9040665b2da00d30143261aea22c7427aada1c"
 uuid = "f269a46b-ccf7-5d73-abea-4c690281aa53"
-version = "1.5.6"
+version = "1.5.7"
 
 [[TranscodingStreams]]
 deps = ["Random", "Test"]
