@@ -39,7 +39,7 @@ plot(
 
 #### Style 3d scatter plot
 
-It is possible to customize the style of the figure through the parameters of `px.scatter_3d` for some options, or by updating the traces or the layout of the figure through `fig.update`.
+It is possible to customize the style of the figure through the parameters of `scatter_3d` for some options, or by updating the traces or the layout of the figure through `restyle!` or `relayout!`.
 
 ```julia
 using PlotlyJS, CSV, DataFrames

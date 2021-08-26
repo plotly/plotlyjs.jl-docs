@@ -223,11 +223,11 @@ plot([
 ```julia
 using PlotlyJS
 
-colors = fill("lightslategray", 5)
-colors[2] = "crimson"
+color_vec = fill("lightslategray", 5)
+color_vec[2] = "crimson"
 
 plot(
-    bar(x='A':'E', y=[20, 14, 23, 25, 22], marker_color=colors),
+    bar(x='A':'E', y=[20, 14, 23, 25, 22], marker_color=color_vec),
     Layout(title_text="Least Used Feature")
 )
 ```

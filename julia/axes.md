@@ -84,7 +84,7 @@ The examples on this page apply to axes of any type, but extra attributes are av
 
 ##### Set axis title text
 
-Axis titles are automatically set to the column names when using `plot` and [using a data frame as input](/julia/px-arguments/).
+Axis titles are automatically set to the column names when using `plot` and using DataFrame as input.
 
 ```julia
 using PlotlyJS, CSV, DataFrames

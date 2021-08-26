@@ -143,7 +143,7 @@ end
 plot(
     df07,
     x=:gdpPercap, y=:lifeExp, group=:continent, mode="markers",
-    text=sub_df -> make_hover_text.(eachrow(sub_df)),
+    text=sub_df -> make_hover_text.(DataFrames.eachrow(sub_df)),
     marker=attr(size=:pop, sizeref=maximum(df07.pop) / (60^2), sizemode="area"),
     Layout(
         title="Life Expectancy v. Per Capita GDP, 2007",

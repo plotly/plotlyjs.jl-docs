@@ -341,7 +341,7 @@ y5 = [(12 * i + 40) for i in rand(N)]
 
 y_data = [y0, y1, y2, y3, y4, y5]
 
-colors = ["rgba(93, 164, 214, 0.5)", "rgba(255, 144, 14, 0.5)", "rgba(44, 160, 101, 0.5)",
+color_vec = ["rgba(93, 164, 214, 0.5)", "rgba(255, 144, 14, 0.5)", "rgba(44, 160, 101, 0.5)",
           "rgba(255, 65, 54, 0.5)", "rgba(207, 114, 255, 0.5)", "rgba(127, 96, 0, 0.5)"]
 
 
@@ -356,7 +356,7 @@ traces = [
         marker_size=2,
         line_width=1
     )
-    for (xd, yd, cls) in zip(x_data, y_data, colors)
+    for (xd, yd, cls) in zip(x_data, y_data, color_vec)
 ]
 
 layout = Layout(
