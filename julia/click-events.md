@@ -42,7 +42,7 @@ on(p["click"]) do data
     color_vec = (fill("red", 10), fill("blue", 10))
     symbols = (fill("circle", 10), fill("circle", 10))
     for point in data["points"]
-        colors[point["curveNumber"] + 1][point["pointIndex"] + 1] = "gold"
+        color_vec[point["curveNumber"] + 1][point["pointIndex"] + 1] = "gold"
         symbols[point["curveNumber"] + 1][point["pointIndex"] + 1] = "star"
     end
     restyle!(p, marker_color=color_vec, marker_symbol=symbols)
