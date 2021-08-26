@@ -1,0 +1,11 @@
+dash:
+- dash/*
+
+doc:
+- julia/*
+
+infrastructure:
+- make.jl
+
+deps:
+- any: [Project.toml, Manifest.toml]
