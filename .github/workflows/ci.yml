@@ -3,6 +3,9 @@ name: Run CI on PR
 on:
   pull_request:
     types: [opened, synchronize, reopened]
+    paths:
+      - "julia/**"
+      - "make.jl"
   workflow_dispatch:
 
 jobs:
