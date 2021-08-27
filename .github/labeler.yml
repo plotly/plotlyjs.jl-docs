@@ -1,11 +1,11 @@
 dash:
-  - dash/*
+  - "./dash/*"
 
 doc:
-  - julia/*
+  - "./julia/*"
 
 infrastructure:
   - "./*.jl"
 
 deps:
-  - ./*.toml
+  - "./*.toml"
