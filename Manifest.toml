@@ -21,6 +21,18 @@ git-tree-sha1 = "f87e559f87a45bece9c9ed97458d3afe98b1ebb9"
 uuid = "ec485272-7323-5ecc-a04f-4719b315124d"
 version = "0.1.0"
 
+[[Arpack]]
+deps = ["Arpack_jll", "Libdl", "LinearAlgebra"]
+git-tree-sha1 = "2ff92b71ba1747c5fdd541f8fc87736d82f40ec9"
+uuid = "7d9fca2a-8960-54d3-9f78-7d1dccf2cb97"
+version = "0.4.0"
+
+[[Arpack_jll]]
+deps = ["Libdl", "OpenBLAS_jll", "Pkg"]
+git-tree-sha1 = "e214a9b9bd1b4e1b4f15b22c0994862b66af7ff7"
+uuid = "68821587-b530-5797-8361-c406ea357684"
+version = "3.5.0+3"
+
 [[Artifacts]]
 uuid = "56f22d72-fd6d-98f1-02f0-08ddc0907c33"
 
@@ -525,6 +537,12 @@ git-tree-sha1 = "ced5223e0b8cecfab2cd0e688deec16984bd879c"
 uuid = "d491faf4-2d78-11e9-2867-c94bc002c0b7"
 version = "0.14.10"
 
+[[MLJMultivariateStatsInterface]]
+deps = ["Distances", "LinearAlgebra", "MLJModelInterface", "MultivariateStats", "StatsBase"]
+git-tree-sha1 = "0cfc81ff677ea13ed72894992ee9e5f8ae4dbb9d"
+uuid = "1b6a4a23-ba22-4f51-9698-8599985d3728"
+version = "0.2.2"
+
 [[MLJOpenML]]
 deps = ["CSV", "HTTP", "JSON", "Markdown", "ScientificTypes"]
 git-tree-sha1 = "a0d6e25ec042ab84505733a62a2b2894fbcf260c"
@@ -603,6 +621,12 @@ version = "0.3.3"
 [[MozillaCACerts_jll]]
 uuid = "14a3606d-f60d-562e-9121-12d972cd8159"
 
+[[MultivariateStats]]
+deps = ["Arpack", "LinearAlgebra", "SparseArrays", "Statistics", "StatsBase"]
+git-tree-sha1 = "8d958ff1854b166003238fe191ec34b9d592860a"
+uuid = "6f286f6a-111f-5878-ab1e-185364afe411"
+version = "0.8.0"
+
 [[Mustache]]
 deps = ["Printf", "Tables"]
 git-tree-sha1 = "36995ef0d532fe08119d70b2365b7b03d4e00f48"
@@ -656,6 +680,10 @@ deps = ["Adapt"]
 git-tree-sha1 = "c0f4a4836e5f3e0763243b8324200af6d0e0f90c"
 uuid = "6fe1bfb0-de20-5000-8ca7-80f57d26f881"
 version = "1.10.5"
+
+[[OpenBLAS_jll]]
+deps = ["Artifacts", "CompilerSupportLibraries_jll", "Libdl"]
+uuid = "4536629a-c528-5b80-bd46-f80d51c5b363"
 
 [[OpenSpecFun_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "JLLWrappers", "Libdl", "Pkg"]
