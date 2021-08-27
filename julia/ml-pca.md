@@ -179,7 +179,8 @@ plot(components, x=:x1, y=:x2, color=:species, mode="markers")
 
 ## Visualize PCA with `scatter3d`
 
-With the `scatter_3d` trace type, you can visualize an additional dimension, which let you capture even more variance.
+With the `scatter_3d` trace type, you can visualize an additional dimension,
+which let you capture even more variance.
 
 ```julia
 using PlotlyJS, CSV, DataFrames, MLJ
@@ -208,17 +209,25 @@ plot(
 
 ## Plotting explained variance
 
-Often, you might be interested in seeing how much variance PCA is able to explain as you increase the number of components, in order to decide how many dimensions to ultimately keep or analyze. This example shows you how to quickly plot the cumulative sum of explained variance for a high-dimensional dataset like [spectrometer](https://www.openml.org/d/313).
+Often, you might be interested in seeing how much variance PCA is able to
+explain as you increase the number of components, in order to decide how many
+dimensions to ultimately keep or analyze. This example shows you how to quickly
+plot the cumulative sum of explained variance for a high-dimensional dataset
+like [spectrometer](https://www.openml.org/d/313).
 
-With a higher explained variance, you are able to capture more variability in your dataset, which could potentially lead to better performance when training your model. For a more mathematical explanation, see this [Q&A thread](https://stats.stackexchange.com/questions/22569/pca-and-proportion-of-variance-explained).
+With a higher explained variance, you are able to capture more variability in
+your dataset, which could potentially lead to better performance when training
+your model. For a more mathematical explanation, see this [Q&A
+thread](https://stats.stackexchange.com/questions/22569/pca-and-proportion-of-variance-explained).
 
 ```julia
 using PlotlyJS, DataFrames, MLJ
 
-spectrometer = OpenML.load(313, parser=:auto)
+spectrometer = OpenML.load(313, verbosity=0)
 skip = [Symbol("LRS-name"), Symbol("LRS-class"), Symbol("ID-type")]
-_, X = unpack(spectrometer, x -> x in skip, colname->true)
-df = Float64.(DataFrame(X))
+df_all = DataFrame(spectrometer)
+features = [x for x in Symbol.(names(df_all)) if !(x in skip)]
+df = Float64.(df_all[!, features])
 
 PCA = @load PCA pkg="MultivariateStats"
 mach = machine(PCA(pratio=0.995), df)
@@ -240,13 +249,17 @@ plot(
 
 ## Visualize Loadings
 
-It is also possible to visualize loadings using `shapes`, and use `annotations` to indicate which feature a certain loading original belong to. Here, we define loadings as:
+It is also possible to visualize loadings using `shapes`, and use `annotations`
+to indicate which feature a certain loading original belong to. Here, we define
+loadings as:
 
 $$
 loadings = eigenvectors \cdot \sqrt{eigenvalues}
 $$
 
-For more details about the linear algebra behind eigenvectors and loadings, see this [Q&A thread](https://stats.stackexchange.com/questions/143905/loadings-vs-eigenvectors-in-pca-when-to-use-one-or-another).
+For more details about the linear algebra behind eigenvectors and loadings, see
+this [Q&A
+thread](https://stats.stackexchange.com/questions/143905/loadings-vs-eigenvectors-in-pca-when-to-use-one-or-another).
 
 ```julia
 using PlotlyJS, CSV, DataFrames, MLJ
