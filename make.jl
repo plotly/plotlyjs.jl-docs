@@ -5,8 +5,8 @@ using Markdown, PlotlyBase, PlotlyJS, YAML
 using Dates, LaTeXStrings, CSV, JSON, DataFrames, Distributions, HTTP, ImageFiltering, Colors, MLJ
 import VegaDatasets
 
-transform(::Module, x) = x
-function transform(mm::Module, x::Markdown.Code)
+_transform(::Module, x) = x
+function _transform(mm::Module, x::Markdown.Code)
     if x.language == "julia"
         code = "begin $(x.code) end"
         expr = Meta.parse(code)
@@ -54,8 +54,8 @@ function prep_file(fn::String)
     # make module to isolate execution environments for each file
     mod = eval(:(module $(gensym()) end))
 
-    # transform parsed markdown. Keep everything same, except eval code
-    transformed = transform.(Ref(mod), parsed.content)
+    # _transform parsed markdown. Keep everything same, except eval code
+    transformed = _transform.(Ref(mod), parsed.content)
 
     # convert all to html
     htmls = Markdown.html.(transformed)

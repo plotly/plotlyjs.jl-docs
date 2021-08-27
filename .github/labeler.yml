@@ -1,11 +1,11 @@
 dash:
-- dash/*
+  - "./dash/*"
 
 doc:
-- julia/*
+  - "./julia/*"
 
 infrastructure:
-- make.jl
+  - "./*.jl"
 
 deps:
-- any: [Project.toml, Manifest.toml]
+  - "./*.toml"
