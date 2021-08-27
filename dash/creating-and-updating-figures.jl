@@ -8,8 +8,10 @@ app = dash(external_stylesheets = ["https://codepen.io/chriddyp/pen/bWLwgP.css"]
 
 df = dataset(DataFrame, "tips")
 
-fig = plot(scatter(mode="lines", x=["a","b","c"], y=[1,3,2], 
-title="sample figure", height=325))
+fig = plot(
+    scatter(mode="lines", x=["a","b","c"], y=[1,3,2]), 
+    Layout(title="sample figure", height=325, template=Template())
+)
 
 app.layout = html_div() do
     dcc_graph(id = "graph", figure=fig),
@@ -25,7 +27,7 @@ end
 
 # TODO: Can't pretty print json
 callback!(app, Output("structure", "children"), Input("graph", "figure")) do val
-   return json(val)
+    return json(val, 2)
 end
 
 
