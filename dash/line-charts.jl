@@ -9,17 +9,23 @@ df = dataset(DataFrame, "gapminder")
 continents = unique(df.continent)
 
 app.layout = html_div() do
-    dcc_checklist(id="checklist", options=[Dict("label"=>x, "value"=>x) for x in continents], labelStyle=Dict("display"=>"inline-block"), value=["Europe", "Oceania"]),
-    dcc_graph(
-        id = "linechart"
-    )
+    dcc_checklist(
+        id="checklist", 
+        options=[(label=x, value=x) for x in continents], 
+        labelStyle=(display="inline-block",), 
+        value=["Europe", "Oceania"]
+    ),
+    dcc_graph(id = "linechart")
 end
 
 callback!(app, Output("linechart", "figure"), Input("checklist", "value")) do val
     mask = df[ [x in val for x in df.continent], :]
-    fig = plot(mask, kind="line", mode="lines", x=:year, y=:lifeExp, color=:country, barmode="group")
+    fig = plot(
+        mask, kind="line", mode="lines", 
+        x=:year, y=:lifeExp, color=:country, 
+    )
     return fig
 end
 
 
-run_server(app, "0.0.0.0", 8080)
+run_server(app, "0.0.0.0", 8080) 
