@@ -13,17 +13,17 @@ app.layout = html_div() do
     html_p("Legend position"),
     dcc_radioitems(
         id="xanchor",
-        options=[Dict("label"=> "left", "value"=> 0), 
-                 Dict("label"=> "right", "value"=> 1)],
+        options=[(label="left", value=0), 
+                 (label="right", value=1)],
         value=0,
-        labelStyle=Dict("display"=> "inline-block")
+        labelStyle=(display= "inline-block",)
     ),
     dcc_radioitems(
         id="yanchor", 
-        options=[Dict("label"=> "top", "value"=> 1), 
-                 Dict("label"=> "bottom", "value"=> 0)],
+        options=[(label= "top", value= 1), 
+                 (label= "bottom", value= 0)],
         value=1,
-        labelStyle=Dict("display"=> "inline-block")
+        labelStyle=(display="inline-block",)
     )
 end
 
@@ -34,11 +34,12 @@ callback!(app, Output("graph", "figure"), [Input("xanchor", "value"), Input("yan
         color=:continent, marker_size=:pop, 
         marker_sizeref = 2*maximum(df.pop)/(40^2),
         marker_sizemode="area",
-        size_max=45, log_x=true)
+        size_max=45, log_x=true
+    )
     relayout!(fig, legend_x=pos_x, legend_y=pos_y)
 
     return fig
 end
 
 
-run_server(app, "0.0.0.0", 8080)
+run_server(app, "0.0.0.0", 8080, debug=true)
