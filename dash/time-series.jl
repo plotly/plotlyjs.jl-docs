@@ -10,7 +10,7 @@ df = dataset(DataFrame, "stocks")
 app.layout = html_div() do
     dcc_dropdown(
         id="ticker",
-        options=[Dict("label"=> x, "value"=> x)
+        options=[(label= x, value= x)
                  for x in names(df)[2:end]],
         value=names(df)[2],
         clearable=false
