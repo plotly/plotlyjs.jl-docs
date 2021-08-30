@@ -12,22 +12,30 @@ app.layout = html_div() do
     dcc_dropdown(
         id="names", 
         value="day", 
-        options=[Dict("value"=> x, "label"=> x)
-                 for x in ["smoker", "day", "time", "sex"]],
+        options=[
+            (value= x, label= x)
+            for x in ["smoker", "day", "time", "sex"]
+        ],
         clearable=false
     ),
     html_p("Values:"),
     dcc_dropdown(
         id="values", 
         value="total_bill", 
-        options=[Dict("value"=> x, "label"=> x)
-                 for x in ["total_bill", "tip", "size"]],
+        options=[
+            (value= x, label=x)
+            for x in ["total_bill", "tip", "size"]
+        ],
         clearable=false
     ),
     dcc_graph(id="pie-chart")
 end
 
-callback!(app, Output("pie-chart", "figure"), [Input("values", "value"), Input("names", "value")]) do v, n
+callback!(
+    app, 
+    Output("pie-chart", "figure"), 
+    [Input("values", "value"), Input("names", "value")]
+) do v, n
     fig = plot(pie(values=df[!,v], labels=df[!, n]))
     return fig
 end
