@@ -4,9 +4,7 @@ using DashHtmlComponents
 using PlotlyJS, CSV, DataFrames
 
 df = dataset(DataFrame, "gapminder")
-oceania = df[df.continent .== "Oceania"]
-
-app = dash(external_stylesheets = ["https://codepen.io/chriddyp/pen/bWLwgP.css"])
+oceania = df[df.continent .== "Oceania", :]
 
 default_fig = plot(
     oceania, 
@@ -15,16 +13,17 @@ default_fig = plot(
     x=:year, 
     y=:lifeExp, 
     color=:country, 
-    title="Hover over points to see the change"
+    title="Hover over points to see the change",
+    Layout(hovermode="closest")
 )
 
 app = dash(external_stylesheets = ["https://codepen.io/chriddyp/pen/bWLwgP.css"])
 
-app,layout = html_div() do 
+app.layout = html_div() do 
     html_p("Hovermode"),
     dcc_radioitems(
         id="hovermode",
-        labelStyle=(display= "inline-block",),
+        labelStyle=(display="inline-block",),
         options=[
             (label=x, value=x)
             for x in ["x", "x unified", "closest"]
@@ -41,7 +40,7 @@ callback!(
     Input("hovermode", "value"),
     State("graph" ,"figure")
 ) do hovermode, fig
-    relyaout(fig, hovermode=hovermode)
+    fig.layout.hovermode = hovermode
     return fig
 end
 
