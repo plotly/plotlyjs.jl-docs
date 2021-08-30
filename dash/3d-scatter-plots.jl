@@ -24,7 +24,7 @@ callback!(app, Output("scatter-plot", "figure"), Input("range-slider", "value"))
     mask = df[df.petal_width .> low, :]
     mask = mask[mask.petal_width .< high, :]
 
-    fig = plot(kind="scatter3d", mode="markers", mask, x=:sepal_length, y=:sepal_width, z=:petal_width, color=:species, hover_data=[:petal_width])
+    fig = plot(mask, kind="scatter3d", mode="markers", x=:sepal_length, y=:sepal_width, z=:petal_width, color=:species, hover_data=[:petal_width])
 
     return fig
 end
