@@ -9,7 +9,7 @@ df = dataset(DataFrame, "tips")
 days = unique(df.day)
 
 app.layout = html_div() do
-    dcc_dropdown(id="dropdown", options=[Dict("label"=>x, "value"=>x) for x in days]),
+    dcc_dropdown(id="dropdown", options=[(label=x, value=x) for x in days]),
     dcc_graph(
         id = "barchart"
     )
