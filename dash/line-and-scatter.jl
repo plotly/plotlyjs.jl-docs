@@ -10,7 +10,14 @@ df = dataset(DataFrame, "iris")
 app.layout = html_div() do
     dcc_graph(id = "scatter-plot"),
     html_p("Petal Width:"),
-    dcc_rangeslider(id="rangeslider", min=0, max=2.5, step=0.1, marks=Dict("0"=>"0", "2.5"=>"2.5"), value=[0.5, 2])
+    dcc_rangeslider(
+        id="rangeslider", 
+        min=0, 
+        max=2.5, 
+        step=0.1, 
+        marks=Dict("0"=>"0", "2.5"=>"2.5"), 
+        value=[0.5, 2]
+    )
 end
 
 callback!(app, Output("scatter-plot", "figure"), Input("rangeslider", "value")) do val
