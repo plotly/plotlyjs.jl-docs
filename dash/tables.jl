@@ -4,7 +4,6 @@ using DashCoreComponents
 using DashTable
 using HTTP
 using PlotlyJS, CSV, DataFrames
-using Distributions
 
 app = dash(external_stylesheets = ["https://codepen.io/chriddyp/pen/bWLwgP.css"])
 
@@ -23,9 +22,9 @@ app.layout = html_div() do
             for i in names(df)
         ],
         data=df_dict,
-        style_cell=(textAlign="left"),
-        style_header=(backgroundColor="paleturquoise"),
-        style_data=(backgroundColor="lavender")
+        style_cell=(textAlign="left",),
+        style_header=(backgroundColor="paleturquoise",),
+        style_data=(backgroundColor="lavender",)
     )
 end
 
