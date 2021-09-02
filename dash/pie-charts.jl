@@ -3,27 +3,27 @@ using DashHtmlComponents
 using DashCoreComponents
 using PlotlyJS, CSV, DataFrames
 
-app = dash(external_stylesheets = ["https://codepen.io/chriddyp/pen/bWLwgP.css"])
+app = dash(external_stylesheets=["https://codepen.io/chriddyp/pen/bWLwgP.css"])
 
 df = dataset(DataFrame, "tips")
 
 app.layout = html_div() do
     html_p("Names:"),
     dcc_dropdown(
-        id="names", 
-        value="day", 
+        id="names",
+        value="day",
         options=[
-            (value= x, label= x)
+            (value = x, label = x)
             for x in ["smoker", "day", "time", "sex"]
         ],
         clearable=false
     ),
     html_p("Values:"),
     dcc_dropdown(
-        id="values", 
-        value="total_bill", 
+        id="values",
+        value="total_bill",
         options=[
-            (value= x, label=x)
+            (value = x, label = x)
             for x in ["total_bill", "tip", "size"]
         ],
         clearable=false
@@ -32,11 +32,10 @@ app.layout = html_div() do
 end
 
 callback!(
-    app, 
-    Output("pie-chart", "figure"), 
+    app,
+    Output("pie-chart", "figure"),
     [Input("values", "value"), Input("names", "value")]
 ) do v, n
-    fig = plot(pie(values=df[!,v], labels=df[!, n]))
-    return fig
+    plot(pie(values=df[!,v], labels=df[!, n]))
 end
 run_server(app, "0.0.0.0", 8080)
