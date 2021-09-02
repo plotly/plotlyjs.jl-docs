@@ -3,37 +3,37 @@ using DashHtmlComponents
 using DashCoreComponents
 using PlotlyJS, CSV, DataFrames
 
-app = dash(external_stylesheets = ["https://codepen.io/chriddyp/pen/bWLwgP.css"])
+app = dash(external_stylesheets=["https://codepen.io/chriddyp/pen/bWLwgP.css"])
 
 df = dataset(DataFrame, "tips")
 
 app.layout = html_div() do
     html_p("x-axis:"),
     dcc_checklist(
-        id="x-axis", 
+        id="x-axis",
         options=[
-            (value= x, label= x) 
+            (value = x, label = x)
             for x in ["smoker", "day", "time", "sex"]
         ],
-        value=["time"], 
-        labelStyle=(display="inline-block",)
+        value=["time"],
+        labelStyle=(display = "inline-block",)
     ),
     html_p("y-axis:"),
     dcc_radioitems(
         id="y-axis",
         options=[
-            (value=x,label=x) 
+            (value = x, label = x)
             for x in ["total_bill", "tip", "size"]
         ],
-        value="total_bill", 
-        labelStyle=(display= "inline-block",)
+        value="total_bill",
+        labelStyle=(display = "inline-block",)
     ),
     dcc_graph(id="box-plot")
 end
 
 callback!(
-    app, 
-    Output("box-plot", "figure"), 
+    app,
+    Output("box-plot", "figure"),
     [Input("x-axis", "value"), Input("y-axis", "value")]
 ) do x, y
     fig = plot(
