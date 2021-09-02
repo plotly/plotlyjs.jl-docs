@@ -3,14 +3,15 @@ using DashCoreComponents
 using DashHtmlComponents
 using PlotlyJS
 
-app = dash(external_stylesheets = ["https://codepen.io/chriddyp/pen/bWLwgP.css"])
+app = dash(external_stylesheets=["https://codepen.io/chriddyp/pen/bWLwgP.css"])
 
-app.layout = html_div() do 
+app.layout = html_div() do
     dcc_graph(id="graph", figure=plot(
         bar(
             x=[0,1,2],
             y=[2,1,3]
-        )
+        ),
+        Layout(title_text="Native PlotlyJS.jl rendering in Dash")
     ))
 end
 
