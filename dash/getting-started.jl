@@ -3,16 +3,13 @@ using DashCoreComponents
 using DashHtmlComponents
 using PlotlyJS
 
-app = dash(external_stylesheets = ["https://codepen.io/chriddyp/pen/bWLwgP.css"])
+app = dash(external_stylesheets=["https://codepen.io/chriddyp/pen/bWLwgP.css"])
 
 app.layout = html_div() do
     html_p("Color:"),
     dcc_dropdown(
         id="dropdown",
-        options=[
-            (label=x, value=x)
-            for x in ["Gold", "MediumTurquoise", "LightGreen"]
-        ],
+        options=[(label = x, value = x) for x in ["Gold", "MediumTurquoise", "LightGreen"]],
         value="Gold",
         clearable=false
     ),
