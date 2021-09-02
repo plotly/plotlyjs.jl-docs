@@ -5,7 +5,7 @@ using DashDaq
 using PlotlyJS, CSV, DataFrames
 df = dataset(DataFrame, "iris")
 
-app = dash(external_stylesheets = ["https://codepen.io/chriddyp/pen/bWLwgP.css"])
+app = dash(external_stylesheets=["https://codepen.io/chriddyp/pen/bWLwgP.css"])
 
 init_fig = plot(
     df,
@@ -14,36 +14,36 @@ init_fig = plot(
     y=:sepal_width,
     color=:species,
     Layout(
-        height=250, 
+        height=250,
         title_text="Playing with Fonts",
         font_family="Courier New",
         title_font_family="Times New Roman"
     )
 )
 
-picker_style = (float="left", margin="auto")
+picker_style = (float = "left", margin = "auto")
 
-app.layout = html_div() do 
+app.layout = html_div() do
     dcc_graph(id="graph", figure=init_fig),
     daq_colorpicker(
-        id="font", 
+        id="font",
         label="Font Color",
         size=150,
         style=picker_style,
-        value=(hex="#119dff",)
+        value=(hex = "#119dff",)
     ),
 
      daq_colorpicker(
-        id="title", 
+        id="title",
         label="Title Color",
         size=150,
         style=picker_style,
-        value=(hex="#2A0203",)
+        value=(hex = "#2A0203",)
     )
 end
 
 callback!(
-    app, 
+    app,
     Output("graph", "figure"),
     [Input("font", "value"), Input("title", "value")]
 ) do font, title
