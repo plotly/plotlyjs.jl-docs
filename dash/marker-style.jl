@@ -6,9 +6,9 @@ using PlotlyJS, CSV, DataFrames
 
 df = dataset(DataFrame, "iris")
 
-app = dash(external_stylesheets = ["https://codepen.io/chriddyp/pen/bWLwgP.css"])
+app = dash(external_stylesheets=["https://codepen.io/chriddyp/pen/bWLwgP.css"])
 
-default_fig = plot(
+default_fig() = plot(
     df,
     mode="markers",
     x=:sepal_width,
@@ -19,12 +19,12 @@ default_fig = plot(
         height=350
     )
 )
-app.layout = html_div() do 
-    dcc_graph(id="graph", figure=default_fig),
+app.layout = html_div() do
+    dcc_graph(id="graph", figure=default_fig()),
     daq_colorpicker(
         id="color",
         label="Border Color",
-        value=(hex="#2f4f4f",),
+        value=(hex = "#2f4f4f",),
         size=164
     )
 
@@ -32,11 +32,11 @@ app.layout = html_div() do
 end
 
 callback!(app, Output("graph", "figure"), Input("color", "value")) do val
-    fig = default_fig
+    fig = default_fig()
     restyle!(
-        fig, 
-        marker_size=12, 
-        marker_line=attr(width=2, color=val.hex), 
+        fig,
+        marker_size=12,
+        marker_line=attr(width=2, color=val.hex),
     )
     return fig
 end
