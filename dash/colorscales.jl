@@ -5,20 +5,17 @@ using PlotlyJS, CSV, DataFrames
 
 df = dataset(DataFrame, "iris")
 
-app = dash(external_stylesheets = ["https://codepen.io/chriddyp/pen/bWLwgP.css"])
+app = dash(external_stylesheets=["https://codepen.io/chriddyp/pen/bWLwgP.css"])
 
-app.layout = html_div() do 
+app.layout = html_div() do
     html_p("Color scale"),
     dcc_dropdown(
         id="colorscale",
-        options=[
-            (label=x, value=x)
-            for x in keys(colors.all)
-        ],
+        options=[(label = x, value = x) for x in sort(collect(keys(colors.all)))],
         value=Symbol("tableau_hue_circle")
     ),
     dcc_graph(id="graph")
-    
+
 end
 
 callback!(app, Output("graph", "figure"), Input("colorscale", "value")) do val
