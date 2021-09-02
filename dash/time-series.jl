@@ -3,15 +3,14 @@ using DashHtmlComponents
 using DashCoreComponents
 using PlotlyJS, CSV, DataFrames
 using Distributions
-app = dash(external_stylesheets = ["https://codepen.io/chriddyp/pen/bWLwgP.css"])
+app = dash(external_stylesheets=["https://codepen.io/chriddyp/pen/bWLwgP.css"])
 
 df = dataset(DataFrame, "stocks")
 
 app.layout = html_div() do
     dcc_dropdown(
         id="ticker",
-        options=[(label= x, value= x)
-                 for x in names(df)[2:end]],
+        options=[(label = x, value = x) for x in names(df)[2:end]],
         value=names(df)[2],
         clearable=false
     ),
