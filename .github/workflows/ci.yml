@@ -1,0 +1,42 @@
+name: Run CI on PR
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - "julia/**"
+      - "make.jl"
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Julia ${{ matrix.julia-version }} - ${{ matrix.os }} - ${{ matrix.julia-arch }}
+    timeout-minutes: 30
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        julia-version:
+          - "1.6"
+        julia-arch: [x64]
+        os: [ubuntu-latest]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up notebook state cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.julia
+          key: ${{ runner.os }}-julia-packages-${{ hashFiles('**/Project.toml', '**/Manifest.toml') }}
+      - uses: julia-actions/setup-julia@latest
+        with:
+          version: ${{ matrix.julia-version }}
+          arch: ${{ matrix.julia-arch }}
+      - name: run make process
+        env:
+          JULIA_PKG_SERVER: ""
+        run: julia --project=@. -e '
+          import Pkg;
+          Pkg.activate(".");
+          Pkg.instantiate();
+          include("make.jl");
+          main();'

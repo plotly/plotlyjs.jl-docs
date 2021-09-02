@@ -25,12 +25,12 @@ The [`PlotlyJS` Julia library](/julia/) is an interactive,
 [open-source](/julia#is-plotly-free) plotting library that supports over 40
 unique chart types covering a wide range of statistical, financial, geographic,
 scientific, and 3-dimensional use-cases.
- 
+
 Built on top of the Plotly JavaScript library
 ([plotly.js](https://plotly.com/javascript/)), `PlotlyJS` enables Julia users to
 create beautiful interactive web-based visualizations that can be displayed in
 Jupyter notebooks, saved to standalone HTML files, or served as part of pure
-Julia-built web applications using Dash.jl. 
+Julia-built web applications using Dash.jl.
 
 Thanks to deep integration with our
 [Kaleido](https://medium.com/plotly/introducing-kaleido-b03c4b7b1d81) image
@@ -119,7 +119,7 @@ optional dependencies include:
   complete library for representing and working with colors in Julia. Anywhere
   plotly.js accepts a color (for example `marker.color`, or `marker.line.color`,
   `layout.title.font.color`, etc.) Julia users can also pass an instance of any
-  type from the Colors.jl library. This 
+  type from the Colors.jl library. This
 - [ColorSchemes.jl](https://juliagraphics.github.io/ColorSchemes.jl/stable/): a
   collection of over 800 ready to use color schemes. All schemes from the
   ColorSchemes.jl package are ready to be used. They are all exposed under the
@@ -130,7 +130,7 @@ optional dependencies include:
   of families of color schemes such as `colors.sequential`, `colors.diverging`,
   `colors.cyclical` and `colors.discrete`. Most often, a color scheme is used to
   define the `layout.coloraxis.colorscale` property.
-  
+
 To use any of these optional integrations, all you need to do is import both
 `PlotlyJS` and the desired package in your Julia code.
 

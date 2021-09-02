@@ -2,10 +2,11 @@ using Markdown, PlotlyBase, PlotlyJS, YAML
 
 # also load packages used in examples to avoid world collision issues when
 # evaluating code
-using Dates, LaTeXStrings, CSV, JSON, DataFrames, Distributions, HTTP, VegaDatasets
+using Dates, LaTeXStrings, CSV, JSON, DataFrames, Distributions, HTTP, ImageFiltering, Colors, MLJ
+import VegaDatasets
 
-transform(::Module, x) = x
-function transform(mm::Module, x::Markdown.Code)
+_transform(::Module, x) = x
+function _transform(mm::Module, x::Markdown.Code)
     if x.language == "julia"
         code = "begin $(x.code) end"
         expr = Meta.parse(code)
@@ -53,8 +54,8 @@ function prep_file(fn::String)
     # make module to isolate execution environments for each file
     mod = eval(:(module $(gensym()) end))
 
-    # transform parsed markdown. Keep everything same, except eval code
-    transformed = transform.(Ref(mod), parsed.content)
+    # _transform parsed markdown. Keep everything same, except eval code
+    transformed = _transform.(Ref(mod), parsed.content)
 
     # convert all to html
     htmls = Markdown.html.(transformed)
@@ -103,15 +104,17 @@ function write_output(x::DocPage)
     @info "Wrote to $(output_fn)"
 end
 
-function process_file(fn::String)
+function process_file(fn::String, exit_on_fail::Bool=false)
     bn = basename(fn)
+    file_root = rsplit(bn, ".", limit=2)[1]
+    fail_path = joinpath("build", "failures", file_root)
+    rm(fail_path, force=true)
     try
         @info "processing file $fn on thread $(Base.Threads.threadid())"
         content = prep_file(bn)
         write_output(content)
     catch err
-        file_root = rsplit(bn, ".", limit=2)[1]
-        open(joinpath("build", "failures", file_root), "w") do f
+        open(fail_path, "w") do f
             println(f, err)
             for (exc, bt) in Base.catch_stack()
                 println(f, "\n\n")
@@ -120,13 +123,17 @@ function process_file(fn::String)
             end
         end
         @warn "failed when running $fn\nError is:\n$err"
-        exit(1)
+        if exit_on_fail
+            exit(1)
+        end
     end
 end
 
-function main()
+function main(exit_on_fail::Bool=true)
+    mkpath(joinpath("build", "html"))
+    mkpath(joinpath("build", "failures"))
     files = filter(endswith(".md"), readdir("julia"))
     Base.Threads.@threads for file in files
-        process_file(file)
+        process_file(file, exit_on_fail)
     end
 end

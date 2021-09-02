@@ -1,0 +1,11 @@
+dash:
+  - "./dash/*"
+
+doc:
+  - "./julia/*"
+
+infrastructure:
+  - "./*.jl"
+
+deps:
+  - "./*.toml"
