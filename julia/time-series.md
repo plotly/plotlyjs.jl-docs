@@ -27,7 +27,7 @@ jupyter:
 
 Time series charts can be constructed from Julia either from Arrays or DataFrame columns with time like types (`DateTime` or `Date`).
 
-For financial applications, Plotly can also be used to create [Candlestick charts](/julia/candlestick-charts/) and [OHLC charts](/julia/ohlc-charts/), which default to date axes.
+For financial applications, Plotly can also be used to create [Candlestick charts](/julia/candlestick-charts/) and [OHLC charts], which default to date axes.
 
 ```julia
 using PlotlyJS, DataFrames, VegaDatasets, Dates
