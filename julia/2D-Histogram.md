@@ -51,7 +51,7 @@ plot(
 )
 ```
 
-Density heatmaps can also be [faceted](/julia/facet-plots/):
+Density heatmaps can also be faceted:
 
 ```julia
 using PlotlyJS, CSV, DataFrames
