@@ -29,7 +29,7 @@ jupyter:
 attributes such as `xaxis`, `yaxis` and `zaxis` parameters, in order to
 set the range, title, ticks, color etc. of the axes.
 
-For creating 3D charts, see [this page](https://plotly.com/julia/3d-charts/).
+<!-- For creating 3D charts, see [this page](https://plotly.com/julia/3d-charts/). -->
 
 ```julia
 using PlotlyJS
