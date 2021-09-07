@@ -19,7 +19,7 @@ jupyter:
     name: Tables
     order: 11
     page_type: example_index
-    permalink: julia-/table/
+    permalink: julia/table/
     thumbnail: thumbnail/table.gif
 ---
 
