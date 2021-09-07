@@ -71,7 +71,7 @@ plot(surface(z=z_data, x=x, y=y), layout)
 
 #### Surface Plot With Contours
 
-Display and customize contour data for each axis using the `contours` attribute ([reference](plotly.com/julia/reference/surface/#surface-contours)).
+Display and customize contour data for each axis using the `contours` attribute.
 
 ```julia
 using PlotlyJS, CSV, HTTP, DataFrames
