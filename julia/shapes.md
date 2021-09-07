@@ -253,7 +253,7 @@ p = plot(
 
 #### Highlighting Time Series Regions with Rectangle Shapes
 
-_Note:_ there are [special methods `add_hline`, `add_vline`, `add_hrect` and `add_vrect` for the common cases of wanting to draw horizontal or vertical lines or rectangles](/julia/horizontal-vertical-shapes/) that are fixed to data coordinates in one axis and absolutely positioned in another.
+_Note:_ there are [special methods `add_hline`, `add_vline`, `add_hrect` and `add_vrect` for the common cases of wanting to draw horizontal or vertical lines or rectangles] that are fixed to data coordinates in one axis and absolutely positioned in another.
 
 ```julia
 using PlotlyJS
@@ -542,7 +542,7 @@ fig
 
 You can create layout shapes programmatically, but you can also draw shapes manually by setting the `dragmode` to one of the shape-drawing modes: `'drawline'`,`'drawopenpath'`, `'drawclosedpath'`, `'drawcircle'`, or `'drawrect'`. If you need to switch between different shape-drawing or other dragmodes (panning, selecting, etc.), [modebar buttons can be added](/julia/configuration-options#add-optional-shapedrawing-buttons-to-modebar) in the `config` to select the dragmode. If you switch to a different dragmode such as pan or zoom, you will need to select the drawing tool in the modebar to go back to shape drawing.
 
-This shape-drawing feature is particularly interesting for annotating graphs, in particular [image traces](/julia/imshow) or [layout images](/julia/images).
+This shape-drawing feature is particularly interesting for annotating graphs, in particular [image traces] or [layout images](/julia/images).
 
 Once you have drawn shapes, you can select and modify an existing shape by clicking on its boundary (note the arrow pointer). Its fillcolor turns to pink to highlight the activated shape and then you can
 
