@@ -25,7 +25,7 @@ jupyter:
 
 #### Add a Background Image
 
-In this page we explain how to add static, non-interactive images as background, logo or annotation images to a figure. For exploring image data in interactive charts, see the [tutorial on displaying image data](/julia/imshow).
+In this page we explain how to add static, non-interactive images as background, logo or annotation images to a figure. For exploring image data in interactive charts, see the [tutorial on displaying image data].
 
 A background image can be added to the layout of a figure with the `images` parameter of `gLayout`. The
 `source` attribute of a `layout.Image` should be the URL of the image.
