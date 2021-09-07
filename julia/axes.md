@@ -25,30 +25,27 @@ jupyter:
     thumbnail: thumbnail/axes.png
 ---
 
-This tutorial explain how to set the properties of [2-dimensional Cartesian axes](/julia/figure-structure/#2d-cartesian-trace-types-and-subplots), namely [`layout.xaxis`](/julia/reference/layout/xaxis/) and [`layout.yaxis`](julia/reference/layout/xaxis/).
+This tutorial explain how to set the properties of [2-dimensional Cartesian axes], namely [`layout.xaxis`](/julia/reference/layout/xaxis/) and [`layout.yaxis`](/julia/reference/layout/yaxis/).
 
 Other kinds of subplots and axes are described in other tutorials:
 
 - [3D axes](/julia/3d-axes) The axis object is [`layout.Scene`](/julia/reference/layout/scene/)
 - [Polar axes](/julia/polar-chart/). The axis object is [`layout.Polar`](/julia/reference/layout/polar/)
-- [Ternary axes](/julia/ternary-plots). The axis object is [`layout.Ternary`](/julia/reference/layout/ternary/)
-- [Geo axes](/julia/map-configuration/). The axis object is [`layout.Geo`](/julia/reference/layout/geo/)
-- [Mapbox axes](/julia/mapbox-layers/). The axis object is [`layout.Mapbox`](/julia/reference/layout/mapbox/)
-- [Color axes](/julia/colorscales/). The axis object is [`layout.Coloraxis`](/julia/reference/layout/coloraxis/).
 
-**See also** the tutorials on [facet plots](/julia/facet-plots/), [subplots](/julia/subplots) and [multiple axes](/julia/multiple-axes/).
+
+**See also** the tutorials on [subplots](/julia/subplots) and [multiple axes](/julia/multiple-axes/).
 
 ### 2-D Cartesian Axis Types and Auto-Detection
 
 The different types of Cartesian axes are configured via the `xaxis.type` or `yaxis.type` attribute, which can take on the following values:
 
 - `'linear'` as described in this page
-- `'log'` (see the [log plot tutorial](/julia/log-plots/))
+- `'log'` 
 - `'date'` (see the [tutorial on timeseries](/julia/time-series/))
-- `'category'` (see the [categorical axes tutorial](/julia/categorical-axes/))
-- `'multicategory'` (see the [categorical axes tutorial](/julia/categorical-axes/))
+- `'category'`
+- `'multicategory'`
 
-The axis type is auto-detected by looking at data from the first [trace](/julia/figure-structure/) linked to this axis:
+The axis type is auto-detected by looking at data from the first [trace] linked to this axis:
 
 - First check for `multicategory`, then `date`, then `category`, else default to `linear` (`log` is never automatically selected)
 - `multicategory` is just a shape test: is the array nested?
