@@ -23,7 +23,7 @@ jupyter:
     thumbnail: thumbnail/3d-volume-plots.jpg
 ---
 
-A volume plot with `volume` shows several partially transparent isosurfaces for volume rendering. The API of `volume` is close to the one of `isosurface`. However, whereas [isosurface plots](/julia/3d-isosurface-plots/) show all surfaces with the same opacity, tweaking the `opacityscale` parameter of `volume` results in a depth effect and better volume rendering.
+A volume plot with `volume` shows several partially transparent isosurfaces for volume rendering. The API of `volume` is close to the one of `isosurface`. However, whereas isosurface plots show all surfaces with the same opacity, tweaking the `opacityscale` parameter of `volume` results in a depth effect and better volume rendering.
 
 ## Basic volume plot
 
@@ -253,6 +253,4 @@ plot(volume(
 
 See https://plotly.com/julia/reference/volume/ for more information and chart attribute options!
 
-#### See also
 
-[3D isosurface documentation](/julia/3d-isosurface-plots/)
