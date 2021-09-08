@@ -19,10 +19,12 @@ jupyter:
     name: 3D Isosurface Plots
     order: 10
     page_type: example_index
-    permalink: juila/3d-isosurface-plots/
+    permalink: julia/3d-isosurface-plots/
     redirect_from: julia/isosurfaces-with-marching-cubes/
     thumbnail: thumbnail/isosurface.jpg
 ---
+
+# NOTE: this permalink does not work
 
 With `go.Isosurface`, you can plot [isosurface contours](https://en.wikipedia.org/wiki/Isosurface) of a scalar field `value`, which is defined on `x`, `y` and `z` coordinates.
 

@@ -26,11 +26,11 @@ jupyter:
 
 ### Trace Types, Legends and Color Bars
 
-[Traces](/julia/figure-structure) of most types can be optionally associated with a single legend item in the [legend](/julia/legend/). Whether or not a given trace appears in the legend is controlled via the `showlegend` attribute. Traces which are their own subplots (see above) do not support this, with the exception of traces of type `pie` and `funnelarea` for which every distinct color represented in the trace gets a separate legend item. Users may show or hide traces by clicking or double-clicking on their associated legend item. Traces that support legend items also support the `legendgroup` attribute, and all traces with the same legend group are treated the same way during click/double-click interactions.
+[Traces] of most types can be optionally associated with a single legend item in the [legend](/julia/legend/). Whether or not a given trace appears in the legend is controlled via the `showlegend` attribute. Traces which are their own subplots (see above) do not support this, with the exception of traces of type `pie` and `funnelarea` for which every distinct color represented in the trace gets a separate legend item. Users may show or hide traces by clicking or double-clicking on their associated legend item. Traces that support legend items also support the `legendgroup` attribute, and all traces with the same legend group are treated the same way during click/double-click interactions.
 
-The fact that legend items are linked to traces means that when using [discrete color](/julia/discrete-color/), a figure must have one trace per color in order to get a meaningful legend.
+The fact that legend items are linked to traces means that when using [discrete color], a figure must have one trace per color in order to get a meaningful legend.
 
-Traces which support [continuous color](/julia/colorscales/) can also be associated with color axes in the layout via the `coloraxis` attribute. Multiple traces can be linked to the same color axis. Color axes have a legend-like component called color bars. Alternatively, color axes can be configured within the trace itself.
+Traces which support [continuous color] can also be associated with color axes in the layout via the `coloraxis` attribute. Multiple traces can be linked to the same color axis. Color axes have a legend-like component called color bars. Alternatively, color axes can be configured within the trace itself.
 
 ### Legends with DataFrame
 
@@ -55,7 +55,7 @@ plot(
 
 ### Legend Order
 
-By default, Plotly lays out legend items in the order in which values appear in the underlying data. Every function also includes a `category_orders` keyword argument which can be used to control [the order in which categorical axes are drawn](/julia/categorical-axes/), but beyond that can also control the order in which legend items appear, and [the order in which facets are laid out](/julia/facet-plots/).
+By default, Plotly lays out legend items in the order in which values appear in the underlying data. Every function also includes a `category_orders` keyword argument which can be used to control [the order in which categorical axes are drawn], but beyond that can also control the order in which legend items appear, and [the order in which facets are laid out].
 
 ```julia
 using PlotlyJS, CSV, DataFrames
@@ -153,7 +153,7 @@ plot(
 
 ### Legend Positioning
 
-Legends have an anchor point, which can be set to a point within the legend using `layout.legend.xanchor` and `layout.legend.yanchor`. The coordinate of the anchor can be positioned with `layout.legend.x` and `layout.legend.y` in [paper coordinates](/julia/figure-structure/). Note that the plot margins will grow so as to accommodate the legend. The legend may also be placed within the plotting area.
+Legends have an anchor point, which can be set to a point within the legend using `layout.legend.xanchor` and `layout.legend.yanchor`. The coordinate of the anchor can be positioned with `layout.legend.x` and `layout.legend.y` in [paper coordinates]. Note that the plot margins will grow so as to accommodate the legend. The legend may also be placed within the plotting area.
 
 ```julia
 using PlotlyJS, DataFrames, CSV
