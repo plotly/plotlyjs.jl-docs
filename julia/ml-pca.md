@@ -11,7 +11,7 @@ jupyter:
     description: Visualize Principle Component Analysis (PCA) of your high-dimensional
       data in Julia with PlotlyJS.jl.
     display_as: ai_ml
-    language: python
+    language: julia
     layout: base
     name: PCA Visualization
     order: 4
