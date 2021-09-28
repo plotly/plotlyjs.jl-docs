@@ -23,7 +23,7 @@ jobs:
           command: |
             apt update && apt install -y unzip zip make git
             echo 'export JULIA_PKG_SERVER=""' >> $BASH_ENV
-            julia -e 'using Pkg; Pkg.activate("."); Pkg.instantiate()'
+            julia -e 'setindex!(ENV, "", "JULIA_PKG_SERVER"); using Pkg; Pkg.activate("."); Pkg.instantiate()'
 
       - save_cache:
           paths:
