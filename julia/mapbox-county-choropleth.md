@@ -12,8 +12,7 @@ jupyter:
     language: julia
     name: julia-1.6
   plotly:
-    description:
-      How to make a Mapbox Choropleth Map of US Counties in Julia with
+    description: How to make a Mapbox Choropleth Map of US Counties in Julia with
       Plotly.
     display_as: maps
     language: julia
@@ -25,9 +24,11 @@ jupyter:
     thumbnail: thumbnail/mapbox-choropleth.png
 ---
 
-A [Choropleth Map](https://en.wikipedia.org/wiki/Choropleth_map) is a map composed of colored polygons. It is used to represent spatial variations of a quantity. This page documents how to build **tile-map** choropleth maps, but you can also build [**outline** choropleth maps using our non-Mapbox trace types](/julia/choropleth-maps).
+A [Choropleth Map](https://en.wikipedia.org/wiki/Choropleth_map) is a map composed of colored polygons.
+It is used to represent spatial variations of a quantity. This page documents how to build **tile-map**
+choropleth maps, but you can also build [**outline** choropleth maps using our non-Mapbox trace types](/julia/choropleth-maps).
 
-Below we show how to create Choropleth Maps using `choroplethmapbox`.
+Below we show how to create Choropleth Maps using `choroplethmapbox`
 
 #### Mapbox Access Tokens and Base Map Configuration
 
@@ -40,7 +41,7 @@ Making choropleth Mapbox maps requires two main types of input:
 1. GeoJSON-formatted geometry information where each feature has either an `id` field or some identifying value in `properties`.
 2. A list of values indexed by feature identifier.
 
-The GeoJSON data is passed to the `geojson` argument, and the data is passed into the `color` argument of `choroplethmapbox` (`z` if using `graph_objects`), in the same order as the IDs are passed into the `location` argument.
+The GeoJSON data is passed to the `geojson` argument, and the data is passed into the `z` argument of `choroplethmapbox`, in the same order as the IDs are passed into the `location` argument.
 
 **Note** the `geojson` attribute can also be the URL to a GeoJSON file, which can speed up map rendering in certain cases.
 
@@ -49,12 +50,12 @@ The GeoJSON data is passed to the `geojson` argument, and the data is passed int
 Here we load a GeoJSON file containing the geometry information for US counties, where `feature.id` is a [FIPS code](https://en.wikipedia.org/wiki/FIPS_county_code).
 
 ```julia
-using HTTP, JSON
+using PlotlyJS, JSON, HTTP
 
-response=HTTP.get("https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json")
-data=JSON.parse(String(response.body))
+response = HTTP.get("https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json")
+counties = JSON.parse(String(response.body))
 
-data["features"][1]
+counties["features"][1]
 ```
 
 #### Data indexed by `id`
@@ -62,77 +63,53 @@ data["features"][1]
 Here we load unemployment data by county, also indexed by [FIPS code](https://en.wikipedia.org/wiki/FIPS_county_code).
 
 ```julia
-using CSV, HTTP, DataFrames
-
+using PlotlyJS, CSV, HTTP, DataFrames
 df = CSV.File(
     HTTP.get("https://raw.githubusercontent.com/plotly/datasets/master/fips-unemp-16.csv").body
 ) |> DataFrame
-
-
 ```
 
-### Choropleth map using plotly.express and carto base map (no token needed)
+### Choropleth map using carto base map (no token needed)
 
-[Plotly Express](/python/plotly-express/) is the easy-to-use, high-level interface to Plotly, which [operates on a variety of types of data](/python/px-arguments/) and produces [easy-to-style figures](/python/styling-plotly-express/).
-
-With `px.choropleth_mapbox`, each row of the DataFrame is represented as a region of the choropleth.
-
-```python
-from urllib.request import urlopen
-import json
-with urlopen('https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json') as response:
-    counties = json.load(response)
-
-import pandas as pd
-df = pd.read_csv("https://raw.githubusercontent.com/plotly/datasets/master/fips-unemp-16.csv",
-                   dtype={"fips": str})
-
-import plotly.express as px
-
-fig = px.choropleth_mapbox(df, geojson=counties, locations='fips', color='unemp',
-                           color_continuous_scale="Viridis",
-                           range_color=(0, 12),
-                           mapbox_style="carto-positron",
-                           zoom=3, center = {"lat": 37.0902, "lon": -95.7129},
-                           opacity=0.5,
-                           labels={'unemp':'unemployment rate'}
-                          )
-fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
-fig.show()
-```
+With `choroplethmapbox`, each row of the DataFrame is represented as a region of the choropleth.
 
 ```julia
 using PlotlyJS, CSV, JSON, HTTP, DataFrames
 
-response=HTTP.get("https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json")
-counties=JSON.parse(String(response.body))
+response = HTTP.get("https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json")
+counties = JSON.parse(String(response.body))
 
 df = CSV.File(
     HTTP.get("https://raw.githubusercontent.com/plotly/datasets/master/fips-unemp-16.csv").body,
-    types=Dict("fips"=>String)
+    types=Dict("fips" => String)
 ) |> DataFrame
+
+f = open("./.mapbox_token") # you will need your own
+token = String(read(f))
+close(f)
 
 trace = choroplethmapbox(
     geojson=counties,
     locations=df.fips,
-    color=df.unemp,
-    mapbox_style="carto-positron",
-    zoom=3,
-    center = attr(lat=37.0902, lon=-95.7129),
-    opacity=0.5,
+    z=df.unemp,
+    featureidkey="id",
+    coloraxis="coloraxis",
+    range_color=[0,12],
+    marker_opacity=0.5,
 )
-```
 
-### Choropleth maps in Dash
-
-[Dash](https://plotly.com/dash/) is the best way to build analytical apps in Python using Plotly figures. To run the app below, run `pip install dash`, click "Download" to get the code and run `python app.py`.
-
-Get started with [the official Dash docs](https://dash.plotly.com/installation) and **learn how to effortlessly [style](https://plotly.com/dash/design-kit/) & [deploy](https://plotly.com/dash/app-manager/) apps like this with <a class="plotly-red" href="https://plotly.com/dash/">Dash Enterprise</a>.**
-
-```python hide_code=true
-from IPython.display import IFrame
-snippet_url = 'https://dash-gallery.plotly.host/python-docs-dash-snippets/'
-IFrame(snippet_url + 'mapbox-county-choropleth', width='100%', height=630)
+plot(trace, 
+    Layout(
+        mapbox=attr(
+            accesstoken=token, 
+            style="carto-positron", 
+            center=attr(lat=37.0902, lon=-95.7129),
+            zoom=3,
+        ),
+        coloraxis_colorscale=colors.viridis,
+        margin=attr(r=0,t=0,l=0,b=0)
+    )
+)
 ```
 
 ### Indexing by GeoJSON Properties
@@ -141,37 +118,50 @@ If the GeoJSON you are using either does not have an `id` field or you wish you 
 
 In the following GeoJSON object/data-file pairing, the values of `properties.district` match the values of the `district` column:
 
-```python
-import plotly.express as px
+```julia
+using PlotlyJS, CSV, JSON, DataFrames
 
-df = px.data.election()
-geojson = px.data.election_geojson()
+df = dataset(DataFrame, "election")
+geojson = dataset("election_geo")
 
-print(df["district"][2])
-print(geojson["features"][0]["properties"])
+df.district[3]
+geojson["features"][1]["properties"]
 ```
 
-To use them together, we set `locations` to `district` and `featureidkey` to `"properties.district"`. The `color` is set to the number of votes by the candidate named Bergeron.
+To use them together, we set `locations` to `district` and `featureidkey` to `"properties.district"`. The `z` is set to the number of votes by the candidate named Bergeron.
 
-```python
-import plotly.express as px
+```julia
+using PlotlyJS, CSV, JSON, DataFrames
 
-df = px.data.election()
-geojson = px.data.election_geojson()
+df = dataset(DataFrame, "election")
+geojson = dataset("election_geo")
 
-fig = px.choropleth_mapbox(df, geojson=geojson, color="Bergeron",
-                           locations="district", featureidkey="properties.district",
-                           center={"lat": 45.5517, "lon": -73.7073},
-                           mapbox_style="carto-positron", zoom=9)
-fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
-fig.show()
+trace = choroplethmapbox(
+    geojson=geojson,
+    z=df.Bergeron,
+    locations=df.district,
+    featureidkey="properties.district"
+)
+
+plot(trace,
+    Layout(
+        mapbox=attr(
+            center=attr(lat=45.5517, lon=-73.7073),
+            style="carto-positron",
+            zoom=9
+        ),
+        margin=attr(t=0,b=0,r=0,l=0)
+    )
+)
 ```
 
+<!-- TODO: This is python magic functionality -->
 ### Discrete Colors
 
-In addition to [continuous colors](/python/colorscales/), we can [discretely-color](/python/discrete-color/) our choropleth maps by setting `color` to a non-numerical column, like the name of the winner of an election.
+In addition to [continuous colors](/julia/colorscales/), we can [discretely-color](/julia/discrete-color/)
+our choropleth maps by setting `z` to a non-numerical column, like the name of the winner of an election.
 
-```python
+<!-- ```python
 import plotly.express as px
 
 df = px.data.election()
@@ -183,9 +173,35 @@ fig = px.choropleth_mapbox(df, geojson=geojson, color="winner",
                            mapbox_style="carto-positron", zoom=9)
 fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
 fig.show()
+``` -->
+
+```julia
+using PlotlyJS, CSV, JSON, DataFrames
+
+df = dataset(DataFrame, "election")
+geojson = dataset("election_geo")
+
+trace = choroplethmapbox(
+    geojson=geojson,
+    z=df.winner,
+    locations=df.district,
+    featureidkey="properties.district"
+)
+
+plot(trace,
+    Layout(
+        mapbox=attr(
+            center=attr(lat=45.5517, lon=-73.7073),
+            style="carto-positron",
+            zoom=9
+        ),
+        margin=attr(t=0,b=0,r=0,l=0)
+    )
+)
 ```
 
-### Using GeoPandas Data Frames
+TODO: Python specific?
+<!-- ### Using GeoPandas Data Frames
 
 `px.choropleth_mapbox` accepts the `geometry` of a [GeoPandas](https://geopandas.org/) data frame as the input to `geojson` if the `geometry` contains polygons.
 
@@ -206,32 +222,7 @@ fig = px.choropleth_mapbox(geo_df,
                            mapbox_style="open-street-map",
                            zoom=8.5)
 fig.show()
-```
-
-### Choropleth map using plotly.graph_objects and carto base map (no token needed)
-
-If Plotly Express does not provide a good starting point, it is also possible to use [the more generic `go.Choroplethmapbox` class from `plotly.graph_objects`](/python/graph-objects/).
-
-```python
-from urllib.request import urlopen
-import json
-with urlopen('https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json') as response:
-    counties = json.load(response)
-
-import pandas as pd
-df = pd.read_csv("https://raw.githubusercontent.com/plotly/datasets/master/fips-unemp-16.csv",
-                   dtype={"fips": str})
-
-import plotly.graph_objects as go
-
-fig = go.Figure(go.Choroplethmapbox(geojson=counties, locations=df.fips, z=df.unemp,
-                                    colorscale="Viridis", zmin=0, zmax=12,
-                                    marker_opacity=0.5, marker_line_width=0))
-fig.update_layout(mapbox_style="carto-positron",
-                  mapbox_zoom=3, mapbox_center = {"lat": 37.0902, "lon": -95.7129})
-fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
-fig.show()
-```
+``` -->
 
 #### Mapbox Light base map: free token needed
 
@@ -258,6 +249,50 @@ fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
 fig.show()
 ```
 
+```julia
+using PlotlyJS, CSV, JSON, HTTP, DataFrames
+
+response = HTTP.get("https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json")
+counties = JSON.parse(String(response.body))
+
+df = CSV.File(
+    HTTP.get("https://raw.githubusercontent.com/plotly/datasets/master/fips-unemp-16.csv").body,
+    types=Dict("fips" => String)
+) |> DataFrame
+
+f = open("./.mapbox_token") # you will need your own
+token = String(read(f))
+close(f)
+
+# TODO: Looks like zmin and zmax aren't doing anything
+trace = choroplethmapbox(
+    geojson=counties,
+    locations=df.fips,
+    z=df.unemp,
+    zmin=0,
+    zmax=12,
+    featureidkey="id",
+    coloraxis="coloraxis",
+    range_color=[0,12],
+    marker_line_width=0,
+    marker_opacity=0.5,
+)
+
+plot(trace, 
+    Layout(
+        mapbox=attr(
+            accesstoken=token, 
+            style="light", 
+            center=attr(lat=37.0902, lon=-95.7129),
+            zoom=3,
+        ),
+        coloraxis_colorscale=colors.viridis,
+        margin=attr(r=0,t=0,l=0,b=0)
+    )
+)
+
+```
+
 #### Reference
 
-See [function reference for `px.(choropleth_mapbox)`](https://plotly.com/python-api-reference/generated/plotly.express.choropleth_mapbox) or https://plotly.com/python/reference/choroplethmapbox/ for more information about mapbox and their attribute options.
+See [function reference for `(choropleth_mapbox)`](https://plotly.com/python/reference/choroplethmapbox/) for more information about mapbox and their attribute options.
