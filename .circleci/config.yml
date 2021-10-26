@@ -41,7 +41,7 @@ jobs:
               git config user.name plotlydocbot
               git config user.email accounts@plot.ly
               git add *
-              git commit -m "build of https://github.com/plotlyplotlyjs.jl-docs/commit/${CIRCLE_SHA1}"
+              git commit -m "build of https://github.com/plotly/plotlyjs.jl-docs/commit/${CIRCLE_SHA1}"
               git push --force git@github.com:plotly/plotlyjs.jl-docs.git master:built
               rm -rf .git
               cd ../..
