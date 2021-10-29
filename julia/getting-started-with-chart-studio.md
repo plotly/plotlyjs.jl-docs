@@ -27,7 +27,7 @@ jupyter:
 
 To install Chart Studio's Julia package, use the built-in Julia package manager to install the `Plotly` package.
 
-```julia
+```
 using Pkg
 Pkg.add("Plotly")
 ```
@@ -44,7 +44,7 @@ After installing the Plotly.jl package, you're ready to fire up julia:
 
 and set your credentials:
 
-```julia
+```
 using Plotly
 Plotly.signin("DemoAccount", "lr1c37zw81")
 ```
@@ -75,7 +75,7 @@ Plot can be set to three different type of privacies: public, private or secret.
 
 By default all plots are set to **public**. Users with free account have the permission to keep one private plot. If you need to save private plots, [upgrade to a pro account](https://plotly.com/plans). If you're a [Personal or Professional user](https://plotly.com/settings/subscription/?modal=true&utm_source=api-docs&utm_medium=support-oss) and would like the default setting for your plots to be private, you can edit your Chart Studio configuration:
 
-```julia
+```
 using Plotly
 Plotly.set_config_file(
     world_readable=false,
@@ -91,7 +91,7 @@ If your company has a Chart Studio Enterprise server, change the API endpoint so
 
 In Julia, enter:
 
-```julia
+```
 using Plotly
 Plotly.set_config_file(
     plotly_domain="https://plotly.your-company.com",
@@ -105,7 +105,7 @@ Additionally, you can set your configuration so that you generate **private plot
 
 In pJulia, enter:
 
-```julia
+```
 using Plotly
 Plotly.set_config_file(
     plotly_domain="https://plotly.your-company.com",
@@ -122,7 +122,7 @@ When plotting online, the plot and data will be saved to your cloud account. The
 
 Copy and paste the following example to create your first hosted Plotly graph using the Plotly Julia library:
 
-```julia
+```
 using Plotly
 
 trace0 = scatter(x=1:4, y=[10, 15, 13, 17])
