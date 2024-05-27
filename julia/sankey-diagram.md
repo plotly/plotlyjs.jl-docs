@@ -182,4 +182,4 @@ plot(sankey(
 
 ### Reference
 
-See [https://plotly.com/julia/reference/sankey](https://plotly.com/jluia/reference/sankey/) for more information and options!
+See [https://plotly.com/julia/reference/sankey](https://plotly.com/julia/reference/sankey/) for more information and options!
