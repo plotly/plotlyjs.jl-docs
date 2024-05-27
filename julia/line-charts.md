@@ -169,7 +169,7 @@ plot([trace1 ,trace2, trace3, trace4, trace5, trace6], layout)
 
 #### Connect Data Gaps
 
-[connectgaps](https://plotly.com/julia/reference/scatter/#scatter-connectgaps) determines if missing values in the provided data are shown as a gap in the graph or not. In [this tutorial](https://plotly.com/julia/filled-area-on-mapbox/#multiple-filled-areas-with-a-scattermapbox-trace), we showed how to take benefit of this feature and illustrate multiple areas in mapbox.
+[connectgaps](https://plotly.com/julia/reference/scatter/#scatter-connectgaps) determines if missing values in the provided data are shown as a gap in the graph or not.
 
 ```julia
 using PlotlyJS
