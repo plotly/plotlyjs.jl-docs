@@ -106,7 +106,7 @@ plot([trace1, trace2, trace3])
 
 ### Controlling text fontsize with uniformtext
 
-For the [pie](/julia/pie-charts), [bar](/julia/bar-charts), [sunburst] and [treemap] traces, it is possible to force all the text labels to have the same size thanks to the `uniformtext` layout parameter. The `minsize` attribute sets the font size, and the `mode` attribute sets what happens for labels which cannot fit with the desired fontsize: either `hide` them or `show` them with overflow.
+For the pie, [bar](/julia/bar-charts), sunburst, and treemap traces, it is possible to force all the text labels to have the same size thanks to the `uniformtext` layout parameter. The `minsize` attribute sets the font size, and the `mode` attribute sets what happens for labels which cannot fit with the desired fontsize: either `hide` them or `show` them with overflow.
 
 ```julia
 using PlotlyJS, CSV, DataFrames
@@ -148,7 +148,7 @@ plot(trace, layout)
 
 ### Controlling text fontsize with textfont
 
-The `textfont_size` parameter of the the [pie](/julia/pie-charts), [bar](/julia/bar-charts), [sunburst] and [treemap] traces can be used to set the **maximum font size** used in the chart. Note that the `textfont` parameter sets the `insidetextfont` and `outsidetextfont` parameter, which can also be set independently.
+The `textfont_size` parameter of the pie, [bar](/julia/bar-charts), sunburst, and treemap traces can be used to set the **maximum font size** used in the chart. Note that the `textfont` parameter sets the `insidetextfont` and `outsidetextfont` parameter, which can also be set independently.
 
 ```julia
 using PlotlyJS, CSV, DataFrames

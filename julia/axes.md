@@ -40,7 +40,7 @@ Other kinds of subplots and axes are described in other tutorials:
 The different types of Cartesian axes are configured via the `xaxis.type` or `yaxis.type` attribute, which can take on the following values:
 
 - `'linear'` as described in this page
-- `'log'` 
+- `'log'`
 - `'date'` (see the [tutorial on timeseries](/julia/time-series/))
 - `'category'`
 - `'multicategory'`
@@ -75,7 +75,7 @@ The different groups of Cartesian axes properties are
 - range of the axis
 - domain of the axis
 
-The examples on this page apply to axes of any type, but extra attributes are available for [axes of type `category`](/juliae/categorical-axes/) and [axes of type `date`](/julia/time-series/).
+The examples on this page apply to axes of any type, but extra attributes are available for [axes of type `category`](/julia/axes/) and [axes of type `date`](/julia/time-series/).
 
 #### Set and Style Axes Title Labels
 
