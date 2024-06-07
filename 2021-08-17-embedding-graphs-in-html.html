@@ -1,0 +1,42 @@
+---
+name: "Embedding Plotly Graphs in HTML"
+thumbnail: "thumbnail/text-and-annotations.png"
+order: 22
+language: "julia"
+display_as: "file_settings"
+layout: "base"
+description: "How to embed plotly graphs in an iframe in HTML."
+permalink: "julia/embedding-plotly-graphs-in-html/"
+page_type: "example_index"
+---
+
+
+{% raw %}
+<div class="rendered rendered_html">
+<h4>Saving An HTML in Julia</h4>
+<p>Plotly graphs can be embedd in any HTLM page. This includes <a href="https://wordpress.org/plugins/wp-plotly">Wordpress sites</a>, dashboard, blogs and more.</p>
+<p>To export a plot as html, use the <code>PlotlyBase.to_html</code> method passing in an IO buffer and the <code>plot</code> attribute of a generated plot:</p>
+<pre><code class="language-julia">using PlotlyJS
+
+p &#61; plot&#40;scatter&#40;x&#61;&#91;0,1,2&#93;, y&#61;&#91;3,6,2&#93;&#41;&#41;
+
+open&#40;&quot;./example.html&quot;, &quot;w&quot;&#41; do io
+    PlotlyBase.to_html&#40;io, p.plot&#41;
+end</code></pre>
+nothing
+
+<h4>Controlling the Size of the HTML file</h4>
+<p>To set the default height and width of the generated html, use <code>default_height</code> and <code>default_width</code> of the <code>to_html</code> method:</p>
+<pre><code class="language-julia">using PlotlyJS
+
+p &#61; plot&#40;scatter&#40;x&#61;&#91;0,1,2&#93;, y&#61;&#91;3,6,2&#93;&#41;&#41;
+
+open&#40;&quot;./example.html&quot;, &quot;w&quot;&#41; do io
+    PlotlyBase.to_html&#40;io, p.plot, default_height&#61;&quot;400px&quot;, default_width&#61;&quot;400px&quot;&#41;
+end</code></pre>
+nothing
+
+</div>
+
+
+{% endraw %}
