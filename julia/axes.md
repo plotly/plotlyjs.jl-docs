@@ -611,7 +611,7 @@ plot(
 )
 ```
 
-#### <code>nonnegative</code>, <code>tozero</code>, and <code>normal</code> Rangemode
+#### `"nonnegative"`, `"tozero"`, and `"normal"` Rangemode
 
 The axis auto-range calculation logic can be configured using the `rangemode` axis parameter.
 
@@ -620,13 +620,11 @@ If `rangemode` is `"normal"` (the default), the range is computed based on the m
 ```julia
 using PlotlyJS
 
-df = dataset(DataFrame, "iris")
-
-plot(
-    df, x=:sepal_width, y=:sepal_length, facet_col=:species,
-    kind="scatter", mode="markers",
-    Layout(yaxis_range=[9, 3]),
-)
+p1 = PlotlyJS.plot(PlotlyJS.scatter(y=[2,0,1,1,0,2], x=[-3,-2,-1,1,2,3]), Layout(xaxis_rangemode = "normal"))
+p2 = PlotlyJS.plot(PlotlyJS.scatter(y=[2,0,1,1,0,2], x=[-3,-2,-1,1,2,3]), Layout(xaxis_rangemode = "nonnegative"))
+p = [p1 p2]
+PlotlyJS.relayout!(p, title_text="Side by side layout (1 x 2)")
+p
 ```
 
 #### Setting the domain of the axis
