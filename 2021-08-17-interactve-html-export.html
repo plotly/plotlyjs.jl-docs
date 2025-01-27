@@ -1,0 +1,95 @@
+---
+name: "Interactive HTML Export"
+thumbnail: "thumbnail/static-image-export.png"
+order: 31
+language: "julia"
+display_as: "file_settings"
+layout: "base"
+description: |-
+  Plotly allows you to save interactive HTML versions of your figures
+  to your local disk.
+permalink: "julia/interactive-html-export/"
+page_type: "example_index"
+---
+
+
+{% raw %}
+<div class="rendered rendered_html">
+<h3>Interactive vs Static Export</h3>
+<p>Plotly figures are interactive when viewed in a web browser: you can hover over data points, pan and zoom axes, and show and hide traces by clicking or double-clicking on the legend. You can export figures either to &#91;static image file formats like PNG, JPEG, SVG or PDF&#93; or you can export them to HTML files which can be opened in a browser. This page explains how to do the latter.</p>
+<h3>Saving to an HTML file</h3>
+<p>Any figure can be saved as an HTML file using the <code>PlotlyBase.to_html</code> method. These HTML files can be opened in any web browser to access the fully interactive figure.</p>
+<pre><code class="language-julia">using PlotlyJS
+p &#61; plot&#40;scatter&#40;x&#61;1:10, y&#61;1:10&#41;&#41;
+
+open&#40;&quot;./example.html&quot;, &quot;w&quot;&#41; do io
+    PlotlyBase.to_html&#40;io, p.plot&#41;
+end</code></pre>
+nothing
+
+<h3>Controlling the size of the HTML file</h3>
+<p>By default, the resulting HTML file is a fully self-contained HTML file which can be uploaded to a web server or shared via email or other file-sharing mechanisms. The downside to this approach is that the file is very large &#40;5Mb&#43;&#41; because it contains an inlined copy of the Plotly.js library required to make the figure interactive. This can be controlled via the <code>include_plotlyjs</code> argument &#40;see below&#41;.</p>
+<h3>Full Parameter Documentation</h3>
+<pre><code class="language-julia">using PlotlyJS
+
+@doc PlotlyBase.to_html</code></pre>
+<pre><code>to_html&#40;
+    io::IO,
+    p::Plot;
+    autoplay::Bool&#61;true,
+    include_plotlyjs::Union&#123;String,Missing&#125;&#61;&quot;cdn&quot;,
+    include_mathjax::Union&#123;String,Missing&#125;&#61;&quot;cdn&quot;,
+    post_script::Union&#123;String,Missing&#125;&#61;missing,
+    full_html::Bool&#61;true,
+    animation_opts::Union&#123;Dict,Missing&#125;&#61;missing,
+    default_width::String&#61;&quot;100&#37;&quot;,
+    default_height::String&#61;&quot;100&#37;&quot;
+&#41;</code></pre>
+<ul>
+<li><p>io: IO stream to write to</p>
+</li>
+<li><p>p: Plot to save</p>
+</li>
+<li><p>autoplay: Should animations start automatically</p>
+</li>
+<li><p>include_plotlyjs: How to include plotly.js. Options are</p>
+<ul>
+<li><p>cdn: include a &lt;script&gt; tag to load plotly.js from cdn. Output will be standalone</p>
+</li>
+<li><p>require: load using requirejs. Useful in Jupyter notebooks</p>
+</li>
+<li><p>require-loaded: assume a <code>plotly</code> statement has already loaded via requirejs &#40;don&#39;t load it in context of this plot&#41;</p>
+</li>
+<li><p>directory: hardcode <code>&lt;script src&#61;&quot;plotly.min.js&gt;</code> – will only work when the plotly.min.js file is in the same directory as the output file</p>
+</li>
+<li><p>anything ending in js: we assume you give us the path to the plotly.js file. We will read it in and include it inline in the output. Works best when points to a minified file &#40;plotly.min.js&#41;</p>
+</li>
+</ul>
+</li>
+<li><p>include_mathjax: How mathjax should be included. Options are</p>
+<ul>
+<li><p>string ending in .js: we load via <code>&lt;script src&#61;&quot;&#36;&#40;include_mathjax&#41;&quot;&gt;</code>. You are responsible for making sure it resolves</p>
+</li>
+<li><p>anything else: we load via cdn for you</p>
+</li>
+</ul>
+</li>
+<li><p>post_script: arbitrary javascript to run after plotly.js finishes drawing the plot</p>
+</li>
+<li><p>full_html: include all parts necessary for standalone html file</p>
+</li>
+<li><p>animation_opts: extra options used to control animation. included in <code>addFrames</code> call after the actual frames. See plotly.js docs for more info on <code>addFrames</code></p>
+</li>
+<li><p>default_width: valid css specifier for width</p>
+</li>
+<li><p>default_height: valid css specifier for height</p>
+</li>
+</ul>
+
+
+
+
+</div>
+
+
+{% endraw %}
