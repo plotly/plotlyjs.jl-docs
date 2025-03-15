@@ -251,6 +251,6 @@ plot(volume(
 
 #### Reference
 
-See https://plotly.com/julia/reference/volume/ for more information and chart attribute options!
+See [https://plotly.com/julia/reference/volume/](https://plotly.com/julia/reference/volume/) for more information and chart attribute options!
 
 
