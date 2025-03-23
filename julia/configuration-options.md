@@ -32,7 +32,7 @@ You can set the configuration options for your figure by passing a dictionary to
 
 If you don't set an option's value, it will be automatically be set to the default value for that option.
 
-For the complete list of configuration options and their defaults see: https://github.com/plotly/plotly.js/blob/master/src/plot_api/plot_config.js
+For the complete list of configuration options and their defaults see: [plot_config.js][config]
 
 ### Enabling Scroll Zoom
 
@@ -258,4 +258,6 @@ plot(trace, layout)
 
 #### Reference
 
-See config options at https://github.com/plotly/plotly.js/blob/master/src/plot_api/plot_config.js#L6
+See the complete list of configuration options at: [plot_config.js][config]
+
+[config]:  https://github.com/plotly/plotly.js/blob/master/src/plot_api/plot_config.js "plot_config.js"
