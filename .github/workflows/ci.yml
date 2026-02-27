@@ -21,9 +21,9 @@ jobs:
         os: [ubuntu-latest]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Set up notebook state cache
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: ~/.julia
           key: ${{ runner.os }}-julia-packages-${{ hashFiles('**/Project.toml', '**/Manifest.toml') }}
