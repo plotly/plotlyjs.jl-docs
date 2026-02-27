@@ -20,9 +20,7 @@ jupyter:
     order: 5
     page_type: example_index
     permalink: julia/2D-Histogram/
-    redirect_from:
-    - julia/2d-histogram/
-    - julia/2d-histograms/
+    redirect_from: julia/2d-histograms/
     thumbnail: thumbnail/histogram2d.jpg
 ---
 
